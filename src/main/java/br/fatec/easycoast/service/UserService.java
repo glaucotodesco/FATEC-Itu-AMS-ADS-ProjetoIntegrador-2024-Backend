@@ -17,18 +17,19 @@ public class UserService {
 
     public UserResponseDTO cadastrarUsuario(UserRequestDTO userRequest) {
         User user = new User();
-        user.setNome(userRequest.getNome());
+        user.setName(userRequest.getName());
         user.setLogin(userRequest.getLogin());
-        user.setSenha(userRequest.getSenha());
-        user.setPerfil(userRequest.getPerfil());
+        user.setPassword(userRequest.getPassword());
+        user.setProfile(userRequest.getProfile());
 
         User savedUser  = userRepository.save(user);
 
         UserResponseDTO response = new UserResponseDTO();
-        response.setId(savedUser .getId());
-        response.setNome(savedUser .getNome());
-        response.setLogin(savedUser .getLogin());
-        response.setPerfil(savedUser .getPerfil());
+        response.setId(savedUser.getId());
+        response.setName(savedUser.getName());
+        response.setLogin(savedUser.getLogin());
+        response.setPassword(savedUser.getPassword());
+        response.setProfile(savedUser .getProfile());
 
         return response;
     }

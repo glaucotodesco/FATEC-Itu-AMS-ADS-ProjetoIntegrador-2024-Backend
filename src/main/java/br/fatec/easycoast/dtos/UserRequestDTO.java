@@ -1,18 +1,18 @@
 package br.fatec.easycoast.dtos;
 
 public class UserRequestDTO {
-    private String nome;
+    private String name;
     private String login;
-    private String senha;
-    private UserProfile perfil;
+    private String password;
+    private UserProfile profile;
 
     // Getters e Setters
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLogin() {
@@ -23,19 +23,19 @@ public class UserRequestDTO {
         this.login = login;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public UserProfile getPerfil() {
-        return perfil;
+    public UserProfile getProfile() {
+        return profile;
     }
 
-    public void setPerfil(UserProfile perfil) {
-        this.perfil = perfil;
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
     }
 }

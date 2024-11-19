@@ -2,9 +2,10 @@ package br.fatec.easycoast.dtos;
 
 public class UserResponseDTO {
     private Long id;
-    private String nome;
+    private String name;
     private String login;
-    private UserProfile perfil;
+    private String password;
+    private UserProfile profile;
 
     // Getters e Setters
     public Long getId() {
@@ -15,12 +16,12 @@ public class UserResponseDTO {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLogin() {
@@ -31,11 +32,19 @@ public class UserResponseDTO {
         this.login = login;
     }
 
-    public UserProfile getPerfil() {
-        return perfil;
+    public UserProfile getProfile() {
+        return profile;
     }
 
-    public void setPerfil(UserProfile perfil) {
-        this.perfil = perfil;
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

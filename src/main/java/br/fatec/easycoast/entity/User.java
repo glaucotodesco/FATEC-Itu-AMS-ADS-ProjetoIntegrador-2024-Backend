@@ -1,21 +1,22 @@
 package br.fatec.easycoast.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id; 
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import br.fatec.easycoast.dtos.UserProfile;
 
 @Entity
+@Table(name = "TBL_USERS")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
+    private String name;
     private String login;
-    private String senha;
-    private UserProfile perfil;
+    private String password;
+    private UserProfile profile;
 
     // Getters e Setters
     public Long getId() {
@@ -26,12 +27,12 @@ public class User {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String nome) {
+        this.name = nome;
     }
 
     public String getLogin() {
@@ -42,19 +43,19 @@ public class User {
         this.login = login;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public UserProfile getPerfil() {
-        return perfil;
+    public UserProfile getProfile() {
+        return profile;
     }
 
-    public void setPerfil(UserProfile perfil) {
-        this.perfil = perfil;
+    public void setProfile(UserProfile profile) {
+        this.profile = profile;
     }
 }
