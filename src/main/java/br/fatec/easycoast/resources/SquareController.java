@@ -27,7 +27,7 @@ public class SquareController {
         URI location = ServletUriComponentsBuilder
                        .fromCurrentRequest()
                        .path("/{id}")
-                       .buildAndExpand(square.Id())
+                       .buildAndExpand(square.id())
                        .toUri();
 
         return ResponseEntity.created(location).body(square);

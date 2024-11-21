@@ -22,7 +22,7 @@ public class SquareService {
     public void updateSquare(int id, SquareRequest request){
         Square square = squareRepository.getReferenceById(id);
 
-        square.setName(request.Name());
+        square.setName(request.name());
 
         squareRepository.save(square);
     }

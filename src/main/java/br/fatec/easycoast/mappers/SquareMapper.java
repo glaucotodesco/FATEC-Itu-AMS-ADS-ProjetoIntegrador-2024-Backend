@@ -7,7 +7,7 @@ import br.fatec.easycoast.entities.Square;
 public class SquareMapper {
     public static Square toEntity(SquareRequest request){
         Square square = new Square();
-        square.setName(request.Name());
+        square.setName(request.name());
 
         return square;
     }
