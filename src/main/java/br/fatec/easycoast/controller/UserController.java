@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.fatec.easycoast.dtos.UserRequestDTO;
-import br.fatec.easycoast.dtos.UserResponseDTO;
+import br.fatec.easycoast.dtos.UserRequest;
+import br.fatec.easycoast.dtos.UserResponse;
 import br.fatec.easycoast.service.UserService;
 
 @RestController
@@ -18,12 +18,12 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> cadastrarUsuario(@RequestBody UserRequestDTO userRequest) {
-        UserResponseDTO userResponse = userService.cadastrarUsuario(userRequest);
+    public ResponseEntity<UserResponse> cadastrarUsuario(@RequestBody UserRequest userRequest) {
+        UserResponse userResponse = userService.cadastrarUsuario(userRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(userResponse.getId())
+                .buildAndExpand(userResponse.id())
                 .toUri();
         return ResponseEntity.created(location).body(userResponse);
     }
