@@ -1,5 +1,7 @@
 package br.fatec.easycoast.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,12 +18,16 @@ public class Square {
 
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "SQUARE")
+    private List<Item> items;
     
     public Square() { }
     
-    public Square(Integer id, String name) {
+    public Square(Integer id, String name, List<Item> items) {
         this.id = id;
         this.name = name;
+        this.items = items;
     }
 
     public Integer getId() {
@@ -38,5 +44,13 @@ public class Square {
 
     public void setName(String name) {
         this.name = name;
-    }   
+    }
+    
+    public List<Item> getItems() {
+        return this.items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 }
