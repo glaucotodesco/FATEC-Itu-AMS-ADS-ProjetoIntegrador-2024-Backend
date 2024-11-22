@@ -1,7 +1,5 @@
 package br.fatec.easycoast.controller;
 
-import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +9,13 @@ import br.fatec.easycoast.dtos.UserRequest;
 import br.fatec.easycoast.dtos.UserResponse;
 import br.fatec.easycoast.service.UserService;
 
+import java.net.URI;
+import java.util.List;
+
 @RestController
 @RequestMapping("users")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -26,5 +28,23 @@ public class UserController {
                 .buildAndExpand(userResponse.id())
                 .toUri();
         return ResponseEntity.created(location).body(userResponse);
+    }
+
+    // Endpoint para listar todos os usuários
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> listarUsuarios() {
+        List<UserResponse> users = userService.listarUsuarios();
+        return ResponseEntity.ok(users);
+    }
+
+    // Endpoint para resgatar um usuário por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> resgatarUsuarioPorId(@PathVariable Long id) {
+        UserResponse userResponse = userService.resgatarUsuarioPorId(id);
+        if (userResponse != null) {
+            return ResponseEntity.ok(userResponse);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

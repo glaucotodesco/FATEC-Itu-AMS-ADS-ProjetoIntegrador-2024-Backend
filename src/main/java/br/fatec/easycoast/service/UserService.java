@@ -2,12 +2,15 @@ package br.fatec.easycoast.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import br.fatec.easycoast.dtos.UserRequest;
 import br.fatec.easycoast.dtos.UserResponse;
 import br.fatec.easycoast.entity.User;
 import br.fatec.easycoast.repository.UserRepository;
 import br.fatec.easycoast.mappers.UserMapper;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -19,5 +22,19 @@ public class UserService {
         // Mapeamento do DTO para a Entidade
         User savedUser = userRepository.save(UserMapper.toEntity(userRequest));
         return UserMapper.toDto(savedUser);
+    }
+
+    // Função para listar todos os usuários
+    public List<UserResponse> listarUsuarios() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                    .map(UserMapper::toDto)
+                    .collect(Collectors.toList());
+    }
+
+    // Função para resgatar usuário por ID
+    public UserResponse resgatarUsuarioPorId(Long id) {
+        Optional<User> userOpt = userRepository.findById(id);
+        return userOpt.map(UserMapper::toDto).orElse(null);
     }
 }
