@@ -20,7 +20,7 @@ public class Square {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "SQUARE")
+    @OneToMany(mappedBy = "square")
     private List<Item> items;
     
     public Square() { }
