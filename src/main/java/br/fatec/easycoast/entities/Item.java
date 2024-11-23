@@ -23,7 +23,7 @@ public class Item {
     @JoinColumn(name = "ID")
     private Square square;
 
-    Item(){}
+    public Item(){}
     
     public Item(Integer id, String name, Square square) {
         this.id = id;
