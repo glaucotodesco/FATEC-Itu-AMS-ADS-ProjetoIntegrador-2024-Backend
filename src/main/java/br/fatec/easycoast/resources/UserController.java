@@ -15,7 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.UserRequest;
 import br.fatec.easycoast.dtos.UserResponse;
-import br.fatec.easycoast.service.UserService;
+import br.fatec.easycoast.services.UserService;
 
 @RestController
 @RequestMapping("users")

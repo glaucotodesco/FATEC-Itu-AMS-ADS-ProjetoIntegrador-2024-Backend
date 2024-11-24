@@ -1,12 +1,12 @@
-package br.fatec.easycoast.service;
+package br.fatec.easycoast.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.fatec.easycoast.dtos.UserRequest;
 import br.fatec.easycoast.dtos.UserResponse;
-import br.fatec.easycoast.entity.User;
-import br.fatec.easycoast.repository.UserRepository;
+import br.fatec.easycoast.entities.User;
 import br.fatec.easycoast.mappers.UserMapper;
+import br.fatec.easycoast.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;

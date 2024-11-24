@@ -2,7 +2,7 @@ package br.fatec.easycoast.mappers;
 
 import br.fatec.easycoast.dtos.UserRequest;
 import br.fatec.easycoast.dtos.UserResponse;
-import br.fatec.easycoast.entity.User;
+import br.fatec.easycoast.entities.User;
 
 public class UserMapper {
 

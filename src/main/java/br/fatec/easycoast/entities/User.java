@@ -1,4 +1,4 @@
-package br.fatec.easycoast.entity;
+package br.fatec.easycoast.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
