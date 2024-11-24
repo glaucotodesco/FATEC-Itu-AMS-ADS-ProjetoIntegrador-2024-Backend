@@ -10,6 +10,4 @@ public record SquareResponse(
     List<ItemFilter> items
 ) {
 
-
-    
 }
