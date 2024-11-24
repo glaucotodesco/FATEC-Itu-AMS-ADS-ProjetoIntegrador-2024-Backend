@@ -20,7 +20,6 @@ import br.fatec.easycoast.service.UserService;
 @RestController
 @RequestMapping("users")
 public class UserController {
-
     @Autowired
     private UserService userService;
 
