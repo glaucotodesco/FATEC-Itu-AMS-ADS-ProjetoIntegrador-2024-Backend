@@ -1,4 +1,4 @@
-package br.fatec.easycoast;
+package br.fatec.easycoast.easycoast;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
