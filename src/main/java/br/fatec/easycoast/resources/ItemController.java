@@ -19,7 +19,6 @@ import br.fatec.easycoast.dtos.ItemFilter;
 import br.fatec.easycoast.dtos.ItemRequest;
 import br.fatec.easycoast.services.ItemService;
 
-
 @RestController
 @CrossOrigin
 @RequestMapping("items")
@@ -39,7 +38,7 @@ public class ItemController {
 
         return ResponseEntity.created(location).body(item);
     }
-
+  
     @GetMapping
     public ResponseEntity<List<ItemFilter>> getItems(){
         return ResponseEntity.ok(itemService.getItems());
@@ -50,8 +49,8 @@ public class ItemController {
     public ResponseEntity<ItemFilter> getItem(@PathVariable int id){
         return ResponseEntity.ok(itemService.getItem(id));
     }
-
-    @PutMapping("{id}")
+  
+    @PutMapping("/{id}")
     public ResponseEntity<Void> updateItem(@PathVariable int id, @RequestBody ItemRequest request){
         itemService.updateItem(id, request);
         return ResponseEntity.ok().build();

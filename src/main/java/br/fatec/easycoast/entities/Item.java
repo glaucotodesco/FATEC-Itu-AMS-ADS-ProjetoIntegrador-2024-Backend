@@ -70,6 +70,4 @@ public class Item {
     //     Square square2 = new Square(square.getId(), square.getName());
     //     return square2;
     // }
-
-
 }

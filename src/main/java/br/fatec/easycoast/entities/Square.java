@@ -2,7 +2,6 @@ package br.fatec.easycoast.entities;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 import br.fatec.easycoast.dtos.ItemFilter;
 import br.fatec.easycoast.dtos.ItemsOnly;
 import br.fatec.easycoast.mappers.ItemMapper;
@@ -23,6 +22,7 @@ public class Square {
 
     @Column(nullable = false)
     private String name;
+
     @OneToMany(mappedBy = "square")
     private List<Item> items;
     
@@ -53,12 +53,11 @@ public class Square {
 
     public void setName(String name) {
         this.name = name;
-      }
-  
+    }
+    
     public List<Item> getItems() {
         return this.items;
     }
-    
 
     public void setItems(List<Item> items) {
         this.items = items;

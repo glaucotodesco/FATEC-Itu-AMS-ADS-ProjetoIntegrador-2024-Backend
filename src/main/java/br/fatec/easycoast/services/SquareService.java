@@ -7,31 +7,26 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import br.fatec.easycoast.dtos.SquareItemsOnly;
-
 import br.fatec.easycoast.dtos.SquareRequest;
 import br.fatec.easycoast.dtos.SquareResponse;
 import br.fatec.easycoast.entities.Square;
 import br.fatec.easycoast.mappers.SquareMapper;
 import br.fatec.easycoast.repositories.SquareRepository;
-
 import jakarta.persistence.EntityNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class SquareService {
     @Autowired
     SquareRepository squareRepository;
 
-
-
     public SquareItemsOnly getSquare(int id) {
         return squareRepository.findById(id)
         .map(s -> SquareMapper.toDtoItemsOnly(s))
         .orElseThrow(() -> new EntityNotFoundException("Square not found!"));
     }
-
 
     public  List<SquareItemsOnly> getSquares() {
         return squareRepository.findAll()
@@ -41,8 +36,7 @@ public class SquareService {
 
         
     }
-
-
+  
     public SquareResponse saveSquare(SquareRequest request) {
         Square square = squareRepository.save(SquareMapper.toEntity(request));
         return SquareMapper.toDtoResponse(square);
@@ -58,6 +52,5 @@ public class SquareService {
         } catch(EntityNotFoundException e) {
             throw new EntityNotFoundException("Square not found!");
         }
-
     }
 }
