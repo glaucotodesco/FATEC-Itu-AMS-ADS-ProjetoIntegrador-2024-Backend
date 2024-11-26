@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import br.fatec.easycoast.dtos.SquareFilter;
 import jakarta.persistence.Column;
 
 @Entity
@@ -24,12 +25,17 @@ public class Item {
     private Square square;
 
     public Item(){}
-    
-    public Item(Integer id, String name, Square square) {
+
+    public Item(Integer id, String name){
         this.id = id;
         this.name = name;
-        this.square = square;
     }
+    
+    // public Item(Integer id, String name, Square square) {
+    //     this.id = id;
+    //     this.name = name;
+    //     this.square = square;
+    // }
 
     public Integer getId() {
         return id;
@@ -54,4 +60,14 @@ public class Item {
     public void setSquare(Square square) {
         this.square = square;
     }
+
+    public SquareFilter getSquareFilter() {
+        SquareFilter squareFilter = new SquareFilter(square.getId(), square.getName());
+        return squareFilter;
+    }
+
+    // public Square getSquareId() {
+    //     Square square2 = new Square(square.getId(), square.getName());
+    //     return square2;
+    // }
 }

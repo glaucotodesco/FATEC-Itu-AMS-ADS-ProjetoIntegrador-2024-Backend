@@ -1,8 +1,13 @@
 package br.fatec.easycoast.services;
 
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.fatec.easycoast.dtos.SquareItemsOnly;
 import br.fatec.easycoast.dtos.SquareRequest;
 import br.fatec.easycoast.dtos.SquareResponse;
 import br.fatec.easycoast.entities.Square;
@@ -15,9 +20,24 @@ public class SquareService {
     @Autowired
     SquareRepository squareRepository;
 
+    public SquareItemsOnly getSquare(int id) {
+        return squareRepository.findById(id)
+        .map(s -> SquareMapper.toDtoItemsOnly(s))
+        .orElseThrow(() -> new EntityNotFoundException("Square not found!"));
+    }
+
+    public  List<SquareItemsOnly> getSquares() {
+        return squareRepository.findAll()
+        .stream()
+        .map(s -> SquareMapper.toDtoItemsOnly(s))
+        .collect(Collectors.toList());
+
+        
+    }
+  
     public SquareResponse saveSquare(SquareRequest request) {
         Square square = squareRepository.save(SquareMapper.toEntity(request));
-        return SquareMapper.toDto(square);
+        return SquareMapper.toDtoResponse(square);
     }
 
     public void updateSquare(int id, SquareRequest request){
