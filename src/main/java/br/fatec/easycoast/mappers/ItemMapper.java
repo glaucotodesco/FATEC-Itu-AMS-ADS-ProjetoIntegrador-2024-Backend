@@ -2,7 +2,6 @@ package br.fatec.easycoast.mappers;
 
 import br.fatec.easycoast.dtos.ItemFilter;
 import br.fatec.easycoast.dtos.ItemRequest;
-import br.fatec.easycoast.dtos.ItemResponse;
 import br.fatec.easycoast.dtos.ItemsOnly;
 import br.fatec.easycoast.entities.Item;
 

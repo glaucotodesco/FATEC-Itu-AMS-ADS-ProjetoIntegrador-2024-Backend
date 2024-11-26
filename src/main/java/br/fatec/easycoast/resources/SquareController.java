@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.SquareResponse;
 import br.fatec.easycoast.dtos.SquareItemsOnly;
 import br.fatec.easycoast.dtos.SquareRequest;
-import br.fatec.easycoast.dtos.SquareResponse;
 import br.fatec.easycoast.services.SquareService;
 
 @RestController

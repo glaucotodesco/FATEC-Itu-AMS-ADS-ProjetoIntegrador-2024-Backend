@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import br.fatec.easycoast.dtos.ItemFilter;
 import br.fatec.easycoast.dtos.ItemRequest;
-import br.fatec.easycoast.dtos.ItemResponse;
 import br.fatec.easycoast.entities.Item;
 import br.fatec.easycoast.mappers.ItemMapper;
 import br.fatec.easycoast.repositories.ItemRepository;

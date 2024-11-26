@@ -17,9 +17,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.ItemFilter;
 import br.fatec.easycoast.dtos.ItemRequest;
-import br.fatec.easycoast.dtos.ItemResponse;
 import br.fatec.easycoast.services.ItemService;
-import io.micrometer.core.ipc.http.HttpSender.Response;
+
 
 @RestController
 @CrossOrigin

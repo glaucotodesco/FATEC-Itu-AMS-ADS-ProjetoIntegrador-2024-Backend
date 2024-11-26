@@ -1,12 +1,11 @@
 package br.fatec.easycoast.mappers;
 
 
-import br.fatec.easycoast.dtos.ItemFilter;
+
 import br.fatec.easycoast.dtos.SquareItemsOnly;
 import br.fatec.easycoast.dtos.SquareFilter;
 import br.fatec.easycoast.dtos.SquareRequest;
 import br.fatec.easycoast.dtos.SquareResponse;
-import br.fatec.easycoast.entities.Item;
 import br.fatec.easycoast.entities.Square;
 
 public class SquareMapper {
