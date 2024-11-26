@@ -8,7 +8,7 @@
 		<version>3.3.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.fatec.easycoast</groupId>
+	<groupId>br.fatec</groupId>
 	<artifactId>easycoast</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>easycoast</name>

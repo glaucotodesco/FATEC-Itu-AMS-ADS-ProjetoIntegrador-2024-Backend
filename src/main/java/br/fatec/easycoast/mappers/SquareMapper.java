@@ -18,6 +18,7 @@ public class SquareMapper {
     }
 
 
+
     public static SquareResponse toDtoResponse(Square square){
         SquareResponse squareResponse = new SquareResponse(square.getId(), square.getName(), square.getItemsFilter());
 
@@ -34,5 +35,6 @@ public class SquareMapper {
     public static SquareItemsOnly toDtoItemsOnly(Square square){
         SquareItemsOnly itemsOnly = new SquareItemsOnly(square.getId(), square.getName(), square.getItemsOnly());
         return itemsOnly;
+
     }
 }

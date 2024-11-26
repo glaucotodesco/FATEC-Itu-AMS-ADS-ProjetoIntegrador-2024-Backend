@@ -23,12 +23,11 @@ public class Square {
 
     @Column(nullable = false)
     private String name;
-
     @OneToMany(mappedBy = "square")
     private List<Item> items;
     
     public Square() { }
-
+  
     public Square(Integer id, String name) {
         this.id = id;
         this.name = name;
@@ -39,7 +38,7 @@ public class Square {
         this.name = name;
         this.items = items;
     }
-
+  
     public Integer getId() {
         return this.id;
     }
@@ -54,8 +53,8 @@ public class Square {
 
     public void setName(String name) {
         this.name = name;
-    }
-    
+      }
+  
     public List<Item> getItems() {
         return this.items;
     }
