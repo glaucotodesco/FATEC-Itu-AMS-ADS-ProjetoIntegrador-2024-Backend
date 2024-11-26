@@ -34,4 +34,13 @@ public class CategoryService {
     Category category = repository.save(CategoryMapper.toEntity(dtoRequestCategory));
     return CategoryMapper.toDto(category);
   }
+
+  public void deleteById(int id){
+    if(repository.existsById(id)){
+        repository.deleteById(id);
+    }
+    else{
+        throw new EntityNotFoundException("Categotia não Cadastrada");
+    }
+}
 }
