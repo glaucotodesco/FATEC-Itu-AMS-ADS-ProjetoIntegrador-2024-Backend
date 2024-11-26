@@ -15,8 +15,6 @@ import br.fatec.easycoast.mappers.SquareMapper;
 import br.fatec.easycoast.repositories.SquareRepository;
 import jakarta.persistence.EntityNotFoundException;
 
-import jakarta.persistence.EntityNotFoundException;
-
 @Service
 public class SquareService {
     @Autowired
