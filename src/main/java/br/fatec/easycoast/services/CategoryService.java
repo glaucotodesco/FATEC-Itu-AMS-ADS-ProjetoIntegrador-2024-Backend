@@ -3,6 +3,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.fatec.easycoast.dtos.CategoryRequest;
 import br.fatec.easycoast.dtos.CategoryResponse;
 import br.fatec.easycoast.entities.Category;
 import br.fatec.easycoast.mappers.CategoryMapper;
@@ -28,4 +29,9 @@ public class CategoryService {
     );
         return CategoryMapper.toDto(category); 
 }
+
+  public CategoryResponse save(CategoryRequest dtoRequestCategory){
+    Category category = repository.save(CategoryMapper.toEntity(dtoRequestCategory));
+    return CategoryMapper.toDto(category);
+  }
 }
