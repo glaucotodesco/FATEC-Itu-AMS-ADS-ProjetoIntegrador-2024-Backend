@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.CategoryRequest;
 import br.fatec.easycoast.dtos.CategoryResponse;
 import br.fatec.easycoast.services.CategoryService;
+import jakarta.validation.Valid;
 
 @RestController
 public class CategoryController {
@@ -32,7 +34,7 @@ public class CategoryController {
     }
 
     @PostMapping("categories")
-    public ResponseEntity <CategoryResponse> save (@RequestBody CategoryRequest category){
+    public ResponseEntity <CategoryResponse> save (@Valid @RequestBody CategoryRequest category){
         CategoryResponse newCategory = service.save(category);
         URI location = ServletUriComponentsBuilder
                             .fromCurrentRequest()
@@ -43,5 +45,11 @@ public class CategoryController {
         return ResponseEntity.created(location).body(newCategory);
     }
 
+     @DeleteMapping("categories/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable int id){
+        service.deleteById(id);
+
+        return ResponseEntity.noContent().build();
+    }
   
 }
