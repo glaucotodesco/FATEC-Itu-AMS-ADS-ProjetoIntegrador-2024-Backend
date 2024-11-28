@@ -18,6 +18,14 @@ public class Product {
   private Boolean availability;
   private String category;
 
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
   public String getName() {
     return name;
   }
@@ -60,7 +68,7 @@ public class Product {
   public String getCategory() {
     return category;
   }
-  
+
   public void setCategory(String category) {
     this.category = category;
   }
