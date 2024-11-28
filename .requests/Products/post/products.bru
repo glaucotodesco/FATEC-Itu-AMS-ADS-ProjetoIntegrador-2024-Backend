@@ -1,0 +1,22 @@
+meta {
+  name: products
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/products
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Sorvete de Flocos",
+    "description": "Sorvete de creme com lascas de chocolate",
+    "price": 14.99,
+    "discount": 0,
+    "availability": true,
+    "category": "Sorvetes"
+  }
+}

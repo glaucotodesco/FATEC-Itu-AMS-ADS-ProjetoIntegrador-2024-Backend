@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.fatec.easycoast.dtos.ProductRequest;
 import br.fatec.easycoast.dtos.ProductResponse;
 import br.fatec.easycoast.mappers.ProductMapper;
 import br.fatec.easycoast.repositories.ProductRepository;
@@ -25,6 +26,10 @@ public class ProductService {
 
   public List<ProductResponse> getProducts () {
     return repository.findAll().stream().map(item -> ProductMapper.toDTO(item)).toList();
+  }
+
+  public ProductResponse postProduct (ProductRequest request) {
+    return ProductMapper.toDTO(repository.save(ProductMapper.toEntity(request)));
   }
 
 }
