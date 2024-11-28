@@ -2,7 +2,6 @@ package br.fatec.easycoast.entities;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import br.fatec.easycoast.dtos.ItemFilter;
 import br.fatec.easycoast.dtos.ItemsOnly;
 import br.fatec.easycoast.mappers.ItemMapper;
 import jakarta.persistence.Column;
@@ -55,20 +54,7 @@ public class Square {
         this.name = name;
     }
     
-    public List<Item> getItems() {
-        return this.items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    public List<ItemFilter> getItemsFilter() {
-        return this.items.stream().map(s -> ItemMapper.toDto(s)).collect(Collectors.toList());
-    
-    }
-
-    public List<ItemsOnly> getItemsOnly() {
+    public List<ItemsOnly> getItems() {
         return this.items.stream().map(s -> ItemMapper.toDtoItemsOnly(s)).collect(Collectors.toList());
     }
 }

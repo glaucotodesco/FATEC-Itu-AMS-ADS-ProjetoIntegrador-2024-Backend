@@ -1,7 +1,7 @@
 package br.fatec.easycoast.mappers;
 
-import br.fatec.easycoast.dtos.ItemFilter;
 import br.fatec.easycoast.dtos.ItemRequest;
+import br.fatec.easycoast.dtos.ItemResponse;
 import br.fatec.easycoast.dtos.ItemsOnly;
 import br.fatec.easycoast.entities.Item;
 
@@ -14,8 +14,8 @@ public class ItemMapper {
         return item;
     }
 
-    public static ItemFilter toDto(Item item){
-        return new ItemFilter(item.getId(), item.getName(), item.getSquareFilter());
+    public static ItemResponse toDto(Item item){
+        return new ItemResponse(item.getId(), item.getName(), SquareMapper.toDto(item.getSquare()));
     }
 
     public static ItemsOnly toDtoItemsOnly(Item item){

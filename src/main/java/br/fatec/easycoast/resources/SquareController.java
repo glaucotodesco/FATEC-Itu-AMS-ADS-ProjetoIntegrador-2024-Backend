@@ -19,7 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
 import br.fatec.easycoast.dtos.SquareResponse;
-import br.fatec.easycoast.dtos.SquareItemsOnly;
+import br.fatec.easycoast.dtos.SquareItems;
 
 import br.fatec.easycoast.dtos.SquareRequest;
 import br.fatec.easycoast.services.SquareService;
@@ -31,14 +31,13 @@ public class SquareController {
     @Autowired
     SquareService squareService;
 
-
     @GetMapping
-    public ResponseEntity<List<SquareItemsOnly>> getSquares(){
+    public ResponseEntity<List<SquareItems>> getSquares(){
         return ResponseEntity.ok(squareService.getSquares());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SquareItemsOnly> getSquare(@PathVariable int id){
+    public ResponseEntity<SquareItems> getSquare(@PathVariable int id){
         return ResponseEntity.ok(squareService.getSquare(id));
     }
 

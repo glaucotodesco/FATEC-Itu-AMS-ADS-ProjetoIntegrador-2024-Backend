@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fatec.easycoast.dtos.SquareItemsOnly;
+import br.fatec.easycoast.dtos.SquareItems;
 import br.fatec.easycoast.dtos.SquareRequest;
 import br.fatec.easycoast.dtos.SquareResponse;
 import br.fatec.easycoast.entities.Square;
@@ -20,24 +20,22 @@ public class SquareService {
     @Autowired
     SquareRepository squareRepository;
 
-    public SquareItemsOnly getSquare(int id) {
-        return squareRepository.findById(id)
-        .map(s -> SquareMapper.toDtoItemsOnly(s))
-        .orElseThrow(() -> new EntityNotFoundException("Square not found!"));
+    public SquareItems getSquare(int id) {
+        Square square = squareRepository.findById(id)
+                                        .orElseThrow(() -> new EntityNotFoundException("Square not found!"));
+        return SquareMapper.toDtoItems(square);
     }
 
-    public  List<SquareItemsOnly> getSquares() {
+    public  List<SquareItems> getSquares() {
         return squareRepository.findAll()
-        .stream()
-        .map(s -> SquareMapper.toDtoItemsOnly(s))
-        .collect(Collectors.toList());
-
-        
+                               .stream()
+                               .map(s -> SquareMapper.toDtoItems(s))
+                               .collect(Collectors.toList());
     }
   
     public SquareResponse saveSquare(SquareRequest request) {
         Square square = squareRepository.save(SquareMapper.toEntity(request));
-        return SquareMapper.toDtoResponse(square);
+        return SquareMapper.toDto(square);
     }
 
     public void updateSquare(int id, SquareRequest request){
