@@ -1,6 +1,5 @@
 package br.fatec.easycoast.services;
 
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,21 +18,20 @@ public class ProductService {
   @Autowired
   private ProductRepository repository;
 
-  public ProductResponse getProductById (int id) {
-    return ProductMapper.toDTO(repository.findById(id).orElseThrow(() -> (
-      new EntityNotFoundException("Product not found")
-    )));
+  public ProductResponse getProductById(int id) {
+    return ProductMapper
+        .toDTO(repository.findById(id).orElseThrow(() -> (new EntityNotFoundException("Product not found"))));
   }
 
-  public List<ProductResponse> getProducts () {
+  public List<ProductResponse> getProducts() {
     return repository.findAll().stream().map(item -> ProductMapper.toDTO(item)).toList();
   }
 
-  public ProductResponse postProduct (ProductRequest request) {
+  public ProductResponse postProduct(ProductRequest request) {
     return ProductMapper.toDTO(repository.save(ProductMapper.toEntity(request)));
   }
 
-  public void putProduct (int id, ProductRequest request) {
+  public void putProduct(int id, ProductRequest request) {
     Product temp = repository.getReferenceById(id);
 
     temp.setName(request.name());
@@ -44,6 +42,14 @@ public class ProductService {
     temp.setCategory(request.category());
 
     repository.save(temp);
+  }
+
+  public void deleteProduct(int id) {
+    if (repository.existsById(id)) {
+      repository.deleteById(id);
+    } else {
+      throw new EntityNotFoundException("Product not found");
+    }
   }
 
 }
