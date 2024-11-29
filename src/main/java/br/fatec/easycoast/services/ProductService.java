@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import br.fatec.easycoast.dtos.ProductRequest;
 import br.fatec.easycoast.dtos.ProductResponse;
+import br.fatec.easycoast.entities.Product;
 import br.fatec.easycoast.mappers.ProductMapper;
 import br.fatec.easycoast.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -30,6 +31,19 @@ public class ProductService {
 
   public ProductResponse postProduct (ProductRequest request) {
     return ProductMapper.toDTO(repository.save(ProductMapper.toEntity(request)));
+  }
+
+  public void putProduct (int id, ProductRequest request) {
+    Product temp = repository.getReferenceById(id);
+
+    temp.setName(request.name());
+    temp.setDescription(request.description());
+    temp.setPrice(request.price());
+    temp.setDiscount(request.discount());
+    temp.setAvailability(request.availability());
+    temp.setCategory(request.category());
+
+    repository.save(temp);
   }
 
 }

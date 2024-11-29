@@ -1,0 +1,22 @@
+meta {
+  name: product
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:8080/products/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "frango frito",
+    "description": "Nome já é bem descritivo",
+    "price": 99.99,
+    "discount": 0,
+    "availability": false,
+    "category": "Frangos"
+  }
+}
