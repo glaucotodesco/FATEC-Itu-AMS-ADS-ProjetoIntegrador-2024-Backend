@@ -3,7 +3,6 @@ package br.fatec.easycoast.resources;
 import java.net.URI;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +16,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.ProductRequest;
 import br.fatec.easycoast.dtos.ProductResponse;
 import br.fatec.easycoast.services.ProductService;
+import jakarta.validation.Valid;
 
 @RestController
 public class ProductController {
 
-  @Autowired
   private ProductService service;
+
+  public ProductController(ProductService productService){
+    this.service = productService;
+  }
 
   @GetMapping("products/{id}")
   public ResponseEntity<ProductResponse> getProductById(@PathVariable int id) {
@@ -35,7 +38,7 @@ public class ProductController {
   }
 
   @PostMapping("products")
-  public ResponseEntity<ProductResponse> postProduct(@RequestBody ProductRequest request) {
+  public ResponseEntity<ProductResponse> postProduct(@Valid @RequestBody ProductRequest request) {
     ProductResponse product = this.service.postProduct(request);
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(product.id()).toUri();
@@ -44,7 +47,7 @@ public class ProductController {
   }
 
   @PutMapping("products/{id}")
-  public ResponseEntity<ProductResponse> putProduct(@PathVariable int id, @RequestBody ProductRequest request) {
+  public ResponseEntity<ProductResponse> putProduct(@Valid @PathVariable int id, @RequestBody ProductRequest request) {
     this.service.putProduct(id, request);
     return ResponseEntity.ok().build();
   }
