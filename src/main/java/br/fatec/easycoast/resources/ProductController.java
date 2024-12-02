@@ -47,7 +47,7 @@ public class ProductController {
   }
 
   @PutMapping("products/{id}")
-  public ResponseEntity<ProductResponse> putProduct(@PathVariable int id, @RequestBody ProductRequest request) {
+  public ResponseEntity<ProductResponse> putProduct(@Valid @PathVariable int id, @RequestBody ProductRequest request) {
     this.service.putProduct(id, request);
     return ResponseEntity.ok().build();
   }
