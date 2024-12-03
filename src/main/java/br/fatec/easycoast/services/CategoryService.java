@@ -43,4 +43,11 @@ public class CategoryService {
         throw new EntityNotFoundException("Categotia não Cadastrada");
     }
 }
+
+public void update(int id, CategoryRequest dtoRequestCategory){
+  Category aux = repository.getReferenceById(id);
+  aux.setName(dtoRequestCategory.name());
+  aux.setAvailability(dtoRequestCategory.availability());
+  repository.save(aux);
+}
 }
