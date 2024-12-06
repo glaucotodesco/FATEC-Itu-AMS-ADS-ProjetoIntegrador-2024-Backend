@@ -19,6 +19,7 @@ public class Product {
   private Float discount;
   private Boolean availability;
   private String category;
+  private String imageurl;
 
   public Integer getId() {
     return id;
@@ -73,6 +74,14 @@ public class Product {
 
   public void setCategory(String category) {
     this.category = category;
+  }
+
+  public String getImageurl() {
+    return imageurl;
+  }
+
+  public void setImageurl(String imageurl) {
+    this.imageurl = imageurl;
   }
 
 }

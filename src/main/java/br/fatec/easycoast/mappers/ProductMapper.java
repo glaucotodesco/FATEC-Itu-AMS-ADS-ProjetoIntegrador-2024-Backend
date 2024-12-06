@@ -15,6 +15,7 @@ public class ProductMapper {
     product.setDiscount(request.discount());
     product.setAvailability(request.availability());
     product.setCategory(request.category());
+    product.setImageurl(request.imageurl());
 
     return product;
   }
@@ -27,7 +28,8 @@ public class ProductMapper {
       product.getPrice(),
       product.getDiscount(),
       product.getAvailability(),
-      product.getCategory()
+      product.getCategory(),
+      product.getImageurl()
     );
 
     return response;
