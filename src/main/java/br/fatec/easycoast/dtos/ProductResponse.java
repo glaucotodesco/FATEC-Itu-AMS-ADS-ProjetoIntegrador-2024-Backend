@@ -7,5 +7,6 @@ public record ProductResponse(
   Float price,
   Float discount,
   Boolean availability,
-  String category
+  String category,
+  String imageurl
 ) {}
