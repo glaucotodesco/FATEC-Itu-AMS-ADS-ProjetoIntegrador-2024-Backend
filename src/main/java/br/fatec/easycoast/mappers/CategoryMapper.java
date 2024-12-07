@@ -14,6 +14,6 @@ public class CategoryMapper {
   }
 
   public static CategoryResponse toDto(Category category){
-    return new CategoryResponse(category.getId(), category.getName(), category.getAvailability());
+    return new CategoryResponse(category.getId(), category.getName(), category.isAvailability());
   }
 }
