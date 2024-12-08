@@ -20,13 +20,13 @@ public class CategoryService {
   public List<CategoryResponse> getCategories() {
     return repository.findAll()
         .stream()
-        .map(category -> CategoryMapper.toDto(category))
+        .map(CategoryMapper::toDto)
         .toList();
   }
 
   public CategoryResponse getCategoryById(int id) {
-    Category category = repository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Categoria não Cadastrada"));
+    Category category = repository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Categoria não cadastrada"));
     return CategoryMapper.toDto(category);
   }
 
@@ -37,20 +37,18 @@ public class CategoryService {
 
   public CategoryResponse updateCategory(int id, Category category) {
     Category existingCategory = repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException("Category not found with id " + id));
+        .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada com ID " + id));
 
     existingCategory.setName(category.getName());
     existingCategory.setAvailability(category.isAvailability());
 
     Category updatedCategory = repository.save(existingCategory);
-
     return CategoryMapper.toDto(updatedCategory);
   }
 
   public void deleteCategory(int id) {
-    Category category = repository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Categoria não encontrada"));
+    Category category = repository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
     repository.delete(category);
   }
-
 }
