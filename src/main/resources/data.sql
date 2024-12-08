@@ -30,9 +30,13 @@ INSERT INTO TBL_CATEGORY (NAME, AVAILABILITY) VALUES ('Bebidas', true);
 INSERT INTO TBL_CATEGORY (NAME, AVAILABILITY) VALUES ('Prato Principal', false);
 INSERT INTO TBL_CATEGORY (NAME, AVAILABILITY) VALUES ('Sobremesa', true);
 
+
+
 INSERT INTO TBL_PRODUCT(name, description, price, discount, availability, category, imageUrl)
 VALUES ('Pizza Margherita', 'Pizza com molho de tomate, mussarela e manjericão fresco', 39.90, 0.0, TRUE, 'Pizzas', 'https://abrir.link/gSCkw');
 INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, category, imageUrl)
 VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e molho especial', 29.90, 5.0, TRUE, 'Lanches', 'https://abrir.link/WrIHG');
 INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, category, imageUrl)
 VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 'Saladas', 'https://abrir.link/rbVqV');
+
+INSERT INTO TBL_ADDON (NAME, PRICE, AVAILABILITY, PRODUCT_ID) VALUES ('SAAS', 100, TRUE, 1)
