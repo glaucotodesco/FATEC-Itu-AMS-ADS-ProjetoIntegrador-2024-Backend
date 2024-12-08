@@ -52,7 +52,7 @@ public class CategoryController {
 
         return ResponseEntity.noContent().build();
     }
-    
+    // uptade 
     @PutMapping("categories/{id}")
     public ResponseEntity<Void> update(@PathVariable int id,
                                        @RequestBody CategoryRequest category){
