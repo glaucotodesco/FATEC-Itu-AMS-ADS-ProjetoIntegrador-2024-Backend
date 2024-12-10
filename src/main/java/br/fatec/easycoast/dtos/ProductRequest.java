@@ -1,5 +1,8 @@
 package br.fatec.easycoast.dtos;
 
+import java.util.List;
+
+import br.fatec.easycoast.entities.Addon;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -33,4 +36,6 @@ public record ProductRequest(
 
   @NotBlank(message = "Image URL cannot be blank")
   String imageurl
+
+  // List<Addon> addon
 ) { }
