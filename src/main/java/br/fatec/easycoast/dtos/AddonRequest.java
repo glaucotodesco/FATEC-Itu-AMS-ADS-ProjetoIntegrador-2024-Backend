@@ -1,5 +1,6 @@
 package br.fatec.easycoast.dtos;
 
+import br.fatec.easycoast.entities.Item;
 import br.fatec.easycoast.entities.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,11 @@ public record AddonRequest(
         Boolean avaliability,
 
         @NotNull(message = "Produto não pode ser nulo")
-        Product product
+        Product product,
+
+        @NotNull(message = "Item não pode ser nulo")
+        Item item
+
 
 ) {
 }

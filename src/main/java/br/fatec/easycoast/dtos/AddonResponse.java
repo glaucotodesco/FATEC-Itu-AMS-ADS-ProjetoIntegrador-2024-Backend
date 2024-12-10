@@ -8,5 +8,6 @@ public record AddonResponse(
     String name, 
     Float price, 
     Boolean availability, 
-    ProductResponse product
+    ProductResponse product, 
+    ItemResponse item
 ) {} 

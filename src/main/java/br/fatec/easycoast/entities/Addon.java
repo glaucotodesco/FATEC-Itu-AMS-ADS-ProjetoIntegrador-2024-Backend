@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 @Table(name="TBL_ADDON")
 public class Addon {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,14 +25,14 @@ public class Addon {
     @Column(nullable = false)
     private Boolean availability;
 
-
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 
+    @ManyToOne
+    @JoinColumn(name = "ITEM_ID")
+    private Item item; 
 
-
- 
     public Integer getId() {
         return id;
     }
@@ -63,6 +62,12 @@ public class Addon {
     }
     public void setProduct(Product product) {
         this.product = product;
+    }
+    public Item getItem() {
+        return item;
+    }
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     
