@@ -39,4 +39,5 @@ VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e mo
 INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, category, imageUrl)
 VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 'Saladas', 'https://abrir.link/rbVqV');
 
-INSERT INTO TBL_ADDON (NAME, PRICE, AVAILABILITY, PRODUCT_ID, ITEM_ID) VALUES ('SAAS', 100, TRUE, 1, 1)
+INSERT INTO TBL_ADDON (NAME, PRICE, AVAILABILITY, PRODUCT_ID, ITEM_ID) VALUES ('SAAS', 100, TRUE, 1, 1);
+INSERT INTO TBL_ADDON (NAME, PRICE, AVAILABILITY, PRODUCT_ID, ITEM_ID) VALUES ('SAAS212', 100, TRUE, 1, 1);
