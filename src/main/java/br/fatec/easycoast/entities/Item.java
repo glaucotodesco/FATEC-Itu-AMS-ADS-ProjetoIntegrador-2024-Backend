@@ -20,7 +20,7 @@ public class Item {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "SQUARE_ID")
+    @JoinColumn(name = "SQUARE_ID", nullable = true)
     private Square square;
 
     public Item(){}

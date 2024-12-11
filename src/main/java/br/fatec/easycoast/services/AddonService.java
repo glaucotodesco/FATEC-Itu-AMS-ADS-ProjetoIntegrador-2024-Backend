@@ -3,7 +3,6 @@ package br.fatec.easycoast.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.fatec.easycoast.dtos.AddonRequest;
@@ -11,7 +10,6 @@ import br.fatec.easycoast.dtos.AddonResponse;
 import br.fatec.easycoast.entities.Addon;
 import br.fatec.easycoast.mappers.AddonMapper;
 import br.fatec.easycoast.repositories.AddonRepository;
-import br.fatec.easycoast.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -34,11 +32,9 @@ public class AddonService {
     }
 
     public AddonResponse save(AddonRequest request) {
-
         Addon addon = addonRepository.save(AddonMapper.toEntity(request));
+        System.out.println(addon);
         return AddonMapper.toDTO(addon);
-   
-        
     }
 
 }

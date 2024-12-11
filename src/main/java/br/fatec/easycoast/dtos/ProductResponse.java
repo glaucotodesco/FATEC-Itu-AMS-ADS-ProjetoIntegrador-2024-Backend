@@ -1,6 +1,6 @@
 package br.fatec.easycoast.dtos;
 
-import java.util.List;
+// import java.util.List;
 
 public record ProductResponse(
   Integer id,

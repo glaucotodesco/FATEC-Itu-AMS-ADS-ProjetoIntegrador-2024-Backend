@@ -38,6 +38,20 @@ public class AddonMapper {
 
     }
 
+    public static AddonResponse toPostDTO(Addon addon) {
+   
+        return new 
+        AddonResponse(
+            addon.getId(), 
+            addon.getName(),  
+            addon.getPrice(), 
+            addon.getAvailability(), 
+            ProductMapper.toDTO(addon.getProduct()), 
+            ItemMapper.toDTO(addon.getItem())
+        );
+
+    }
+
   
 
 
