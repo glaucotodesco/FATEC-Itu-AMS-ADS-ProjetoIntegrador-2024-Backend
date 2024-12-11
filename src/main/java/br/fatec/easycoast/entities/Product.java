@@ -1,5 +1,7 @@
 package br.fatec.easycoast.entities;
 
+// import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,10 @@ public class Product {
   private Boolean availability;
   private String category;
   private String imageurl;
+
+  // @OneToMany(mappedBy = "addon")
+  // @JoinColumn(name = "ADDON_ID")
+  // private List<Addon> addon;
 
   public Integer getId() {
     return id;
@@ -48,6 +54,7 @@ public class Product {
   public Float getPrice() {
     return price;
   }
+
   public void setPrice(Float price) {
     this.price = price;
   }
@@ -83,5 +90,15 @@ public class Product {
   public void setImageurl(String imageurl) {
     this.imageurl = imageurl;
   }
+
+  // public List<Addon> getAddon() {
+  //   return addon;
+  // }
+
+  // public void setAddon(List<Addon> addon) {
+  //   this.addon = addon;
+  // }
+
+
 
 }
