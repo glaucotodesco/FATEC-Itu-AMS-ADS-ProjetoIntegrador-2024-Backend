@@ -9,5 +9,5 @@ public record AddonResponse(
     Float price, 
     Boolean availability, 
     ProductResponse product, 
-    ItemResponse item
+    ItemResponse item 
 ) {} 

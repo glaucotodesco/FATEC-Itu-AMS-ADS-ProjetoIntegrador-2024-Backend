@@ -14,7 +14,7 @@ public class ItemMapper {
         return item;
     }
 
-    public static ItemResponse toDto(Item item){
+    public static ItemResponse toDTO(Item item){
         return new ItemResponse(item.getId(), item.getName(), SquareMapper.toDto(item.getSquare()));
     }
 
