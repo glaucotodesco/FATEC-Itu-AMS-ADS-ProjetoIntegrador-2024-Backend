@@ -20,15 +20,17 @@ public class Item {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "SQUARE_ID")
+    @JoinColumn(name = "SQUARE_ID", nullable = true)
     private Square square;
 
     public Item(){}
 
-    public Item(Integer id, String name){
-        this.id = id;
-        this.name = name;
-    }
+    // public Item(Integer id, String name){
+    //     this.id = id;
+    //     this.name = name;
+    // }
+
+  
 
     public Integer getId() {
         return id;

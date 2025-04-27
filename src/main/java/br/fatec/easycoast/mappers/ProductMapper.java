@@ -16,12 +16,13 @@ public class ProductMapper {
     product.setAvailability(request.availability());
     product.setCategory(request.category());
     product.setImageurl(request.imageurl());
+    
 
     return product;
   }
 
   public static ProductResponse toDTO (Product product) {
-    ProductResponse response = new ProductResponse(
+    return new ProductResponse(
       product.getId(),
       product.getName(),
       product.getDescription(),
@@ -30,8 +31,8 @@ public class ProductMapper {
       product.getAvailability(),
       product.getCategory(),
       product.getImageurl()
+      
     );
-
-    return response;
+   
   }
 }

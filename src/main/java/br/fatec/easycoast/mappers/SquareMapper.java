@@ -19,7 +19,7 @@ public class SquareMapper {
     }
 
     public static SquareItems toDtoItems(Square square){
-        SquareItems itemsOnly = new SquareItems(square.getId(), square.getName(), square.getItems());
-        return itemsOnly;
+        SquareItems squareItems = new SquareItems(square.getId(), square.getName(), square.getItems());
+        return squareItems;
     }
 }

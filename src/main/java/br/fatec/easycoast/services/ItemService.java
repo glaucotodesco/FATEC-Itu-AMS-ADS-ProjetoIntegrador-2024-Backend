@@ -21,19 +21,19 @@ public class ItemService {
     public ItemResponse getItem(int id) {
         Item item = itemRepository.findById(id)
                                   .orElseThrow(() -> new EntityNotFoundException("Item not found!"));
-        return ItemMapper.toDto(item);
+        return ItemMapper.toDTO(item);
     }
 
     public List<ItemResponse> getItems(){
         return itemRepository.findAll()
                              .stream()
-                             .map(s -> ItemMapper.toDto(s))
+                             .map(s -> ItemMapper.toDTO(s))
                              .collect(Collectors.toList());
     }
 
     public ItemResponse saveItem(ItemRequest request) {
         Item item = itemRepository.save(ItemMapper.toEntity(request));
-        return ItemMapper.toDto(item);
+        return ItemMapper.toDTO(item);
     }
 
     public void updateItem(int id, ItemRequest request) {
