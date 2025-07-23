@@ -20,6 +20,7 @@ public class Restaurant {
     @Column(nullable = false)
     private String location;
     private String whoAreWe;
+    private Integer seats;
     
     public Restaurant() {}
 
@@ -60,5 +61,13 @@ public class Restaurant {
 
     public void setWhoAreWe(String whoAreWe) {
         this.whoAreWe = whoAreWe;
+    }
+
+    public Integer getSeats() {
+        return seats;
+    }
+
+    public void setSeats(Integer seats) {
+        this.seats = seats;
     }
 }

@@ -19,7 +19,8 @@ public class RestaurantMapper {
         return new RestaurantResponse(restaurant.getId(),
                                       restaurant.getName(),
                                       restaurant.getLocation(),
-                                      restaurant.getWhoAreWe()
+                                      restaurant.getWhoAreWe(),
+                                      restaurant.getSeats()
         );
     }
 }

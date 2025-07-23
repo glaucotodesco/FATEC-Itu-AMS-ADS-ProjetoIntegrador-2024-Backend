@@ -4,7 +4,8 @@ public record RestaurantResponse(
     Integer id,
     String name,
     String location,
-    String whoAreWe
+    String whoAreWe,
+    Integer seats
 ) {
 
 }

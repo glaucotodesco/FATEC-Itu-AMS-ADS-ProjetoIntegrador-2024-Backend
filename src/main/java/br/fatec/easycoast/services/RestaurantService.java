@@ -18,7 +18,11 @@ public class RestaurantService {
     public RestaurantResponse getRestaurant() { // There will be only one restaurant in the DB
         // After catching the restaurant, turn it to a DTO
         return RestaurantMapper.toDto(restaurantRepository.findById(1) // find by 1, because there is only one
-                .orElseThrow(() -> new EntityNotFoundException("The Restaurant hasn't been created yet!"))); // Needed because the function need
+                .orElseThrow(() -> new EntityNotFoundException("The Restaurant hasn't been created yet!"))); // Needed
+                                                                                                             // because
+                                                                                                             // the
+                                                                                                             // function
+                                                                                                             // need
     }
 
     public RestaurantResponse saveRestaurant(RestaurantRequest request) {
@@ -37,6 +41,18 @@ public class RestaurantService {
             restaurant.setName(request.name());
             restaurant.setLocation(request.location());
             restaurant.setWhoAreWe(request.whoAreWe());
+
+            restaurantRepository.save(restaurant);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("The Restaurant hasn't been created yet!");
+        }
+    }
+
+    protected void updateSeats(int quantity) {
+        try {
+            Restaurant restaurant = restaurantRepository.getReferenceById(1);
+
+            restaurant.setSeats(quantity);
 
             restaurantRepository.save(restaurant);
         } catch (EntityNotFoundException e) {

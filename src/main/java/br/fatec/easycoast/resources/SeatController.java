@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.fatec.easycoast.dtos.seat.SeatRequest;
 import br.fatec.easycoast.dtos.seat.SeatResponse;
 
 import br.fatec.easycoast.services.SeatService;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
@@ -27,8 +29,15 @@ public class SeatController {
     private SeatService seatService;
 
     @GetMapping
-    public ResponseEntity<List<SeatResponse>> getSeats() {
-        return ResponseEntity.ok(seatService.getSeats());
+    public ResponseEntity<List<SeatResponse>> getSeats(@RequestParam(name = "_start", required = false) Integer start,
+                                                       @RequestParam(name = "_end", required = false) Integer end,
+                                                       HttpServletRequest request
+    ) {
+        if (request.getParameterMap().containsKey("_start") && request.getParameterMap().containsKey("_end")) {
+            return ResponseEntity.ok(seatService.manageSeat(start, end));
+        } else {
+            return ResponseEntity.ok(seatService.getSeats());
+        }
     }
 
     @GetMapping("{id}")
