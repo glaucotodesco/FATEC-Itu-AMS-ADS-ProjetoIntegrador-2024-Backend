@@ -36,6 +36,14 @@ public class SubcategoryService {
 
     }
 
+    public void deleteSubcategory(int id) {
+        if (subcategoryRepository.existsById(id)) {
+            subcategoryRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Subcategoria não encontrada");
+        }
+    }
+
     public void updateSubcategory(SubcategoryRequest request, Integer id) {
         Subcategory subcategory = subcategoryRepository.getReferenceById(id);
         subcategory.setName(request.name());

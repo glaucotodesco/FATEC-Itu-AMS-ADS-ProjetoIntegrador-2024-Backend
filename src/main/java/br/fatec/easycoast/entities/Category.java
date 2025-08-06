@@ -6,6 +6,7 @@ import org.hibernate.annotations.SoftDelete;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,7 +26,7 @@ public class Category {
   private String name;
   private Boolean availability;
 
-  @OneToMany(mappedBy = "category")
+  @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
   @JsonIgnoreProperties("category")
   private List<Subcategory> subcategories;
 
