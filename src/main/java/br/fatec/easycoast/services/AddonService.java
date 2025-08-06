@@ -52,4 +52,12 @@ public class AddonService {
 
     }
 
+    public void deleteAddon(int id) {
+        if (addonRepository.existsById(id)) {
+            addonRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Adicional não encontrado");
+        }
+    }
+
 }
