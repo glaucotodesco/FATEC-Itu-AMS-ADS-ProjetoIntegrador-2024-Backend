@@ -71,9 +71,9 @@ VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e mo
 INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl)
 VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 3 , 'https://abrir.link/rbVqV');
 
-INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID) VALUES ('Molhos Extras', 1, 3);
-INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID) VALUES ('Adicionais do Hambúrguer', 0, 2); 
-INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID) VALUES ('Recheios Extras', 1, 1);
+INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID, DELETED) VALUES ('Molhos Extras', 1, 3, false);
+INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID, DELETED) VALUES ('Adicionais do Hambúrguer', 0, 2, false); 
+INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID, DELETED) VALUES ('Recheios Extras', 1, 1, false);
 
 INSERT INTO TBL_ADDON (NAME, PRICE, AVAILABILITY, SQUARE_ID, ADDONCATEGORY_ID, DELETED)
 VALUES ('Molho Caesar Extra', 3.50, TRUE, 3, 1, false);

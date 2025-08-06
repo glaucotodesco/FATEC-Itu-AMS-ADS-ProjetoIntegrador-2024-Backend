@@ -53,4 +53,12 @@ public class AddonCategoryService {
 
     }
 
+    public void deleteAddonCategory(int id) {
+        if (addonCategoryRepository.existsById(id)) {
+            addonCategoryRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Categoria de adicional não encontrado");
+        }
+    }
+
 }
