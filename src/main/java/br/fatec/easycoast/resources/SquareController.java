@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,5 +56,12 @@ public class SquareController {
     public ResponseEntity<Void> updateSquare(@PathVariable int id, @RequestBody SquareRequest request) {
         squareService.updateSquare(id, request);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteSquare(@PathVariable int id) {
+        squareService.deleteSquare(id);
+
+        return ResponseEntity.noContent().build();
     }
 }
