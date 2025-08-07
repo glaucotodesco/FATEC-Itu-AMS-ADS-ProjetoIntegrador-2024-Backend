@@ -54,4 +54,12 @@ public class EmployeeService {
         employeeRepository.save(employee);
 
     }
+
+    public void deleteEmployee(int id) {
+        if (employeeRepository.existsById(id)) {
+            employeeRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Employee not found");
+        }
+    }
 }
