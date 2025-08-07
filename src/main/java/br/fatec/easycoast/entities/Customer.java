@@ -2,6 +2,8 @@ package br.fatec.easycoast.entities;
 
 import java.time.Instant;
 
+import org.hibernate.annotations.SoftDelete;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "TBL_CUSTOMER")
+@SoftDelete
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

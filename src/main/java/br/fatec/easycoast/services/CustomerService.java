@@ -48,7 +48,13 @@ public class CustomerService {
         customer.setBirthDate(request.birthDate());
         customer.setEmail(request.email());
         customerRepository.save(customer);
-
     }
 
+    public void deleteCustomer(int id) {
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Customer not found");
+        }
+    }
 }
