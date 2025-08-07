@@ -29,7 +29,7 @@ public class SchedulingService {
 
     public SchedulingResponse getScheduling(Integer id) {
         Scheduling scheduling = schedulingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Schedule not found."));
+                .orElseThrow(() -> new EntityNotFoundException("Schedule not found!"));
         return SchedulingMapper.toDto(scheduling);
     }
 
@@ -40,7 +40,7 @@ public class SchedulingService {
                         request.startsAt(),
                         request.seat().getId())
                 .ifPresent(s -> {
-                    throw new IllegalStateException("The seat is occupied.");
+                    throw new IllegalStateException("The seat is occupied!");
                 });
 
         schedulingRepository
@@ -49,7 +49,7 @@ public class SchedulingService {
                         request.startsAt())
                 .ifPresent(
                         s -> {
-                            throw new IllegalStateException("The customer already scheduled at this time.");
+                            throw new IllegalStateException("The customer already scheduled at this time!");
                         });
 
         List<Scheduling> list = schedulingRepository.findByCustomerId(request.customer().getId());
@@ -58,7 +58,7 @@ public class SchedulingService {
             Instant startLimit = schedule.getStartsAt().minus(1, ChronoUnit.HOURS);
             Instant endLimit = schedule.getStartsAt().plus(1, ChronoUnit.HOURS);
             if (!request.startsAt().isBefore(startLimit) && !request.startsAt().isAfter(endLimit)) {
-                throw new IllegalStateException("Não pode ser feito a reserva devido ao limite.");
+                throw new IllegalStateException("Não pode ser feito a reserva devido ao limite!");
             }
         }
 
@@ -73,7 +73,7 @@ public class SchedulingService {
                         request.startsAt(),
                         request.seat().getId())
                 .ifPresent(s -> {
-                    throw new IllegalStateException("The seat is occupied.");
+                    throw new IllegalStateException("The seat is occupied!");
                 });
 
         List<Scheduling> list = schedulingRepository.findByCustomerId(request.customer().getId());
@@ -83,7 +83,7 @@ public class SchedulingService {
             Instant endLimit = schedule.getStartsAt().plus(1, ChronoUnit.HOURS);
             if (!request.startsAt().isBefore(startLimit) && !request.startsAt().isAfter(endLimit)
                     && schedule.getId() != id) {
-                throw new IllegalStateException("Não pode ser feito a reserva devido ao limite.");
+                throw new IllegalStateException("The Scheduling couldn't be made due to the limit!");
             }
         }
 

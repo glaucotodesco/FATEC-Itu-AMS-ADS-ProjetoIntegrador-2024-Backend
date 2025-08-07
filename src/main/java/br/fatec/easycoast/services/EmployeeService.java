@@ -43,7 +43,7 @@ public class EmployeeService {
     public void updateEmployee(Integer id, EmployeeRequest request) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Employee doesn't exists"));
+                        () -> new EntityNotFoundException("Employee doesn't exists!"));
 
         employee.setName(request.name());
         employee.setPhone(request.phone());
@@ -59,7 +59,7 @@ public class EmployeeService {
         if (employeeRepository.existsById(id)) {
             employeeRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Employee not found");
+            throw new EntityNotFoundException("Employee not found!");
         }
     }
 }

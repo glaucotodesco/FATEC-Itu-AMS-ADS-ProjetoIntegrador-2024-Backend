@@ -30,7 +30,7 @@ public class AddonService {
     // A mesma situação do código acima.
     public AddonResponse getAddonById(Integer id) {
         Addon addon = addonRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Adicional não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Addon not found!"));
         return AddonMapper.toDTO(addon);
     }
 
@@ -56,7 +56,7 @@ public class AddonService {
         if (addonRepository.existsById(id)) {
             addonRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Adicional não encontrado");
+            throw new EntityNotFoundException("Addon not found!");
         }
     }
 

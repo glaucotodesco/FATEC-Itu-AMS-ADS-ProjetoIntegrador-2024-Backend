@@ -70,7 +70,7 @@ public class SeatService {
 
     public SeatResponse updateSeat(Integer id, SeatRequest request) {
         Seat seat = seatRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Assento não encontrado com ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Seat not found by ID: " + id));
 
         // Atualiza os campos do assento
         seat.setStatus(request.status());

@@ -31,7 +31,7 @@ public class OrderService {
 
     public OrderResponse getOrder(Integer id) {
         Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Order doesn't exist."));
+                .orElseThrow(() -> new EntityNotFoundException("Order doesn't exist!"));
 
         return OrderMapper.toDTO(order);
     }
@@ -45,7 +45,7 @@ public class OrderService {
     public OrderResponse updateOrder(Integer id, OrderRequest request) {
         try {
             Order order = orderRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Pedido não encontrado com ID: " + id));
+                    .orElseThrow(() -> new RuntimeException("Order not found by ID: " + id));
 
             // Atualiza os campos do pedido
             order.setOpeningTime(request.openingTime());

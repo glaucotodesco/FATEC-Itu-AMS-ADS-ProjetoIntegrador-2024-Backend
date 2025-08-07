@@ -53,7 +53,7 @@ public class ItemService {
         if (itemRepository.existsById(id)) {
             itemRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Item não encontrado");
+            throw new EntityNotFoundException("Item not found!");
         }
     }
 }

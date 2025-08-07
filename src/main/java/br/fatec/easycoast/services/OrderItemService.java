@@ -45,7 +45,7 @@ public class OrderItemService {
     public OrderItemResponse getOrderItem(Integer id) {
         OrderItem orderItem = orderItemRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Order Item not found"));
+                        () -> new EntityNotFoundException("Order Item not found!"));
         return OrderItemMapper.toDTO(orderItem);
     }
 
@@ -54,7 +54,7 @@ public class OrderItemService {
         List<Integer> addonIds = request.addons().stream().map(Addon::getId).toList();
         int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
         if (addonNumber > 0) {
-            throw new EntityNotFoundException("Addon incorrect");
+            throw new EntityNotFoundException("Addon incorrect!");
         } else {
             OrderItem orderItem = OrderItemMapper.toEntity(request);
 
@@ -81,7 +81,7 @@ public class OrderItemService {
         List<Integer> addonIds = request.addons().stream().map(Addon::getId).toList();
         int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
         if (addonNumber > 0) {
-            throw new EntityNotFoundException("Addon incorrect");
+            throw new EntityNotFoundException("Addon incorrect!");
         } else {
 
             try {
@@ -107,7 +107,7 @@ public class OrderItemService {
                 orderItemRepository.save(orderItem);
 
             } catch (EntityNotFoundException e) {
-                throw new EntityNotFoundException("Not found Order Item.");
+                throw new EntityNotFoundException("Not found Order Item!");
             }
 
         }

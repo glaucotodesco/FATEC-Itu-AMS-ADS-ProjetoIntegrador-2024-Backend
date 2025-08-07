@@ -51,7 +51,7 @@ public class ProductService {
     if (productRepository.existsById(id)) {
       productRepository.deleteById(id);
     } else {
-      throw new EntityNotFoundException("Product not found");
+      throw new EntityNotFoundException("Product not found!");
     }
   }
 }

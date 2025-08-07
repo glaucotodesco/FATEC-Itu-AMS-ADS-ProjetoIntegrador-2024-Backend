@@ -29,7 +29,7 @@ public class CustomerService {
     public CustomerResponse getCustomer(Integer id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Customer not found."));
+                        () -> new EntityNotFoundException("Customer not found!"));
         return CustomerMapper.toDTO(customer);
     }
 
@@ -42,7 +42,7 @@ public class CustomerService {
     public void updateCustomer(Integer id, CustomerRequest request) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(
-                        () -> new EntityNotFoundException("Customer doesn't exists."));
+                        () -> new EntityNotFoundException("Customer doesn't exists!"));
         customer.setName(request.name());
         customer.setPhone(request.phone());
         customer.setBirthDate(request.birthDate());
@@ -54,7 +54,7 @@ public class CustomerService {
         if (customerRepository.existsById(id)) {
             customerRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Customer not found");
+            throw new EntityNotFoundException("Customer not found!");
         }
     }
 }

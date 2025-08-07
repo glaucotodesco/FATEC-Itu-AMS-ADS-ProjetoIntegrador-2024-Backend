@@ -52,7 +52,7 @@ public class SquareService {
         if (squareRepository.existsById(id)) {
             squareRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException("Square not found");
+            throw new EntityNotFoundException("Square not found!");
         }
     }
 }

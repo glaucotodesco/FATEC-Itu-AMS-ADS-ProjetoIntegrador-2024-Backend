@@ -26,7 +26,7 @@ public class CategoryService {
 
   public CategoryResponse getCategory(int id) {
     Category category = repository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Categoria não Cadastrada"));
+        () -> new EntityNotFoundException("Category not found!"));
     return CategoryMapper.toDto(category);
   }
 
@@ -39,13 +39,13 @@ public class CategoryService {
     if (repository.existsById(id)) {
       repository.deleteById(id);
     } else {
-      throw new EntityNotFoundException("Categoria não encontrada");
+      throw new EntityNotFoundException("Category not found!");
     }
   }
 
   public void updateCategory(int id, CategoryRequest dtoRequestCategory) {
     Category aux = repository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Categoria não encontrada"));
+        () -> new EntityNotFoundException("Category not found!"));
     aux.setName(dtoRequestCategory.name());
     aux.setAvailability(dtoRequestCategory.availability());
     repository.save(aux);

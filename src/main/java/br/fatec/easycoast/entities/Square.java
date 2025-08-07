@@ -17,7 +17,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "TBL_SQUARES")
+@Table(name = "TBL_SQUARE")
 @SoftDelete
 public class Square {
     @Id
