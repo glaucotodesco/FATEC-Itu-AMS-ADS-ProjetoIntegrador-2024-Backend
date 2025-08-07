@@ -13,7 +13,6 @@ import br.fatec.easycoast.repositories.PaymentRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +22,6 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
 
-    // ✅ Construtor com @Autowired para injeção de dependências
     @Autowired
     public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;
@@ -39,7 +37,15 @@ public class PaymentService {
     public PaymentResponse getPayment(Integer id) {
         Payment payment = paymentRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Payment not found"));
-        return PaymentMapper.toResponse(payment);
+
+        Order order = payment.getOrder(); // Recupera o objeto Order completo
+        PaymentResponse response = PaymentMapper.toResponse(payment);
+
+        // Atualiza a resposta para incluir o objeto Order completo
+        response = new PaymentResponse(response.id(), response.value(), response.methodPayment(),
+            response.date(), response.status(), order);
+
+        return response;
     }
 
     public PaymentResponse savePayment(PaymentRequest request) {

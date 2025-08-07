@@ -24,7 +24,7 @@ public class PaymentMapper {
             payment.getMethodPayment(),
             payment.getDate(),
             payment.getStatus(),
-            payment.getOrder().getId()
+            payment.getOrder()
         );
     }
 }

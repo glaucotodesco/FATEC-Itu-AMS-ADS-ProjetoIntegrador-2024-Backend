@@ -1,6 +1,7 @@
 package br.fatec.easycoast.dtos.payment;
 
 import java.time.Instant;
+import br.fatec.easycoast.entities.Order;
 
 public record PaymentResponse(
     Integer id,
@@ -8,5 +9,5 @@ public record PaymentResponse(
     PaymentMethod methodPayment,
     Instant date,
     PaymentStatus status,
-    Integer orderId
+    Order order 
 ) {}
