@@ -24,7 +24,7 @@ public class CheckoutMapper {
             checkout.getClosingDate(),
             checkout.getEntryAmount(),
             checkout.getExitAmount(),
-            checkout.getEmployee().getId()
+            checkout.getEmployee()
         );
     }
 }

@@ -29,7 +29,6 @@ public class CheckoutService {
     public CheckoutResponse create(CheckoutRequest request) {
         Employee employee = employeeRepository.findById(request.employeeId())
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
-
         Checkout checkout = CheckoutMapper.toEntity(request, employee);
         Checkout saved = checkoutRepository.save(checkout);
         return CheckoutMapper.toResponse(saved);
