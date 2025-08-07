@@ -34,10 +34,9 @@ public class CheckoutController {
         return ResponseEntity.ok(checkoutService.findById(id));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        checkoutService.delete(id);
-        return ResponseEntity.noContent().build();
+  @PutMapping("/{id}")
+    public ResponseEntity<CheckoutResponse> update(@PathVariable Integer id, @RequestBody CheckoutRequest request) {
+        return ResponseEntity.ok(checkoutService.update(id, request));
     }
 }
 

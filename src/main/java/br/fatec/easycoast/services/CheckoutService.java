@@ -48,10 +48,20 @@ public class CheckoutService {
     }
 
     @Transactional
-    public void delete(Integer id) {
-        if (!checkoutRepository.existsById(id)) {
-            throw new RuntimeException("Checkout not found");
-        }
-        checkoutRepository.deleteById(id);
+    public CheckoutResponse update(Integer id, CheckoutRequest request) {
+        Checkout existingCheckout = checkoutRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Checkout not found"));
+
+        Employee employee = employeeRepository.findById(request.employeeId())
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        existingCheckout.setOpeningDate(request.openingDate());
+        existingCheckout.setClosingDate(request.closingDate());
+        existingCheckout.setEntryAmount(request.entryAmount());
+        existingCheckout.setExitAmount(request.exitAmount());
+        existingCheckout.setEmployee(employee);
+
+        Checkout updatedCheckout = checkoutRepository.save(existingCheckout);
+        return CheckoutMapper.toResponse(updatedCheckout);
     }
 }
