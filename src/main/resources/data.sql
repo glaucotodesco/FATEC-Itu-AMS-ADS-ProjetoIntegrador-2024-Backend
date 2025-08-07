@@ -58,12 +58,12 @@ INSERT INTO TBL_SUBCATEGORY (NAME, AVAILABILITY, CATEGORY_ID, DELETED) VALUES ('
 INSERT INTO TBL_SUBCATEGORY (NAME, AVAILABILITY, CATEGORY_ID, DELETED) VALUES ('Prato Principal', false,  1, false );
 INSERT INTO TBL_SUBCATEGORY (NAME, AVAILABILITY, CATEGORY_ID, DELETED) VALUES ('Sobremesa', true,  1, false );
 
-INSERT INTO TBL_PRODUCT(name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl)
-VALUES ('Pizza Margherita', 'Pizza com molho de tomate, mussarela e manjericão fresco', 39.90, 0.0, TRUE, 1, 'https://abrir.link/gSCkw');
-INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl)
-VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e molho especial', 29.90, 5.0, TRUE, 2, 'https://abrir.link/WrIHG');
-INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl)
-VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 3 , 'https://abrir.link/rbVqV');
+INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl, DELETED)
+VALUES ('Pizza Margherita', 'Pizza com molho de tomate, mussarela e manjericão fresco', 39.90, 0.0, TRUE, 1, 'https://abrir.link/gSCkw', false);
+INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl, DELETED)
+VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e molho especial', 29.90, 5.0, TRUE, 2, 'https://abrir.link/WrIHG', false);
+INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl, DELETED)
+VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 3 , 'https://abrir.link/rbVqV', false);
 
 INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID, DELETED) VALUES ('Molhos Extras', 1, 3, false);
 INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID, DELETED) VALUES ('Adicionais do Hambúrguer', 0, 2, false); 

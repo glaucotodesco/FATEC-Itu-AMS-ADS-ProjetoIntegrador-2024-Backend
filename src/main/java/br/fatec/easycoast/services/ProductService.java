@@ -16,23 +16,23 @@ import jakarta.persistence.EntityNotFoundException;
 public class ProductService {
 
   @Autowired
-  private ProductRepository repository;
+  private ProductRepository productRepository;
 
   public ProductResponse getProductById(int id) {
     return ProductMapper
-        .toDTO(repository.findById(id).orElseThrow(() -> (new EntityNotFoundException("Product not found"))));
+        .toDTO(productRepository.findById(id).orElseThrow(() -> (new EntityNotFoundException("Product not found"))));
   }
 
   public List<ProductResponse> getProducts() {
-    return repository.findAll().stream().map(item -> ProductMapper.toDTO(item)).toList();
+    return productRepository.findAll().stream().map(item -> ProductMapper.toDTO(item)).toList();
   }
 
   public ProductResponse saveProduct(ProductRequest request) {
-    return ProductMapper.toDTO(repository.save(ProductMapper.toEntity(request)));
+    return ProductMapper.toDTO(productRepository.save(ProductMapper.toEntity(request)));
   }
 
   public void updateProduct(int id, ProductRequest request) {
-    Product temp = repository.getReferenceById(id);
+    Product temp = productRepository.getReferenceById(id);
 
     temp.setName(request.name());
     temp.setDescription(request.description());
@@ -43,16 +43,15 @@ public class ProductService {
     temp.setAddonsCategories(request.addonCategories());
     temp.setItems(request.items());
 
-    repository.save(temp);
+    productRepository.save(temp);
 
   }
 
   public void deleteProduct(int id) {
-    if (repository.existsById(id)) {
-      repository.deleteById(id);
+    if (productRepository.existsById(id)) {
+      productRepository.deleteById(id);
     } else {
       throw new EntityNotFoundException("Product not found");
     }
   }
-
 }
