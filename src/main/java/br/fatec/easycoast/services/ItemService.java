@@ -48,4 +48,12 @@ public class ItemService {
             throw new EntityNotFoundException("Item not found!");
         }
     }
+
+    public void deleteItem(int id) {
+        if (itemRepository.existsById(id)) {
+            itemRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Item não encontrado");
+        }
+    }
 }
