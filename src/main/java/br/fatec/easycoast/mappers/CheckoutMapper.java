@@ -2,6 +2,7 @@ package br.fatec.easycoast.mappers;
 
 import br.fatec.easycoast.dtos.checkout.CheckoutRequest;
 import br.fatec.easycoast.dtos.checkout.CheckoutResponse;
+import br.fatec.easycoast.dtos.employee.EmployeeResponse;
 import br.fatec.easycoast.entities.Checkout;
 import br.fatec.easycoast.entities.Employee;
 
@@ -24,7 +25,7 @@ public class CheckoutMapper {
             checkout.getClosingDate(),
             checkout.getEntryAmount(),
             checkout.getExitAmount(),
-            checkout.getEmployee()
+            EmployeeMapper.toDto(checkout.getEmployee())
         );
     }
 }

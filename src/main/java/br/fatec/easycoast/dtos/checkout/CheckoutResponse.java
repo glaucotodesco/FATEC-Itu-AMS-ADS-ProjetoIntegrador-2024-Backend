@@ -2,7 +2,8 @@ package br.fatec.easycoast.dtos.checkout;
 
 import java.time.Instant;
 
-import br.fatec.easycoast.entities.Employee;
+import br.fatec.easycoast.dtos.employee.EmployeeResponse;
+
 
 public record CheckoutResponse(
     Integer id,
@@ -10,5 +11,5 @@ public record CheckoutResponse(
     Instant closingDate,
     double entryAmount,
     double exitAmount,
-    Employee employee
+    EmployeeResponse employee
 ) { }
