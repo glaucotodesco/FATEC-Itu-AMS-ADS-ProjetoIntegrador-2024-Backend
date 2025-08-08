@@ -9,7 +9,7 @@ public class PaymentMapper {
 
     public static Payment toEntity(PaymentRequest request, Order order) {
         Payment payment = new Payment();
-        payment.setValue(request.value());
+        payment.setPaymentValue(request.PaymentValue());
         payment.setMethodPayment(request.methodPayment());
         payment.setDate(request.date());
         payment.setStatus(request.status());
@@ -20,7 +20,7 @@ public class PaymentMapper {
     public static PaymentResponse toResponse(Payment payment) {
         return new PaymentResponse(
             payment.getId(),
-            payment.getValue(),
+            payment.getPaymentValue(),
             payment.getMethodPayment(),
             payment.getDate(),
             payment.getStatus(),

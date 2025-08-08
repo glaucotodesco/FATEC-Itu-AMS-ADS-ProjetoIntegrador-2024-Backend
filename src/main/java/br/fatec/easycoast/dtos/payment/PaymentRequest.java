@@ -3,7 +3,7 @@ package br.fatec.easycoast.dtos.payment;
 import java.time.Instant;
 
 public record PaymentRequest(
-    Double value,
+    Double PaymentValue,
     PaymentMethod methodPayment,
     Instant date,
     PaymentStatus status,

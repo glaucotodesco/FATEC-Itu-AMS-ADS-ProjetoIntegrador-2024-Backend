@@ -38,11 +38,10 @@ public class PaymentService {
         Payment payment = paymentRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Payment not found"));
 
-        Order order = payment.getOrder(); // Recupera o objeto Order completo
+        Order order = payment.getOrder(); 
         PaymentResponse response = PaymentMapper.toResponse(payment);
 
-        // Atualiza a resposta para incluir o objeto Order completo
-        response = new PaymentResponse(response.id(), response.value(), response.methodPayment(),
+        response = new PaymentResponse(response.id(), response.PaymentValue(), response.methodPayment(),
             response.date(), response.status(), order);
 
         return response;
@@ -65,7 +64,7 @@ public class PaymentService {
         Order order = orderRepository.findById(request.orderId())
             .orElseThrow(() -> new EntityNotFoundException("Order not found"));
 
-        existingPayment.setValue(request.value());
+        existingPayment.setPaymentValue(request.PaymentValue());
         existingPayment.setMethodPayment(request.methodPayment());
         existingPayment.setDate(request.date());
         existingPayment.setStatus(request.status());
