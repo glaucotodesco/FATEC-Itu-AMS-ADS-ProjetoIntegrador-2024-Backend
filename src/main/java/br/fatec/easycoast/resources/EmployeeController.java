@@ -37,7 +37,7 @@ public class EmployeeController {
         return ResponseEntity.created(location).body(employeeResponse);
     }
 
-    // Endpoint para listar todos os usuários
+    
     @GetMapping
     public ResponseEntity<List<EmployeeResponse>> getEmployees() {
         List<EmployeeResponse> employees = employeeService.getEmployees();
