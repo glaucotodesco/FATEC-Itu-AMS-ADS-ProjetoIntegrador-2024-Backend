@@ -31,7 +31,7 @@ public class CategoryController {
 
     @GetMapping("categories/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable int id) {
-        return ResponseEntity.ok(service.getCategoryById(id));
+        return ResponseEntity.ok(service.getCategory(id));
     }
 
     @PostMapping("categories")
@@ -47,8 +47,8 @@ public class CategoryController {
     }
 
     @DeleteMapping("categories/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable int id) {
-        service.deleteById(id);
+    public ResponseEntity<Void> deleteCategory(@PathVariable int id) {
+        service.deleteCategory(id);
 
         return ResponseEntity.noContent().build();
     }
@@ -56,7 +56,7 @@ public class CategoryController {
     @PutMapping("categories/{id}")
     public ResponseEntity<Void> update(@PathVariable int id,
             @RequestBody CategoryRequest category) {
-        service.update(id, category);
+        service.updateCategory(id, category);
 
         return ResponseEntity.ok().build();
     }

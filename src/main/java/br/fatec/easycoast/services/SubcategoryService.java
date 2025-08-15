@@ -20,7 +20,7 @@ public class SubcategoryService {
 
     public SubcategoryResponse getSubcategory(Integer id) {
         Subcategory subcategory = subcategoryRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Not found subcategory."));
+                () -> new EntityNotFoundException("Not found subcategory!"));
         return SubcategoryMapper.toDTO(subcategory);
     }
 
@@ -34,6 +34,14 @@ public class SubcategoryService {
         Subcategory subcategory = subcategoryRepository.save(SubcategoryMapper.toEntity(request));
         return SubcategoryMapper.toDTO(subcategory);
 
+    }
+
+    public void deleteSubcategory(int id) {
+        if (subcategoryRepository.existsById(id)) {
+            subcategoryRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Subcategory not found!");
+        }
     }
 
     public void updateSubcategory(SubcategoryRequest request, Integer id) {

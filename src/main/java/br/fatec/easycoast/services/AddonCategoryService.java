@@ -33,7 +33,7 @@ public class AddonCategoryService {
 
     public AddonCategoryResponse getAddonCategory(Integer id) {
         AddonCategory addonCategory = addonCategoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Categoria de adicional não encontrado. "));
+                .orElseThrow(() -> new EntityNotFoundException("Addon Category not found!"));
         return AddonCategoryMapper.toDTO(addonCategory);
 
     }
@@ -51,6 +51,14 @@ public class AddonCategoryService {
         aux.setProduct(request.product());
         addonCategoryRepository.save(aux);
 
+    }
+
+    public void deleteAddonCategory(int id) {
+        if (addonCategoryRepository.existsById(id)) {
+            addonCategoryRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Addon Category not found!");
+        }
     }
 
 }

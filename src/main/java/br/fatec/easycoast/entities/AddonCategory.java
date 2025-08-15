@@ -1,5 +1,6 @@
 package br.fatec.easycoast.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,12 +15,15 @@ import jakarta.persistence.Table;
 
 import java.util.List;
 
+import org.hibernate.annotations.SoftDelete;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.fatec.easycoast.dtos.addonCategory.AddonType;
 
 @Entity
 @Table(name = "TBL_ADDONCATEGORY")
+@SoftDelete
 public class AddonCategory {
 
     @Id
@@ -39,7 +43,7 @@ public class AddonCategory {
     private Product product;
 
     @JsonIgnoreProperties("addonCategory")
-    @OneToMany(mappedBy = "addonCategory")
+    @OneToMany(mappedBy = "addonCategory", cascade = CascadeType.ALL)
     private List<Addon> addons;
 
     public AddonCategory() {

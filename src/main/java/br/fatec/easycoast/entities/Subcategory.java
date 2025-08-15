@@ -2,8 +2,11 @@ package br.fatec.easycoast.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.SoftDelete;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_SUBCATEGORY")
+@SoftDelete
 public class Subcategory {
 
     @Id
@@ -30,7 +34,7 @@ public class Subcategory {
 
     private Category category;
 
-    @OneToMany(mappedBy = "subcategory")
+    @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("subcategory")
     private List<Product> products;
 

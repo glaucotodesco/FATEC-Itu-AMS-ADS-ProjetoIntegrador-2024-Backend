@@ -1,5 +1,7 @@
 package br.fatec.easycoast.entities;
 
+import org.hibernate.annotations.SoftDelete;
+
 import br.fatec.easycoast.dtos.employee.Profile;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_EMPLOYEE")
+@SoftDelete
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

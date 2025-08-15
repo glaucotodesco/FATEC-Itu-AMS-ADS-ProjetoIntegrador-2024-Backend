@@ -2,6 +2,8 @@ package br.fatec.easycoast.entities;
 
 import java.util.List;
 
+import org.hibernate.annotations.SoftDelete;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -15,6 +17,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
+@SoftDelete
 public class Product {
 
   @Id

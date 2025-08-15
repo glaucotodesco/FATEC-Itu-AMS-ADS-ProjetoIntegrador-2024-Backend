@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+import org.hibernate.annotations.SoftDelete;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.fatec.easycoast.dtos.item.ItemResponse;
@@ -15,6 +17,7 @@ import jakarta.persistence.Column;
 
 @Entity
 @Table(name = "TBL_ITEM")
+@SoftDelete
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "TBL_CARDS")
+@Table(name = "TBL_CARD")
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

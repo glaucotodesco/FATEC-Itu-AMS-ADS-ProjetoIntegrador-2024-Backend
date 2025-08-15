@@ -47,4 +47,12 @@ public class SquareService {
             throw new EntityNotFoundException("Square not found!");
         }
     }
+
+    public void deleteSquare(int id) {
+        if (squareRepository.existsById(id)) {
+            squareRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("Square not found!");
+        }
+    }
 }
