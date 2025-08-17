@@ -6,7 +6,8 @@ public record RestaurantRequest(
     String name,
     Location location,
     String whoAreWe,
-    List<Link> links
+    List<Link> links,
+    List<RestaurantScheduling> schedulings
 ) {
 
 }

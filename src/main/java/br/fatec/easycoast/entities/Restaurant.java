@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.fatec.easycoast.dtos.restaurant.Link;
 import br.fatec.easycoast.dtos.restaurant.Location;
+import br.fatec.easycoast.dtos.restaurant.RestaurantScheduling;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
@@ -31,6 +32,9 @@ public class Restaurant {
 
     @ElementCollection
     private List<Link> links;
+
+    @ElementCollection
+    private List<RestaurantScheduling> schedulings;
 
     private Integer seats;
     
@@ -89,5 +93,13 @@ public class Restaurant {
 
     public void setLinks(List<Link> links) {
         this.links = links;
+    }
+
+    public List<RestaurantScheduling> getSchedulings() {
+        return schedulings;
+    }
+
+    public void setSchedulings(List<RestaurantScheduling> schedulings) {
+        this.schedulings = schedulings;
     }
 }

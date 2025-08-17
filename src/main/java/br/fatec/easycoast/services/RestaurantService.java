@@ -42,6 +42,7 @@ public class RestaurantService {
             restaurant.setLocation(request.location());
             restaurant.setWhoAreWe(request.whoAreWe());
             restaurant.setLinks(request.links());
+            restaurant.setSchedulings(request.schedulings());
 
             restaurantRepository.save(restaurant);
         } catch (EntityNotFoundException e) {
