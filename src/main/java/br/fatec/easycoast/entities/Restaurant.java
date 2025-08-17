@@ -5,6 +5,7 @@ import java.util.List;
 import br.fatec.easycoast.dtos.restaurant.Link;
 import br.fatec.easycoast.dtos.restaurant.Location;
 import br.fatec.easycoast.dtos.restaurant.RestaurantScheduling;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
@@ -33,9 +34,11 @@ public class Restaurant {
 
     //This will save the list as a new table
     @ElementCollection
+    @CollectionTable(name = "TBL_RESTAURANT_LINK")
     private List<Link> links;
 
     @ElementCollection
+    @CollectionTable(name = "TBL_RESTAURANT_SCHEDULING")
     private List<RestaurantScheduling> schedulings;
 
     private Integer seats;
