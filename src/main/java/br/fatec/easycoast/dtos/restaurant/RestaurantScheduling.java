@@ -9,6 +9,7 @@ public class RestaurantScheduling {
     private String name;
     private LocalTime startingTime;
     private LocalTime endingTime;
+    //This will need to have 7 values
     private boolean[] availableDays;
     
     public RestaurantScheduling() {}

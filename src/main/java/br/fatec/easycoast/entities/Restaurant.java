@@ -24,12 +24,14 @@ public class Restaurant {
     @Column(nullable = false)
     private String name;
 
+    //This will save the location attributes as tbl_restaurant columns
     @Embedded
     @Column(nullable = false)
     private Location location;
 
     private String whoAreWe;
 
+    //This will save the list as a new table
     @ElementCollection
     private List<Link> links;
 
