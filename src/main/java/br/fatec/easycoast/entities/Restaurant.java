@@ -1,7 +1,11 @@
 package br.fatec.easycoast.entities;
 
+import java.util.List;
+
+import br.fatec.easycoast.dtos.restaurant.Link;
 import br.fatec.easycoast.dtos.restaurant.Location;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +28,10 @@ public class Restaurant {
     private Location location;
 
     private String whoAreWe;
+
+    @ElementCollection
+    private List<Link> links;
+
     private Integer seats;
     
     public Restaurant() {}
@@ -73,5 +81,13 @@ public class Restaurant {
 
     public void setSeats(Integer seats) {
         this.seats = seats;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
     }
 }
