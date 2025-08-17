@@ -1,6 +1,8 @@
 package br.fatec.easycoast.entities;
 
+import br.fatec.easycoast.dtos.restaurant.Location;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,14 +19,16 @@ public class Restaurant {
     @Column(nullable = false)
     private String name;
 
+    @Embedded
     @Column(nullable = false)
-    private String location;
+    private Location location;
+
     private String whoAreWe;
     private Integer seats;
     
     public Restaurant() {}
 
-    public Restaurant(Integer id, String name, String location, String whoAreWe) {
+    public Restaurant(Integer id, String name, Location location, String whoAreWe) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -47,11 +51,11 @@ public class Restaurant {
         this.name = name;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
