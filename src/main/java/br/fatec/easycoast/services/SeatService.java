@@ -25,10 +25,13 @@ public class SeatService {
     private RestaurantService restaurantService;
 
     public List<SeatResponse> getSeats() {
-        List<SeatResponse> seats = seatRepository.findAll()
-                .stream()
-                .map(seat -> SeatMapper.toDTO(seat))
-                .toList();
+        List<SeatResponse> seats = new ArrayList<SeatResponse>();
+        int numberOfSeats = restaurantService.getRestaurant().seats();
+        if (numberOfSeats > 0) {
+            for (int i = 1; i <= numberOfSeats; i++) {
+                seats.add(this.getSeat(i));
+            }
+        }
 
         return seats;
     }
