@@ -5,11 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record CategoryRequest(
-
-        @NotBlank(message = "Nome da Categoria não pode ser em branco") @Size(min = 3, message = "Tamanho mínimo para nome da categoria é 3") String name,
-
-        @NotNull(message = "Disponibilidade não pode ser em branco") Boolean availability
-
+        @NotBlank(message = "Category name can't be blank")
+        @Size(min = 3, message = "Minimum name size is 3 characters")
+        String name,
+        @NotNull(message = "Avalilability can't be null")
+        Boolean availability
 ) {
 
 }

@@ -4,8 +4,8 @@ import br.fatec.easycoast.entities.Product;
 import jakarta.validation.constraints.NotBlank;
 
 public record AddonCategoryRequest(
-
-                @NotBlank(message = "Nome da categoria de adicionais não pode ser vazio. ") String name,
-                AddonType type,
-                Product product) {
+    @NotBlank(message = "AddonCategory name can't be null")
+    String name,
+    AddonType type,
+    Product product) {
 }

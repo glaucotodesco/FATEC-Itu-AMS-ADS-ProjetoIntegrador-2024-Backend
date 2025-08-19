@@ -7,7 +7,10 @@ import br.fatec.easycoast.entities.Employee;
 import br.fatec.easycoast.mappers.CheckoutMapper;
 import br.fatec.easycoast.repositories.CheckoutRepository;
 import br.fatec.easycoast.repositories.EmployeeRepository;
+import br.fatec.easycoast.services.exceptions.DatabaseException;
+import jakarta.persistence.EntityNotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,22 +19,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class CheckoutService {
+    @Autowired
+    private CheckoutRepository checkoutRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-    private final CheckoutRepository checkoutRepository;
-    private final EmployeeRepository employeeRepository;
-
-    public CheckoutService(CheckoutRepository checkoutRepository, EmployeeRepository employeeRepository) {
-        this.checkoutRepository = checkoutRepository;
-        this.employeeRepository = employeeRepository;
-    }
-
-    @Transactional
     public CheckoutResponse create(CheckoutRequest request) {
-        Employee employee = employeeRepository.findById(request.employeeId())
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
-        Checkout checkout = CheckoutMapper.toEntity(request, employee);
-        Checkout saved = checkoutRepository.save(checkout);
-        return CheckoutMapper.toResponse(saved);
+        try{
+            Employee employee = employeeRepository.findById(request.employeeId())
+                    .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
+            Checkout checkout = CheckoutMapper.toEntity(request, employee);
+            Checkout saved = checkoutRepository.save(checkout);
+            return CheckoutMapper.toResponse(saved);
+        } catch (IllegalArgumentException e) {
+            throw new DatabaseException("Employee ID not given");
+        }
     }
 
     public List<CheckoutResponse> findAll() {
@@ -43,17 +45,17 @@ public class CheckoutService {
 
     public CheckoutResponse findById(Integer id) {
         Checkout checkout = checkoutRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Checkout not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Checkout not found"));
         return CheckoutMapper.toResponse(checkout);
     }
 
     @Transactional
     public CheckoutResponse update(Integer id, CheckoutRequest request) {
         Checkout existingCheckout = checkoutRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Checkout not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Checkout not found"));
 
         Employee employee = employeeRepository.findById(request.employeeId())
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Employee not found"));
 
         existingCheckout.setOpeningDate(request.openingDate());
         existingCheckout.setClosingDate(request.closingDate());

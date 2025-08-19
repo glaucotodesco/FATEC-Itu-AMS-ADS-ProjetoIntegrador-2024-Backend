@@ -20,20 +20,20 @@ public class Checkout {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "OPENING_DATE", nullable = false)
+    @Column(name = "OPENING_DATE")
     private Instant openingDate;
 
     @Column(name = "CLOSING_DATE")
     private Instant closingDate;
 
-    @Column(name = "ENTRY_AMOUNT", nullable = false)
+    @Column(name = "ENTRY_AMOUNT")
     private double entryAmount;
 
-    @Column(name = "EXIT_AMOUNT", nullable = false)
+    @Column(name = "EXIT_AMOUNT")
     private double exitAmount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "EMPLOYEE_ID", nullable = false)
+    @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
     public Integer getId() {

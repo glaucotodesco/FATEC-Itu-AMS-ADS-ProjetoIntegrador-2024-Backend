@@ -4,24 +4,31 @@ import br.fatec.easycoast.dtos.checkout.CheckoutRequest;
 import br.fatec.easycoast.dtos.checkout.CheckoutResponse;
 import br.fatec.easycoast.services.CheckoutService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/checkouts")
 public class CheckoutController {
-
-    private final CheckoutService checkoutService;
-
-    public CheckoutController(CheckoutService checkoutService) {
-        this.checkoutService = checkoutService;
-    }
+    @Autowired
+    private CheckoutService checkoutService;
 
     @PostMapping
     public ResponseEntity<CheckoutResponse> create(@RequestBody CheckoutRequest request) {
-        return ResponseEntity.ok(checkoutService.create(request));
+        CheckoutResponse response = checkoutService.create(request);
+
+        URI location = ServletUriComponentsBuilder
+                        .fromCurrentRequest()
+                        .path("/{id}")
+                        .buildAndExpand(response.id())
+                        .toUri();
+
+        return ResponseEntity.created(location).body(response);
     }
 
     @GetMapping
