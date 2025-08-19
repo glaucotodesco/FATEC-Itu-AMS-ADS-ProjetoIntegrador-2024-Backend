@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.fatec.easycoast.services.exceptions.DatabaseException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
@@ -55,6 +56,30 @@ public class ResourceExceptionHandler {
 
         //Set the error text
         error.setError("Database Error");
+        //Set the error messsage
+        error.setMessage(exception.getMessage());
+        //Set the path of the error
+        error.setPath(request.getRequestURI());
+        //Set the status code
+        error.setStatus(status.value());
+        //Set the time when it happened
+        error.setTimeStamp(Instant.now());
+
+        //Return the standard error in the body of the response
+        return ResponseEntity.status(status).body(error);
+    }
+
+    //It will run when there is a EntityNotFoundException, e return an error for the request of the API
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<StandardError> entityNotFoundException(MethodArgumentNotValidException exception, HttpServletRequest request){
+        //Create a standard error
+        StandardError error = new StandardError();
+        
+        //Get the status code
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        //Set the error text
+        error.setError("Resource not found");
         //Set the error messsage
         error.setMessage(exception.getMessage());
         //Set the path of the error
