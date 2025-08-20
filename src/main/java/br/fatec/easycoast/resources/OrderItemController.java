@@ -19,6 +19,7 @@ import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
 import br.fatec.easycoast.services.OrderItemService;
 import br.fatec.easycoast.services.OrderService;
+import jakarta.validation.Valid;
 
 @CrossOrigin
 @RestController
@@ -42,7 +43,7 @@ public class OrderItemController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderItemResponse> saveOrderItem(@RequestBody OrderItemRequest request) {
+    public ResponseEntity<OrderItemResponse> saveOrderItem(@Valid @RequestBody OrderItemRequest request) {
         OrderItemResponse orderItemResponse = orderItemService.saveOrderItem(request);
         if (request.order() != null) orderService.updateTotal(request.order().getId());
         URI location = ServletUriComponentsBuilder
@@ -54,7 +55,7 @@ public class OrderItemController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<OrderItemResponse> updateOrderItem(@PathVariable Integer id,
+    public ResponseEntity<OrderItemResponse> updateOrderItem(@Valid @PathVariable Integer id,
             @RequestBody OrderItemRequest request) {
         orderItemService.updateOrderItem(id, request);
         if (request.order() != null) orderService.updateTotal(request.order().getId());

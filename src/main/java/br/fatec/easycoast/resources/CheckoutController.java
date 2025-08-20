@@ -3,6 +3,7 @@ package br.fatec.easycoast.resources;
 import br.fatec.easycoast.dtos.checkout.CheckoutRequest;
 import br.fatec.easycoast.dtos.checkout.CheckoutResponse;
 import br.fatec.easycoast.services.CheckoutService;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class CheckoutController {
     private CheckoutService checkoutService;
 
     @PostMapping
-    public ResponseEntity<CheckoutResponse> create(@RequestBody CheckoutRequest request) {
+    public ResponseEntity<CheckoutResponse> create(@Valid @RequestBody CheckoutRequest request) {
         CheckoutResponse response = checkoutService.create(request);
 
         URI location = ServletUriComponentsBuilder
@@ -41,8 +42,8 @@ public class CheckoutController {
         return ResponseEntity.ok(checkoutService.findById(id));
     }
 
-  @PutMapping("/{id}")
-    public ResponseEntity<CheckoutResponse> update(@PathVariable Integer id, @RequestBody CheckoutRequest request) {
+    @PutMapping("/{id}")
+    public ResponseEntity<CheckoutResponse> update(@Valid @PathVariable Integer id, @RequestBody CheckoutRequest request) {
         return ResponseEntity.ok(checkoutService.update(id, request));
     }
 }

@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
-    //It will run when a validation fails, e return an error for the request of the API
+    //It will run when a validation fails, and return an error for the request of the API
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationError> validationException(MethodArgumentNotValidException exception, HttpServletRequest request){
         //Create a validation error
@@ -45,7 +45,7 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
-    //It will run when there is a DatabaseException, e return an error for the request of the API
+    //It will run when there is a DatabaseException, and return an error for the request of the API
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<StandardError> databaseException(MethodArgumentNotValidException exception, HttpServletRequest request){
         //Create a standard error
@@ -69,7 +69,7 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
-    //It will run when there is a EntityNotFoundException, e return an error for the request of the API
+    //It will run when there is a EntityNotFoundException, and return an error for the request of the API
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<StandardError> entityNotFoundException(MethodArgumentNotValidException exception, HttpServletRequest request){
         //Create a standard error
@@ -80,6 +80,30 @@ public class ResourceExceptionHandler {
 
         //Set the error text
         error.setError("Resource not found");
+        //Set the error messsage
+        error.setMessage(exception.getMessage());
+        //Set the path of the error
+        error.setPath(request.getRequestURI());
+        //Set the status code
+        error.setStatus(status.value());
+        //Set the time when it happened
+        error.setTimeStamp(Instant.now());
+
+        //Return the standard error in the body of the response
+        return ResponseEntity.status(status).body(error);
+    }
+
+    //It will run when there is an illegalArgumentException, and return an error for the request of the API
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<StandardError> illegalArgumentException(MethodArgumentNotValidException exception, HttpServletRequest request){
+        //Create a standard error
+        StandardError error = new StandardError();
+        
+        //Get the status code
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        //Set the error text
+        error.setError("Bad request");
         //Set the error messsage
         error.setMessage(exception.getMessage());
         //Set the path of the error

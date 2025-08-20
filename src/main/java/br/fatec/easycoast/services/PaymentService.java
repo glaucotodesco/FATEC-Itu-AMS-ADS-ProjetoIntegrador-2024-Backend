@@ -64,7 +64,7 @@ public class PaymentService {
         Order order = orderRepository.findById(request.orderId())
             .orElseThrow(() -> new EntityNotFoundException("Order not found"));
 
-        existingPayment.setPaymentValue(request.PaymentValue());
+        existingPayment.setPaymentValue(request.paymentValue());
         existingPayment.setMethodPayment(request.methodPayment());
         existingPayment.setDate(request.date());
         existingPayment.setStatus(request.status());

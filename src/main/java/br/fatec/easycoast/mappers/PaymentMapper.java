@@ -9,7 +9,7 @@ public class PaymentMapper {
 
     public static Payment toEntity(PaymentRequest request, Order order) {
         Payment payment = new Payment();
-        payment.setPaymentValue(request.PaymentValue());
+        payment.setPaymentValue(request.paymentValue());
         payment.setMethodPayment(request.methodPayment());
         payment.setDate(request.date());
         payment.setStatus(request.status());

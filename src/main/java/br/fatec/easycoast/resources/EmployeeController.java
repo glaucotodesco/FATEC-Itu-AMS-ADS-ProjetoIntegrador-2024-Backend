@@ -19,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.employee.EmployeeRequest;
 import br.fatec.easycoast.dtos.employee.EmployeeResponse;
 import br.fatec.easycoast.services.EmployeeService;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -28,7 +29,7 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping
-    public ResponseEntity<EmployeeResponse> saveEmployee(@RequestBody EmployeeRequest employeeRequest) {
+    public ResponseEntity<EmployeeResponse> saveEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
         EmployeeResponse employeeResponse = employeeService.saveEmployee(employeeRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -57,7 +58,7 @@ public class EmployeeController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateEmployee(@PathVariable int id, @RequestBody EmployeeRequest request) {
+    public ResponseEntity<Void> updateEmployee(@Valid @PathVariable int id, @RequestBody EmployeeRequest request) {
         employeeService.updateEmployee(id, request);
         return ResponseEntity.ok().build();
     }

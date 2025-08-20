@@ -9,9 +9,8 @@ public record CheckoutRequest(
     Instant openingDate,
     Instant closingDate,
     @NotNull(message = "Entry amount can't be null")
-    double entryAmount,
-    @NotNull(message = "Exit amount can't be null")
-    double exitAmount,
+    Double entryAmount,
+    Double exitAmount,
     @NotNull(message = "employee ID can't be null")
     Integer employeeId
 ) { }
