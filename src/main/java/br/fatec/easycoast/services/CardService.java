@@ -40,6 +40,7 @@ public class CardService {
     }
 
     public List<CardResponse> printCards(int start, int end) {
+        if (start < 0 || end < 0) throw new IllegalArgumentException("'start' and 'end' params needs to be positive!");
         //The cards that will be returned
         List<CardResponse> cards = new ArrayList<CardResponse>();
 
@@ -78,6 +79,8 @@ public class CardService {
                     }
                 }
             }
+        } else {
+            throw new IllegalArgumentException("'end' param needs to be higher than 'start' param!");
         }
 
         //return the list
@@ -85,6 +88,7 @@ public class CardService {
     }
 
     public List<CardResponse> filterCards(int start, int end) {
+        if (start < 0 || end < 0) throw new IllegalArgumentException("'start' and 'end' params needs to be positive!");
         //The cards that will be returned
         List<CardResponse> cards = new ArrayList<CardResponse>();
 
@@ -115,6 +119,8 @@ public class CardService {
                     }
                 }
             }
+        } else {
+            throw new IllegalArgumentException("'end' param needs to be higher than 'start' param!");
         }
 
         //return the list
