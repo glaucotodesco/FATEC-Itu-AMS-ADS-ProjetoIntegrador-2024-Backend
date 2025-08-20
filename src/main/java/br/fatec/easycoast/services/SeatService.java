@@ -42,6 +42,7 @@ public class SeatService {
     }
 
     public List<SeatResponse> filterSeats(int start, int end) {
+        if (start < 0) throw new IllegalArgumentException("The 'start' param can't be negative!");
         //The seats that will be on response
         List<SeatResponse> seats = new ArrayList<SeatResponse>();
         //Getting number of seats the restaurant has
@@ -56,6 +57,8 @@ public class SeatService {
                     seats.add(this.getSeat(i));
                 }
             }
+        } else {
+            throw new IllegalArgumentException("The 'end' param needs to be higher than the 'start' param!");
         }
 
         //Return the list
@@ -98,6 +101,8 @@ public class SeatService {
 
             //Update the number of seats of the restaurant
             restaurantService.updateSeats(newQuantity);
+        } else {
+            throw new IllegalArgumentException("The restaurant needs at least 1 seat!");
         }
 
         return seats;
