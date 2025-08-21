@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: easycoast
+  datasource:
+    url: 'jdbc:postgresql:${dbUrl}'
+    username: '${dbUser}'
+    password: '${dbPwd}'
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      encoding: UTF-8
+server:
+  error:
+    include-stacktrace: never
