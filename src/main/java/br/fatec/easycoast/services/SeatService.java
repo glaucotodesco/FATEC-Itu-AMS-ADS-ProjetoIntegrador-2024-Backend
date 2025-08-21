@@ -1,7 +1,6 @@
 package br.fatec.easycoast.services;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,44 @@ public class SeatService {
     private RestaurantService restaurantService;
 
     public List<SeatResponse> getSeats() {
-        List<SeatResponse> seats = seatRepository.findAll()
-                .stream()
-                .map(seat -> SeatMapper.toDTO(seat))
-                .toList();
+        //The seats that will be on response
+        List<SeatResponse> seats = new ArrayList<SeatResponse>();
+        //Getting number of seats the restaurant has
+        int numberOfSeats = restaurantService.getRestaurant().seats();
+        //If the restaurant has seats
+        if (numberOfSeats > 0) {
+            //Until reach the number of restaurant seats
+            for (int i = 1; i <= numberOfSeats; i++) {
+                //Add to the list
+                seats.add(this.getSeat(i));
+            }
+        }
 
+        //Return the list
+        return seats;
+    }
+
+    public List<SeatResponse> filterSeats(int start, int end) {
+        if (start < 0) throw new IllegalArgumentException("The 'start' param can't be negative!");
+        //The seats that will be on response
+        List<SeatResponse> seats = new ArrayList<SeatResponse>();
+        //Getting number of seats the restaurant has
+        int numberOfSeats = restaurantService.getRestaurant().seats();
+        //The first seat id need to be lower than the last seat id
+        //And the last need to be higher than 0
+        if (start <= end && end > 0) {
+            //Until reach the last id or the number of restaurant seats
+            for (int i = start; i <= end && i <= numberOfSeats ; i++) {
+                if (i > 0) {
+                    //Add to the list
+                    seats.add(this.getSeat(i));
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("The 'end' param needs to be higher than the 'start' param!");
+        }
+
+        //Return the list
         return seats;
     }
 
@@ -41,32 +73,36 @@ public class SeatService {
         return SeatMapper.toDTO(seatRepository.save(SeatMapper.toEntity(seat)));
     }
 
-    public List<SeatResponse> manageSeat(int start, int end) {
+    public List<SeatResponse> manageSeats(int newQuantity) {
+        //The seats that will be on response
         List<SeatResponse> seats = new ArrayList<SeatResponse>();
-
+        //If there are no seats
         if(getSeats().size() <= 0){
+            //Create one
             saveSeat(new SeatRequest(SeatStatus.FREE));
         }
 
-        if (start <= end && end > 0) {
+        if (newQuantity > 0) {
+            //For the seat that may not exist
             SeatResponse aux = null;
-
-            int last = new LinkedList<SeatResponse>(getSeats()).getLast().id();
-            int i = last >= start ? start : last + 1;
-            for (; i <= end; i++) {
-                if (i > 0) {
-                    try {
-                        seats.add(this.getSeat(i));
-                    } catch (EntityNotFoundException e) {
-                        aux = this.saveSeat(new SeatRequest(SeatStatus.FREE));
-                        if (aux.id() >= start) {
-                            seats.add(aux);
-                        }
-                    }
+            for (int i = 1; i <= newQuantity; i++) {
+                //If the seat already exists
+                try {
+                    //Add to the list
+                    seats.add(this.getSeat(i));
+                //If the seat doesn't exist yet
+                } catch (EntityNotFoundException e) {
+                    //Create the sit
+                    aux = this.saveSeat(new SeatRequest(SeatStatus.FREE));
+                    //add to the list
+                    seats.add(aux);
                 }
             }
 
-            restaurantService.updateSeats(end);
+            //Update the number of seats of the restaurant
+            restaurantService.updateSeats(newQuantity);
+        } else {
+            throw new IllegalArgumentException("The restaurant needs at least 1 seat!");
         }
 
         return seats;
