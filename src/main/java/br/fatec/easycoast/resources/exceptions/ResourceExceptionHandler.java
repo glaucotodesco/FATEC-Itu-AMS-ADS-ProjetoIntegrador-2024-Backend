@@ -47,7 +47,7 @@ public class ResourceExceptionHandler {
 
     //It will run when there is a DatabaseException, and return an error for the request of the API
     @ExceptionHandler(DatabaseException.class)
-    public ResponseEntity<StandardError> databaseException(MethodArgumentNotValidException exception, HttpServletRequest request){
+    public ResponseEntity<StandardError> databaseException(DatabaseException exception, HttpServletRequest request){
         //Create a standard error
         StandardError error = new StandardError();
         
@@ -71,7 +71,7 @@ public class ResourceExceptionHandler {
 
     //It will run when there is a EntityNotFoundException, and return an error for the request of the API
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<StandardError> entityNotFoundException(MethodArgumentNotValidException exception, HttpServletRequest request){
+    public ResponseEntity<StandardError> entityNotFoundException(EntityNotFoundException exception, HttpServletRequest request){
         //Create a standard error
         StandardError error = new StandardError();
         
@@ -95,7 +95,7 @@ public class ResourceExceptionHandler {
 
     //It will run when there is an illegalArgumentException, and return an error for the request of the API
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<StandardError> illegalArgumentException(MethodArgumentNotValidException exception, HttpServletRequest request){
+    public ResponseEntity<StandardError> illegalArgumentException(IllegalArgumentException exception, HttpServletRequest request){
         //Create a standard error
         StandardError error = new StandardError();
         
