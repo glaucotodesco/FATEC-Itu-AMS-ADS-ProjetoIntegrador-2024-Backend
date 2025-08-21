@@ -5,7 +5,7 @@ import br.fatec.easycoast.entities.Order;
 
 public record PaymentResponse(
     Integer id,
-    Double PaymentValue,
+    Double paymentValue,
     PaymentMethod methodPayment,
     Instant date,
     PaymentStatus status,

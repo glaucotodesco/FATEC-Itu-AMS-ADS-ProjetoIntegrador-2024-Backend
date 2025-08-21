@@ -14,6 +14,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.subcategory.SubcategoryRequest;
 import br.fatec.easycoast.dtos.subcategory.SubcategoryResponse;
 import br.fatec.easycoast.services.SubcategoryService;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +41,7 @@ public class SubcategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<SubcategoryResponse> saveSubcategory(@RequestBody SubcategoryRequest subcategoryRequest) {
+    public ResponseEntity<SubcategoryResponse> saveSubcategory(@Valid @RequestBody SubcategoryRequest subcategoryRequest) {
         SubcategoryResponse subcategoryResponse = subcategoryService.saveSubcategory(subcategoryRequest);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -50,7 +52,7 @@ public class SubcategoryController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateSubcategory(@RequestBody SubcategoryRequest subcategoryRequest,
+    public ResponseEntity<Void> updateSubcategory(@Valid @RequestBody SubcategoryRequest subcategoryRequest,
             @PathVariable Integer id) {
         subcategoryService.updateSubcategory(subcategoryRequest, id);
         return ResponseEntity.ok().build();

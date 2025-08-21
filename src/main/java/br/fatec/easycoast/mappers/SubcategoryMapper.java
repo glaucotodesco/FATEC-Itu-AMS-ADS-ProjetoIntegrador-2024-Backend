@@ -8,7 +8,6 @@ public class SubcategoryMapper {
 
     public static Subcategory toEntity(SubcategoryRequest request) {
         Subcategory subcategory = new Subcategory();
-        subcategory.setId(request.id());
         subcategory.setName(request.name());
         subcategory.setAvailability(request.availability());
         subcategory.setCategory(request.category());

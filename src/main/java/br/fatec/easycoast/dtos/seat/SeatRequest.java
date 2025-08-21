@@ -1,5 +1,9 @@
 package br.fatec.easycoast.dtos.seat;
 
+import jakarta.validation.constraints.NotNull;
+
 public record SeatRequest(
-        SeatStatus status) {
+        @NotNull(message = "Seat status can't be null")
+        SeatStatus status
+) {
 }

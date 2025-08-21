@@ -1,5 +1,6 @@
 package br.fatec.easycoast.resources;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/payments")
 public class PaymentController {
-
-    private final PaymentService paymentService;
+    @Autowired
+    private PaymentService paymentService;
 
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;

@@ -19,6 +19,7 @@ import br.fatec.easycoast.dtos.seat.SeatResponse;
 
 import br.fatec.easycoast.services.SeatService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -47,13 +48,13 @@ public class SeatController {
     }
 
     @PostMapping
-    public ResponseEntity<SeatResponse> saveSeat(@RequestBody SeatRequest seatRequest) {
+    public ResponseEntity<SeatResponse> saveSeat(@Valid @RequestBody SeatRequest seatRequest) {
         seatService.saveSeat(seatRequest);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<SeatResponse> updateSeat(@PathVariable Integer id, @RequestBody SeatRequest seatRequest) {
+    public ResponseEntity<SeatResponse> updateSeat(@Valid @PathVariable Integer id, @RequestBody SeatRequest seatRequest) {
         seatService.updateSeat(id, seatRequest);
         return ResponseEntity.ok().build();
     }
