@@ -33,7 +33,7 @@ public class CardController {
                                                        @RequestParam(name = "_end", required = false) Integer end,
                                                        HttpServletRequest request) { // Response Entity to return the HTTP Status
         if (request.getParameterMap().containsKey("_start") && request.getParameterMap().containsKey("_end")) { //Check if has the start and end
-            return ResponseEntity.ok(cardService.printCards(start, end));
+            return ResponseEntity.ok(cardService.filterCards(start, end));
         } else {
             return ResponseEntity.ok(cardService.getCards()); // Ok == Status code 200
         }
@@ -63,5 +63,12 @@ public class CardController {
     public ResponseEntity<Void> updateCard(@PathVariable int id, @RequestBody CardRequest request) {
         cardService.updateCard(id, request);
         return ResponseEntity.ok().build(); // Return the status code 200, with no content
+    }
+
+    @PutMapping("cards")
+    public ResponseEntity<List<CardResponse>> printCards(@RequestParam(name = "_start") Integer start,
+                                                       @RequestParam(name = "_end") Integer end,
+                                                       HttpServletRequest request){
+        return ResponseEntity.ok(cardService.printCards(start, end));
     }
 }
