@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.restaurant.RestaurantRequest;
 import br.fatec.easycoast.dtos.restaurant.RestaurantResponse;
 import br.fatec.easycoast.services.RestaurantService;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -30,7 +31,7 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<RestaurantResponse> saveRestaurant(@RequestBody RestaurantRequest request) {
+    public ResponseEntity<RestaurantResponse> saveRestaurant(@Valid @RequestBody RestaurantRequest request) {
         RestaurantResponse restaurant = restaurantService.saveRestaurant(request);
 
         URI location = ServletUriComponentsBuilder
@@ -42,7 +43,7 @@ public class RestaurantController {
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateRestaurant(@RequestBody RestaurantRequest request){
+    public ResponseEntity<Void> updateRestaurant(@Valid @RequestBody RestaurantRequest request){
         restaurantService.updateRestaurant(request);
         return ResponseEntity.ok().build();
     }

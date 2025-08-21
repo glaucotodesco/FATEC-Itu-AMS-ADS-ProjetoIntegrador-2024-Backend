@@ -44,6 +44,10 @@ public class SeatService {
     public List<SeatResponse> manageSeat(int start, int end) {
         List<SeatResponse> seats = new ArrayList<SeatResponse>();
 
+        if(getSeats().size() <= 0){
+            saveSeat(new SeatRequest(SeatStatus.FREE));
+        }
+
         if (start <= end && end > 0) {
             SeatResponse aux = null;
 

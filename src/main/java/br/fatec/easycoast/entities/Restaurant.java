@@ -1,6 +1,14 @@
 package br.fatec.easycoast.entities;
 
+import java.util.List;
+
+import br.fatec.easycoast.dtos.restaurant.Link;
+import br.fatec.easycoast.dtos.restaurant.Location;
+import br.fatec.easycoast.dtos.restaurant.RestaurantScheduling;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,14 +25,27 @@ public class Restaurant {
     @Column(nullable = false)
     private String name;
 
+    //This will save the location attributes as tbl_restaurant columns
+    @Embedded
     @Column(nullable = false)
-    private String location;
+    private Location location;
+
     private String whoAreWe;
+
+    //This will save the list as a new table
+    @ElementCollection
+    @CollectionTable(name = "TBL_RESTAURANT_LINK")
+    private List<Link> links;
+
+    @ElementCollection
+    @CollectionTable(name = "TBL_RESTAURANT_SCHEDULING")
+    private List<RestaurantScheduling> schedulings;
+
     private Integer seats;
     
     public Restaurant() {}
 
-    public Restaurant(Integer id, String name, String location, String whoAreWe) {
+    public Restaurant(Integer id, String name, Location location, String whoAreWe) {
         this.id = id;
         this.name = name;
         this.location = location;
@@ -47,11 +68,11 @@ public class Restaurant {
         this.name = name;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -69,5 +90,21 @@ public class Restaurant {
 
     public void setSeats(Integer seats) {
         this.seats = seats;
+    }
+
+    public List<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
+
+    public List<RestaurantScheduling> getSchedulings() {
+        return schedulings;
+    }
+
+    public void setSchedulings(List<RestaurantScheduling> schedulings) {
+        this.schedulings = schedulings;
     }
 }

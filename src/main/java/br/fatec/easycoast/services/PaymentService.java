@@ -11,8 +11,6 @@ import br.fatec.easycoast.mappers.PaymentMapper;
 import br.fatec.easycoast.repositories.OrderRepository;
 import br.fatec.easycoast.repositories.PaymentRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +20,6 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
 
-    @Autowired
     public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository) {
         this.paymentRepository = paymentRepository;
         this.orderRepository = orderRepository;
