@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: easycoast
+  datasource:
+    url: 'jdbc:postgresql://localhost:${dbPort:5432}/${dbName:EasyCoast}'
+    username: '${dbUser:postgres}'
+    password: '${dbPwd:teste01@}'
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      encoding: UTF-8
+server:
+  error:
+    include-stacktrace: never

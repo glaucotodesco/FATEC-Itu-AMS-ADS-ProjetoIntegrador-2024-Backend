@@ -35,7 +35,7 @@ public class SeatController {
                                                        HttpServletRequest request
     ) {
         if (request.getParameterMap().containsKey("_start") && request.getParameterMap().containsKey("_end")) {
-            return ResponseEntity.ok(seatService.manageSeat(start, end));
+            return ResponseEntity.ok(seatService.filterSeats(start, end));
         } else {
             return ResponseEntity.ok(seatService.getSeats());
         }
@@ -59,4 +59,8 @@ public class SeatController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping
+    public ResponseEntity<List<SeatResponse>> manageSeats(@RequestParam(name = "_quantity") Integer quantitity){
+        return ResponseEntity.ok(seatService.manageSeats(quantitity));
+    }
 }
