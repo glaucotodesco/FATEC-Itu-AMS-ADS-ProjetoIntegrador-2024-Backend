@@ -17,22 +17,74 @@ INSERT INTO TBL_ITEM (NAME, SQUARE_ID) VALUES ('Refrigerante', 3);
 INSERT INTO TBL_ITEM (NAME, SQUARE_ID) VALUES ('Suco', 3);
 INSERT INTO TBL_ITEM (NAME, SQUARE_ID) VALUES ('Água', 3);
 
+INSERT INTO TBL_SEAT (STATUS) VALUES (1); 
+INSERT INTO TBL_SEAT (STATUS) VALUES (2); 
+INSERT INTO TBL_SEAT (STATUS) VALUES (2); 
+INSERT INTO TBL_SEAT (STATUS) VALUES (0); 
+INSERT INTO TBL_SEAT (STATUS) VALUES (2); 
+INSERT INTO TBL_SEAT (STATUS) VALUES (0); 
+INSERT INTO TBL_SEAT (STATUS) VALUES (1); 
+
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (true, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 2);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (true, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 2);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (true, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 2);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (true, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 2);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (true, 1);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 2);
+INSERT INTO TBL_CARDS (ACTIVE, COPY) VALUES (false, 1);
 
 
+INSERT INTO TBL_EMPLOYEE (NAME, LOGIN, PHONE, PASSWORD, PROFILE, BLOCKED)
+VALUES ('Jorge Silva', 'jorge@email.com', '100001030', '1234', 2, FALSE);
 
-INSERT INTO TBL_USERS (NAME, LOGIN, PASSWORD, PROFILE) VALUES ('Jorge', 'jorge@email.com', '1234', 2);
-INSERT INTO TBL_USERS (NAME, LOGIN, PASSWORD, PROFILE) VALUES ('Joao', 'joao@email.com', '1234', 1);
+INSERT INTO TBL_EMPLOYEE (NAME, LOGIN, PHONE, PASSWORD, PROFILE, BLOCKED)
+VALUES ('Marina Costa', 'marina@email.com', '100001031', '3213', 0, TRUE);
 
-INSERT INTO TBL_USERS (NAME, LOGIN, PASSWORD, PROFILE) VALUES ('Jorge', 'jorge@email.com', '1234', 2);
-INSERT INTO TBL_USERS (NAME, LOGIN, PASSWORD, PROFILE) VALUES ('Joao', 'joao@email.com', '1234', 1);
+INSERT INTO TBL_EMPLOYEE (NAME, LOGIN, PHONE, PASSWORD, PROFILE, BLOCKED)
+VALUES ('Rafael Lima', 'rafael@email.com', '100001032', '483827', 2, FALSE);
 
 INSERT INTO TBL_CATEGORY (NAME, AVAILABILITY) VALUES ('Bebidas', true);
 INSERT INTO TBL_CATEGORY (NAME, AVAILABILITY) VALUES ('Prato Principal', false);
 INSERT INTO TBL_CATEGORY (NAME, AVAILABILITY) VALUES ('Sobremesa', true);
 
-INSERT INTO TBL_PRODUCT(name, description, price, discount, availability, category, imageUrl)
-VALUES ('Pizza Margherita', 'Pizza com molho de tomate, mussarela e manjericão fresco', 39.90, 0.0, TRUE, 'Pizzas', 'https://abrir.link/gSCkw');
-INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, category, imageUrl)
-VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e molho especial', 29.90, 5.0, TRUE, 'Lanches', 'https://abrir.link/WrIHG');
-INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, category, imageUrl)
-VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 'Saladas', 'https://abrir.link/rbVqV');
+
+
+INSERT INTO TBL_PRODUCT(name, description, price, discount, availability, CATEGORY_ID, imageUrl)
+VALUES ('Pizza Margherita', 'Pizza com molho de tomate, mussarela e manjericão fresco', 39.90, 0.0, TRUE, 1, 'https://abrir.link/gSCkw');
+INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, CATEGORY_ID, imageUrl)
+VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e molho especial', 29.90, 5.0, TRUE, 2, 'https://abrir.link/WrIHG');
+INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, CATEGORY_ID, imageUrl)
+VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 3 , 'https://abrir.link/rbVqV');
+
+
+INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID) VALUES ('ADDON_CATEOGRY1', 1, 3);
+INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID) VALUES ('ADDON_CATEOGRY2', 0, 2);
+INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID) VALUES ('ADDON_CATEOGRY3', 1, 1);
+
+INSERT INTO TBL_ADDON (NAME, PRICE, AVAILABILITY, ITEM_ID, ADDONCATEGORY_ID) VALUES ('SAAS', 100, TRUE, 1, 1);
+INSERT INTO TBL_ADDON (NAME, PRICE, AVAILABILITY, ITEM_ID, ADDONCATEGORY_ID) VALUES ('SAAS212', 100, TRUE, 1, 1);
+
+
+INSERT INTO TBL_CUSTOMER (NAME, PHONE, BIRTHDATE, EMAIL)
+VALUES ('John Doe', '100001020', '2000-11-25T00:00:00Z', 'johndoe@gmail.com');
+
+INSERT INTO TBL_CUSTOMER (NAME, PHONE, BIRTHDATE, EMAIL)
+VALUES ('Alice Smith', '100001021', '1995-08-15T00:00:00Z', 'alice.smith@gmail.com');
+
+INSERT INTO TBL_CUSTOMER (NAME, PHONE, BIRTHDATE, EMAIL)
+VALUES ('Carlos Mendes', '100001022', '1988-04-03T00:00:00Z', 'carlos.mendes@gmail.com');
+
+INSERT INTO TBL_CUSTOMER (NAME, PHONE, BIRTHDATE, EMAIL)
+VALUES ('Bruna Oliveira', '100001023', '1992-12-30T00:00:00Z', 'bruna.oliveira@gmail.com');
+
+-- INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE) VALUES ('ADDON_CATEOGRY1', 1);
+-- INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE) VALUES ('ADDON_CATEOGRY2', 0);
+-- INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE) VALUES ('ADDON_CATEOGRY3', 1);

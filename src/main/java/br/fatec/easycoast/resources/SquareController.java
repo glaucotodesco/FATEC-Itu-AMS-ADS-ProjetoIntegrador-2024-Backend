@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
-import br.fatec.easycoast.dtos.SquareResponse;
-import br.fatec.easycoast.dtos.SquareItems;
-
-import br.fatec.easycoast.dtos.SquareRequest;
+import br.fatec.easycoast.dtos.square.SquareItems;
+import br.fatec.easycoast.dtos.square.SquareRequest;
+import br.fatec.easycoast.dtos.square.SquareResponse;
 import br.fatec.easycoast.services.SquareService;
 
 @RestController

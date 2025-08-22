@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fatec.easycoast.dtos.ProductRequest;
-import br.fatec.easycoast.dtos.ProductResponse;
+import br.fatec.easycoast.dtos.product.ProductAddonCategoryFiltered;
+import br.fatec.easycoast.dtos.product.ProductRequest;
+import br.fatec.easycoast.dtos.product.ProductResponse;
 import br.fatec.easycoast.entities.Product;
 import br.fatec.easycoast.mappers.ProductMapper;
 import br.fatec.easycoast.repositories.ProductRepository;
@@ -18,20 +19,20 @@ public class ProductService {
   @Autowired
   private ProductRepository repository;
 
-  public ProductResponse getProductById(int id) {
+  public ProductAddonCategoryFiltered getProductById(int id) {
     return ProductMapper
-        .toDTO(repository.findById(id).orElseThrow(() -> (new EntityNotFoundException("Product not found"))));
+        .toDTOFiltered(repository.findById(id).orElseThrow(() -> (new EntityNotFoundException("Product not found"))));
   }
 
-  public List<ProductResponse> getProducts() {
-    return repository.findAll().stream().map(item -> ProductMapper.toDTO(item)).toList();
+  public List<ProductAddonCategoryFiltered> getProducts() {
+    return repository.findAll().stream().map(item -> ProductMapper.toDTOFiltered(item)).toList();
   }
 
-  public ProductResponse postProduct(ProductRequest request) {
+  public ProductResponse saveProduct(ProductRequest request) {
     return ProductMapper.toDTO(repository.save(ProductMapper.toEntity(request)));
   }
 
-  public void putProduct(int id, ProductRequest request) {
+  public void updateProduct(int id, ProductRequest request) {
     Product temp = repository.getReferenceById(id);
 
     temp.setName(request.name());
@@ -40,8 +41,12 @@ public class ProductService {
     temp.setDiscount(request.discount());
     temp.setAvailability(request.availability());
     temp.setCategory(request.category());
+    temp.setAddonsCategories(request.addonCategories());
+    temp.setItems(request.items());
 
     repository.save(temp);
+
+    System.out.println(temp.getAddonsCategories());
   }
 
   public void deleteProduct(int id) {

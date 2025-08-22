@@ -7,9 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fatec.easycoast.dtos.SquareItems;
-import br.fatec.easycoast.dtos.SquareRequest;
-import br.fatec.easycoast.dtos.SquareResponse;
+import br.fatec.easycoast.dtos.square.SquareItems;
+import br.fatec.easycoast.dtos.square.SquareRequest;
+import br.fatec.easycoast.dtos.square.SquareResponse;
 import br.fatec.easycoast.entities.Square;
 import br.fatec.easycoast.mappers.SquareMapper;
 import br.fatec.easycoast.repositories.SquareRepository;

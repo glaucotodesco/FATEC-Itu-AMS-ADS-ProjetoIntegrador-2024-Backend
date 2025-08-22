@@ -1,8 +1,8 @@
 package br.fatec.easycoast.mappers;
 
-import br.fatec.easycoast.dtos.SquareItems;
-import br.fatec.easycoast.dtos.SquareRequest;
-import br.fatec.easycoast.dtos.SquareResponse;
+import br.fatec.easycoast.dtos.square.SquareItems;
+import br.fatec.easycoast.dtos.square.SquareRequest;
+import br.fatec.easycoast.dtos.square.SquareResponse;
 import br.fatec.easycoast.entities.Square;
 
 public class SquareMapper {
@@ -19,7 +19,7 @@ public class SquareMapper {
     }
 
     public static SquareItems toDtoItems(Square square){
-        SquareItems itemsOnly = new SquareItems(square.getId(), square.getName(), square.getItems());
-        return itemsOnly;
+        SquareItems squareItems = new SquareItems(square.getId(), square.getName(), square.getItems());
+        return squareItems;
     }
 }
