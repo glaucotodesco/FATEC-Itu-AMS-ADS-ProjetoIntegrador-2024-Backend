@@ -8,6 +8,7 @@ import br.fatec.easycoast.dtos.restaurant.RestaurantResponse;
 import br.fatec.easycoast.entities.Restaurant;
 import br.fatec.easycoast.mappers.RestaurantMapper;
 import br.fatec.easycoast.repositories.RestaurantRepository;
+import br.fatec.easycoast.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -18,20 +19,18 @@ public class RestaurantService {
     public RestaurantResponse getRestaurant() { // There will be only one restaurant in the DB
         // After catching the restaurant, turn it to a DTO
         return RestaurantMapper.toDto(restaurantRepository.findById(1) // find by 1, because there is only one
-                .orElseThrow(() -> new EntityNotFoundException("The Restaurant hasn't been created yet!"))); // Needed
-                                                                                                             // because
-                                                                                                             // the
-                                                                                                             // function
-                                                                                                             // need
+                //Needed because the function need
+                .orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!")));
     }
 
     public RestaurantResponse saveRestaurant(RestaurantRequest request) {
-        try {
-            return getRestaurant();
-        } catch (EntityNotFoundException e) {
-            Restaurant restaurant = restaurantRepository.save(RestaurantMapper.toEntity(request));
-            return RestaurantMapper.toDto(restaurant);
+        if(restaurantRepository.findById(1).orElse(null) != null){
+            throw new DatabaseException("The Restaurant has been created already!");
         }
+        Restaurant restaurant = RestaurantMapper.toEntity(request);
+        restaurant.setSeats(0);
+        restaurant = restaurantRepository.save(restaurant);
+        return RestaurantMapper.toDto(restaurant);
     }
 
     public void updateRestaurant(RestaurantRequest request) {
@@ -46,7 +45,7 @@ public class RestaurantService {
 
             restaurantRepository.save(restaurant);
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("The Restaurant hasn't been created yet!");
+            throw new DatabaseException("The Restaurant hasn't been created yet!");
         }
     }
 
@@ -58,7 +57,7 @@ public class RestaurantService {
 
             restaurantRepository.save(restaurant);
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("The Restaurant hasn't been created yet!");
+            throw new DatabaseException("The Restaurant hasn't been created yet!");
         }
     }
 }
