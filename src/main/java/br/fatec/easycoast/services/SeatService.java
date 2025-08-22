@@ -74,15 +74,11 @@ public class SeatService {
     }
 
     public List<SeatResponse> manageSeats(int newQuantity) {
+        if(newQuantity < 0) throw new IllegalArgumentException("The restaurant can't have negative seats!");
         //The seats that will be on response
         List<SeatResponse> seats = new ArrayList<SeatResponse>();
-        //If there are no seats
-        if(getSeats().size() <= 0){
-            //Create one
-            saveSeat(new SeatRequest(SeatStatus.FREE));
-        }
 
-        if (newQuantity > 0) {
+        if (newQuantity >= 0) {
             //For the seat that may not exist
             SeatResponse aux = null;
             for (int i = 1; i <= newQuantity; i++) {
@@ -102,7 +98,7 @@ public class SeatService {
             //Update the number of seats of the restaurant
             restaurantService.updateSeats(newQuantity);
         } else {
-            throw new IllegalArgumentException("The restaurant needs at least 1 seat!");
+            restaurantService.updateSeats(0);
         }
 
         return seats;
@@ -110,7 +106,7 @@ public class SeatService {
 
     public SeatResponse updateSeat(Integer id, SeatRequest request) {
         Seat seat = seatRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Seat not found by ID: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Seat not found by ID: " + id));
 
         // Atualiza os campos do assento
         seat.setStatus(request.status());

@@ -30,8 +30,10 @@ public class SeatController {
     private SeatService seatService;
 
     @GetMapping
-    public ResponseEntity<List<SeatResponse>> getSeats(@RequestParam(name = "_start", required = false) Integer start,
-                                                       @RequestParam(name = "_end", required = false) Integer end,
+    public ResponseEntity<List<SeatResponse>> getSeats(@RequestParam(name = "_start", required = false)
+                                                       Integer start,
+                                                       @RequestParam(name = "_end", required = false) 
+                                                       Integer end,
                                                        HttpServletRequest request
     ) {
         if (request.getParameterMap().containsKey("_start") && request.getParameterMap().containsKey("_end")) {
