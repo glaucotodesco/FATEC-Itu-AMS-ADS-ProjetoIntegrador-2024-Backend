@@ -3,17 +3,16 @@ package br.fatec.easycoast.mappers;
 import br.fatec.easycoast.dtos.checkout.CheckoutRequest;
 import br.fatec.easycoast.dtos.checkout.CheckoutResponse;
 import br.fatec.easycoast.entities.Checkout;
-import br.fatec.easycoast.entities.Employee;
 
 public class CheckoutMapper {
 
-    public static Checkout toEntity(CheckoutRequest request, Employee employee) {
+    public static Checkout toEntity(CheckoutRequest request) {
         Checkout checkout = new Checkout();
         checkout.setOpeningDate(request.openingDate());
         checkout.setClosingDate(request.closingDate());
         checkout.setEntryAmount(request.entryAmount());
         checkout.setExitAmount(request.exitAmount());
-        checkout.setEmployee(employee);
+        checkout.setEmployee(request.employee());
         return checkout;
     }
 

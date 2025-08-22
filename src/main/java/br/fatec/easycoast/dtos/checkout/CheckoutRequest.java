@@ -2,6 +2,7 @@ package br.fatec.easycoast.dtos.checkout;
 
 import java.time.Instant;
 
+import br.fatec.easycoast.entities.Employee;
 import jakarta.validation.constraints.NotNull;
 
 public record CheckoutRequest(
@@ -11,6 +12,6 @@ public record CheckoutRequest(
     @NotNull(message = "Entry amount can't be null")
     Double entryAmount,
     Double exitAmount,
-    @NotNull(message = "employee ID can't be null")
-    Integer employeeId
+    @NotNull(message = "Employee can't be null")
+    Employee employee
 ) { }

@@ -10,7 +10,6 @@ import br.fatec.easycoast.dtos.payment.PaymentResponse;
 import br.fatec.easycoast.entities.Order;
 import br.fatec.easycoast.entities.Payment;
 import br.fatec.easycoast.mappers.PaymentMapper;
-import br.fatec.easycoast.repositories.OrderRepository;
 import br.fatec.easycoast.repositories.PaymentRepository;
 
 import java.util.List;
@@ -20,9 +19,6 @@ import java.util.stream.Collectors;
 public class PaymentService {
     @Autowired
     private PaymentRepository paymentRepository;
-
-    @Autowired
-    private OrderRepository orderRepository;
 
     public List<PaymentResponse> getPayments() {
         return paymentRepository.findAll().stream()
@@ -44,10 +40,7 @@ public class PaymentService {
     }
 
     public PaymentResponse savePayment(PaymentRequest request) {
-        Order order = orderRepository.findById(request.orderId())
-            .orElseThrow(() -> new EntityNotFoundException("Order not found"));
-
-        Payment payment = PaymentMapper.toEntity(request, order);
+        Payment payment = PaymentMapper.toEntity(request);
         payment = paymentRepository.save(payment);
 
         return PaymentMapper.toResponse(payment);
@@ -57,14 +50,11 @@ public class PaymentService {
         Payment existingPayment = paymentRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Payment not found"));
 
-        Order order = orderRepository.findById(request.orderId())
-            .orElseThrow(() -> new EntityNotFoundException("Order not found"));
-
         existingPayment.setPaymentValue(request.paymentValue());
         existingPayment.setMethodPayment(request.methodPayment());
         existingPayment.setDate(request.date());
         existingPayment.setStatus(request.status());
-        existingPayment.setOrder(order);
+        existingPayment.setOrder(request.order());
 
         existingPayment = paymentRepository.save(existingPayment);
         return PaymentMapper.toResponse(existingPayment);

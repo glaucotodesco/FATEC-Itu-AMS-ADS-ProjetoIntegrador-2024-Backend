@@ -2,6 +2,7 @@ package br.fatec.easycoast.dtos.payment;
 
 import java.time.Instant;
 
+import br.fatec.easycoast.entities.Order;
 import jakarta.validation.constraints.NotNull;
 
 public record PaymentRequest(
@@ -13,7 +14,7 @@ public record PaymentRequest(
     Instant date,
     @NotNull(message = "The Payment status can't be null")
     PaymentStatus status,
-    @NotNull(message = "The Payment order ID can't be null")
-    Integer orderId
+    @NotNull(message = "The Payment order can't be null")
+    Order order
 ) {}
 
