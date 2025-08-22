@@ -17,11 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
-import br.fatec.easycoast.dtos.SquareResponse;
-import br.fatec.easycoast.dtos.SquareItems;
-
-import br.fatec.easycoast.dtos.SquareRequest;
+import br.fatec.easycoast.dtos.square.SquareRequest;
+import br.fatec.easycoast.dtos.square.SquareResponse;
 import br.fatec.easycoast.services.SquareService;
 
 @RestController
@@ -32,30 +29,30 @@ public class SquareController {
     SquareService squareService;
 
     @GetMapping
-    public ResponseEntity<List<SquareItems>> getSquares(){
+    public ResponseEntity<List<SquareResponse>> getSquares() {
         return ResponseEntity.ok(squareService.getSquares());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SquareItems> getSquare(@PathVariable int id){
+    @GetMapping("{id}")
+    public ResponseEntity<SquareResponse> getSquare(@PathVariable int id) {
         return ResponseEntity.ok(squareService.getSquare(id));
     }
 
     @PostMapping
-    public ResponseEntity<SquareResponse> saveSquare(@RequestBody SquareRequest request){
+    public ResponseEntity<SquareResponse> saveSquare(@RequestBody SquareRequest request) {
         SquareResponse square = squareService.saveSquare(request);
 
         URI location = ServletUriComponentsBuilder
-                       .fromCurrentRequest()
-                       .path("/{id}")
-                       .buildAndExpand(square.id())
-                       .toUri();
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(square.id())
+                .toUri();
 
         return ResponseEntity.created(location).body(square);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateSquare(@PathVariable int id, @RequestBody SquareRequest request){
+    public ResponseEntity<Void> updateSquare(@PathVariable int id, @RequestBody SquareRequest request) {
         squareService.updateSquare(id, request);
         return ResponseEntity.ok().build();
     }

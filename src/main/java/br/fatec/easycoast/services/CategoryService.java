@@ -4,8 +4,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fatec.easycoast.dtos.CategoryRequest;
-import br.fatec.easycoast.dtos.CategoryResponse;
+import br.fatec.easycoast.dtos.category.CategoryRequest;
+import br.fatec.easycoast.dtos.category.CategoryResponse;
 import br.fatec.easycoast.entities.Category;
 import br.fatec.easycoast.mappers.CategoryMapper;
 import br.fatec.easycoast.repositories.CategoryRepository;
