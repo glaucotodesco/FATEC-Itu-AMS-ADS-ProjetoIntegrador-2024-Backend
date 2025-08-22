@@ -1,0 +1,732 @@
+[33mcommit c3249d686e5a9d33d542f687fbfd9f2004d8cadb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m, [m[1;31morigin/feature/issue8[m[33m, [m[1;32mfeature/issue8[m[33m)[m
+Merge: 2a7e033 8b41c06
+Author: Yuuya Okatani <114952688+YuuyaOkatani@users.noreply.github.com>
+Date:   Sun Apr 27 23:02:38 2025 -0300
+
+    Merge pull request #52 from RenatoLuizCardoso/feature/issue2
+    
+    ✨feat: Created the GET, POST and PUT endpoints for AddonCategory
+
+[33mcommit 8b41c065a339852f6fae862a42f0047a3ec396be[m[33m ([m[1;31morigin/feature/issue2[m[33m)[m
+Merge: bcc6d51 2a7e033
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 22:48:49 2025 -0300
+
+    imports corrected
+
+[33mcommit bcc6d51c77131de53300550cd2fc74f9eafc9e2c[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 22:32:29 2025 -0300
+
+    minor details
+
+[33mcommit ffaf709c948cde5088fc4f77ecfb314cf625335f[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 22:27:09 2025 -0300
+
+    minor details
+
+[33mcommit 0eb720abd8ca257e19fe573859a0fd63c2e2304c[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 18:01:08 2025 -0300
+
+    files rename
+
+[33mcommit 7df7711d6127f58ddad34d688e144fee910731b6[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 17:57:10 2025 -0300
+
+    Item refactor
+
+[33mcommit d4a698802540173ee6abfd1e66c42b25e996852a[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 01:13:17 2025 -0300
+
+    minor details
+
+[33mcommit 29e3fa6d5bc5190bc166213e480c232d1b018563[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 01:11:45 2025 -0300
+
+    minor details
+
+[33mcommit b198a27b90a6555cb89bc6577b0a9fa2e3f796d6[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 01:03:32 2025 -0300
+
+    minor refactor
+
+[33mcommit eb5ed5e29a410367c80c11fbc6c50c443e1969b7[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sun Apr 27 01:02:01 2025 -0300
+
+    PUT AddonCategory and Addon ready
+
+[33mcommit f2be90fcfdaa8355d4259caf6a5d4bfc8fef9802[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Sat Apr 26 00:31:19 2025 -0300
+
+    Added filters to prevent loop
+
+[33mcommit 7fb1be1dac95c9b0083e7571066b7b909b7fad17[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Fri Apr 25 22:23:32 2025 -0300
+
+    sketch of AddonCateogry with Product
+
+[33mcommit a1621bcfe5b80e3065f66880d124e982eb45f402[m
+Author: YuuyaOkatani <yuuyaokatani@gmail.com>
+Date:   Fri Apr 25 18:31:16 2025 -0300
+
+    Endpoints, Services, Controller and Mapper of AddonCategory added
+
+[33mcommit 2a7e033a4e006b74a7b5b71322beb38e62fbdbb3[m
+Merge: a1aa6c0 c0d7a0b
+Author: RenatoLuizCardoso <85263906+RenatoLuizCardoso@users.noreply.github.com>
+Date:   Mon Apr 21 16:48:31 2025 -0300
+
+    Merge pull request #41 from RenatoLuizCardoso/feature/issue1
+    
+    ♻️ refactor: Organized the DTOs directory
+
+[33mcommit c0d7a0b11e8bc3f6308899cea27fafad5a06739c[m[33m ([m[1;31morigin/feature/issue1[m[33m)[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Mon Apr 21 16:42:58 2025 -0300
+
+    :recycle: refactor: Changed the directories of DTOs
+
+[33mcommit 21943fb32ea0e73d1c772ae986d07327c97c58bd[m[33m ([m[1;31morigin/feature/issue26[m[33m)[m
+Author: Yuuya Okatani <yuuyaokaatani@gmail.com>
+Date:   Wed Dec 11 18:38:42 2024 -0300
+
+    refactor
+
+[33mcommit a5ec822442890b045ec2c3e489231e564c0900e3[m
+Author: Yuuya Okatani <yuuyaokaatani@gmail.com>
+Date:   Wed Dec 11 18:28:15 2024 -0300
+
+    fixed POST
+
+[33mcommit a6a9d630ef6514ab0a638aa3b3622d7d9c6f1365[m
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Wed Dec 11 17:21:54 2024 -0300
+
+    refactor
+
+[33mcommit 34de9ef19851b13096de6c28bc9de4d6910ed3cc[m
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Tue Dec 10 19:33:29 2024 -0300
+
+    refactor
+
+[33mcommit a1aa6c064aadcb165dbccf1ffa5cecb082ae49cc[m
+Merge: 437eb9d d539b6c
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Sun Dec 8 17:45:19 2024 -0300
+
+    Merge pull request #53 from glaucotodesco/feature/issue51
+    
+    ✨feat: integration - backend and frontend - upgrade backend
+
+[33mcommit d539b6cb0440b2f1b3e8a35535aa8842625879b2[m
+Author: muriisantuss <muriisantuss@gmail.com>
+Date:   Sun Dec 8 10:58:03 2024 -0300
+
+    :sparkles: feat: finish project
+
+[33mcommit ebd98004289fd0a3218a31f8441362f221463f37[m
+Author: muriisantuss <muriisantuss@gmail.com>
+Date:   Sun Dec 8 02:00:07 2024 -0300
+
+    :sparkles: feat: small change to the Save service
+
+[33mcommit 2aa6f42edb62ec1c41314f94b30113883f580014[m
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Fri Dec 6 22:11:32 2024 -0300
+
+    GET && POST addons
+
+[33mcommit 437eb9d87371d37655750127536cba6e7a4d7a78[m
+Merge: 129aab8 cad6483
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Fri Dec 6 13:55:47 2024 -0300
+
+    Merge pull request #47 from glaucotodesco/feature/issue44
+    
+    ✨feat: SQL adjustment
+
+[33mcommit 129aab8fdcb05a619b473c13b44344a6559f80df[m
+Merge: 1637fa6 ea26384
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Fri Dec 6 13:53:29 2024 -0300
+
+    Merge pull request #49 from glaucotodesco/feature/issue48
+    
+    :sparkles: feat: add field image on table products
+
+[33mcommit cad6483b0ed2be1e15738e8c3a79f1163e93df6f[m
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Fri Dec 6 12:51:04 2024 -0300
+
+    SQL ajustado
+
+[33mcommit ea26384fcca5480ec38e7855a4d248edaf87e6a5[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Fri Dec 6 09:19:54 2024 -0300
+
+    :sparkles: feat: change products to accept image
+
+[33mcommit ec5c07430e4cca00fa2304325464a948a41add00[m
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Wed Dec 4 02:28:46 2024 -0300
+
+    refactor
+
+[33mcommit 1637fa6f6a287f4fd1b99e29a8e459452cfa9f96[m
+Merge: 4fce8ba 7dfb329
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Dec 3 16:22:35 2024 -0300
+
+    Merge pull request #46 from glaucotodesco/feature/issue45
+    
+    :sparkles: feat: add cors configution
+
+[33mcommit c47d7e793ff494143d8c34ee6400ff1329397f8a[m
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Tue Dec 3 15:00:52 2024 -0300
+
+    SQL ajuste
+
+[33mcommit 7dfb3291195a0aacab46f7ad7e49f65611ec53b0[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Tue Dec 3 14:47:17 2024 -0300
+
+    :sparkles: feat: ad cors configuration
+
+[33mcommit 4fce8bae8db1d323f5c0a7467876a5da532bf351[m
+Merge: 31b5b51 cf2b56f
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Dec 3 09:25:00 2024 -0300
+
+    Merge pull request #43 from glaucotodesco/feature/issue25
+    
+    ✨ feat: Endpoint PutMapping
+
+[33mcommit cf2b56f32d59d15c6719aaee5b9207a7347ec760[m
+Author: JuliaCanavezzi <jucanavezzi03@gmail.com>
+Date:   Tue Dec 3 07:18:48 2024 -0300
+
+    :sparkles: feat: Endpoint PutMapping
+
+[33mcommit 31b5b51127141942c4d5c130b532bace8621490b[m
+Merge: 1989ec2 4539791
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Mon Dec 2 18:06:09 2024 -0300
+
+    Merge pull request #42 from glaucotodesco/feature/issue40
+    
+    :sparkles: feat: Product Validations
+
+[33mcommit 45397915be7751114c6940dfce1cb2445bf65cfc[m
+Author: AngeloModanez <angelomodanez15@gmail.com>
+Date:   Mon Dec 2 16:06:32 2024 -0300
+
+    :sparkles: feat: @Valid - Part02
+
+[33mcommit 3bb92062c752f90a268ecbe5adea9d33ff3e3f23[m
+Author: AngeloModanez <angelomodanez15@gmail.com>
+Date:   Mon Dec 2 01:55:40 2024 -0300
+
+    :sparkles: feat: @Valid - ProductController
+
+[33mcommit e70a8dc67470f417768d441a94040609a8aacef8[m
+Author: AngeloModanez <angelomodanez15@gmail.com>
+Date:   Sat Nov 30 20:57:43 2024 -0300
+
+    :sparkles: feat: Product Validations
+
+[33mcommit 1989ec2009dc3dea8e08b9b424304f4a82621e09[m
+Merge: 00f87d4 71cc736
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Sat Nov 30 16:27:16 2024 -0300
+
+    Merge pull request #41 from glaucotodesco/feature/issue37
+    
+    :sparkles: feat: add endpoint to delete products
+
+[33mcommit 71cc7362e8f940a3f7e89f98b5a1869dcd90e2e1[m
+Author: AngeloModanez <angelomodanez15@gmail.com>
+Date:   Fri Nov 29 18:30:23 2024 -0300
+
+    :sparkles: feat: add deleteProduct controller
+
+[33mcommit 8b01057b094509471f12f561c2291661fd9882bc[m
+Author: AngeloModanez <angelomodanez15@gmail.com>
+Date:   Fri Nov 29 18:29:31 2024 -0300
+
+    :sparkles: feat: add deleteProduct service
+
+[33mcommit 00f87d4c41c2953989c7950963a6f06b064319f7[m
+Merge: 1fb8b99 d1d63a0
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Fri Nov 29 14:06:33 2024 -0300
+
+    Merge pull request #39 from glaucotodesco/feature/issue36
+    
+    :sparkles:  feat: add endpoint to update products
+
+[33mcommit d1d63a0f40f62e4c13e49afda49583258f03ba3e[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Fri Nov 29 07:46:54 2024 -0300
+
+    :sparkles: feat: add putProduct controller
+
+[33mcommit c98e71ff8e6db7d1b2e0ec8124f3e6beb50709e7[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Fri Nov 29 07:34:54 2024 -0300
+
+    :sparkles: feat: add putProduct service
+
+[33mcommit 1fb8b9917d90b9461e0c2d62d1d42831d5fd09e1[m
+Merge: ecabd8d d0ec0a5
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Thu Nov 28 18:35:21 2024 -0300
+
+    Merge pull request #38 from glaucotodesco/feature/issue5
+    
+    :sparkles: feat: POST for products
+
+[33mcommit d0ec0a546f51848b00204693c076b064c6165a2a[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Thu Nov 28 18:17:40 2024 -0300
+
+    :sparkles: feat: add endpoint to post product
+
+[33mcommit ecabd8de3b29e7aed30a3ce9cb6ac766ce3ad21d[m
+Merge: 1d7ece5 dda1699
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Thu Nov 28 17:58:08 2024 -0300
+
+    Merge pull request #35 from glaucotodesco/feature/issue12
+    
+    :sparkles: feat: Add endpoints to get products
+
+[33mcommit dda1699c4204d27519fbc1ce99c52b602dacae08[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Thu Nov 28 17:55:59 2024 -0300
+
+    :bug: fix: change the name 'product' to 'products'
+
+[33mcommit 1d7ece5039418af5d7c1ff0efe2c81d3f480d00d[m
+Merge: 6a6f282 23f4c1c
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Thu Nov 28 15:35:20 2024 -0300
+
+    Merge pull request #34 from glaucotodesco/feature/issue33
+    
+    ✨ feat: Changed the DTOs of Squares and Items
+
+[33mcommit 935b3d84c025eb65cc6d7be10306dac923b7ab65[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Thu Nov 28 09:55:22 2024 -0300
+
+    :sparkles: feat: add endpoint for get all products
+
+[33mcommit 4f32a8ca36d56ac140193d1135b2a8a57814fe24[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Thu Nov 28 09:33:23 2024 -0300
+
+    :sparkles: feat: add endpoint for get product by id
+
+[33mcommit fcc8222c024d26607cd501d54dbd9b00c3718f7c[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Thu Nov 28 08:59:58 2024 -0300
+
+    :sparkles: feat: add product mapper
+
+[33mcommit 23f4c1ca697caaf87c0cd85c0b2af71cfa1282c2[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Wed Nov 27 22:52:35 2024 -0300
+
+    :sparkles: feat: Changed the DTOs of Squares and Items
+
+[33mcommit 6a6f2827d53ad25c79b49f933882831f0aaacdf9[m
+Merge: 0123612 943ea86
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Wed Nov 27 17:18:12 2024 -0300
+
+    Merge pull request #32 from glaucotodesco/feature/issue24
+    
+    ✨ feat: Created DeleteMapping and Validation
+
+[33mcommit 943ea86c2acb7007f0dd6a98ec278eaf592d8552[m
+Author: JuliaCanavezzi <jucanavezzi03@gmail.com>
+Date:   Tue Nov 26 18:39:31 2024 -0300
+
+    :sparkles: feat: Created DeleteMapping and Validation
+
+[33mcommit 012361215bb78987b78d4573c8d470027c517fc4[m
+Merge: 317b90b 30dedeb
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Nov 26 18:04:36 2024 -0300
+
+    Merge pull request #31 from glaucotodesco/feature/issue2
+    
+    ✨ feat: Created PostMapping
+
+[33mcommit 317b90b638352b69bbe152bbb29c5a4e8580e3e8[m
+Merge: 448bcb1 57bf4cc
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Nov 26 17:58:22 2024 -0300
+
+    Merge pull request #30 from glaucotodesco/feature/issue29
+    
+    🎉 feat: added CrossOrigin for testing
+
+[33mcommit 30dedeba8302f6e3908c476bbd514b2cd17d3148[m
+Author: JuliaCanavezzi <jucanavezzi03@gmail.com>
+Date:   Tue Nov 26 17:31:11 2024 -0300
+
+    :sparkles: feat: Created PostMapping
+
+[33mcommit 57bf4ccddfa4463f3da151a7629f404ba9aafcf3[m
+Author: João Otávio <jofs2006@gmail.com>
+Date:   Tue Nov 26 15:24:59 2024 -0300
+
+    :tada: feat: added CrossOrigin for testing
+
+[33mcommit 448bcb10fb1c785ce1414d9bda40dca6a382f9ec[m
+Merge: 75fbcca d7bb0f7
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Nov 26 15:04:05 2024 -0300
+
+    Merge pull request #22 from glaucotodesco/feature/issue4
+    
+    ✨ feat: GET squares and items
+
+[33mcommit d7bb0f726dbccd48273fe4316b9bc5aed2d269aa[m
+Author: vinisvp <viniciuspedro0905@gmail.com>
+Date:   Tue Nov 26 15:03:04 2024 -0300
+
+    :sparkles: feat: fixed the merge with dev
+
+[33mcommit b2cfcbbf3c063fa49938223813b99bcdcc4265c6[m
+Merge: b0f3514 75fbcca
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Nov 26 14:59:37 2024 -0300
+
+    Merge branch 'dev' into feature/issue4
+
+[33mcommit 75fbccae01f2885b482667e4069732bab838d75c[m
+Merge: 0371544 d3645b5
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Nov 26 14:22:26 2024 -0300
+
+    Merge pull request #21 from glaucotodesco/feature/issue14
+    
+    ✨ feat: Created the POST and PUT method of Items
+
+[33mcommit b0f35143ee7bca6be0c6f97edc23c1596990e26f[m
+Merge: 2cd25ca d0877e1
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Tue Nov 26 13:37:25 2024 -0300
+
+    refactor
+
+[33mcommit 2cd25caff96d8c16cb16a2f8696f9ab6c2a0e15b[m
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Tue Nov 26 13:32:03 2024 -0300
+
+    algumas alterações
+
+[33mcommit 03715443e678b4be6b43f519ae9457e799655f1c[m
+Merge: 333e0dd 4fb6467
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Nov 26 09:04:55 2024 -0300
+
+    Merge pull request #28 from glaucotodesco/revert-23-revert-16-feature/issue1
+    
+    Revert "feature/issue1"
+
+[33mcommit 4fb646796406813dbd8b7c538f8c901d1ea04b22[m
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Mon Nov 25 17:38:10 2024 -0300
+
+    Revert "feature/issue1"
+
+[33mcommit 333e0dde6ffbdea89d498cd36af79e2c1170bb3c[m
+Merge: cc49233 e196584
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Mon Nov 25 17:30:54 2024 -0300
+
+    Merge pull request #23 from glaucotodesco/revert-16-feature/issue1
+    
+    feature/issue1
+
+[33mcommit d0877e1badce3ad095246a07469f808c2e44a467[m
+Merge: bcd86a5 cc49233
+Author: Yuuya Okatani <114952688+YuuyaOkatani@users.noreply.github.com>
+Date:   Sun Nov 24 01:56:22 2024 -0300
+
+    Merge branch 'dev' into feature/issue4
+
+[33mcommit bcd86a5922c863283e50e97ece38a100480f605d[m
+Author: Yuuya Okatani <yuuyaokatani@gmail.com>
+Date:   Sun Nov 24 00:46:13 2024 -0300
+
+    GET squares and items
+
+[33mcommit d3645b562612f93c6441b000ae2fab658c9de49f[m
+Merge: 2464615 cc49233
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Sat Nov 23 22:23:11 2024 -0300
+
+    Merge branch 'dev' into feature/issue14
+
+[33mcommit cc49233279a215f46fdf53ceac9c6b1e961ae263[m
+Merge: 9e38ba8 4489c12
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Sat Nov 23 22:19:57 2024 -0300
+
+    Merge pull request #20 from glaucotodesco/feature/issue10
+    
+    ✨ :feat added data.sql for test get function
+
+[33mcommit 4489c127eb6e19eed92e27bfc930feb7aa8989cd[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Sat Nov 23 22:15:22 2024 -0300
+
+    :recycle: refactor: Fixed the merge with dev
+
+[33mcommit a541f54944dc88ea55b787eeb7607ff988fc48ed[m
+Merge: 978068a 9e38ba8
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Sat Nov 23 22:07:03 2024 -0300
+
+    Merge branch 'dev' into feature/issue10
+
+[33mcommit 9e38ba8597028eb7ff48a3b7e13b2b0fe85024ce[m
+Merge: 45b4087 a599605
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Sat Nov 23 22:03:56 2024 -0300
+
+    Merge pull request #19 from glaucotodesco/feature/issue9
+    
+    :sparkles: feat: added record on dtos & mapper
+
+[33mcommit a5996054e936638997c844e1a3d555d6d7aba2a7[m
+Merge: 7c42fab 45b4087
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Sat Nov 23 22:02:57 2024 -0300
+
+    Merge branch 'dev' into feature/issue9
+
+[33mcommit 7c42fab4ee0d58ebb43c3edd67953a03df55cd8e[m
+Author: João Otávio <jofs2006@gmail.com>
+Date:   Sat Nov 23 21:59:39 2024 -0300
+
+    ✨ feat: removed password on application.properties
+
+[33mcommit 978068a510c25b7cc7ddb1a488a15c42e6e5803f[m
+Author: João Otávio <jofs2006@gmail.com>
+Date:   Sat Nov 23 21:58:17 2024 -0300
+
+    ✨ feat: rename folder controller to resources
+
+[33mcommit 0ce3cdc3d25fb9c120f159f13ed67e761fcf3bbf[m
+Author: João Otávio <jofs2006@gmail.com>
+Date:   Sat Nov 23 21:56:14 2024 -0300
+
+    ✨ feat: rename folder controller to resources
+
+[33mcommit 246461563051367c8662bf299f4907e60ec94b25[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Fri Nov 22 23:56:08 2024 -0300
+
+    :sparkles: feat: Created PUT method on Item Controller
+
+[33mcommit 1378cbe53abcb85eee1588156ca88bbed81808d7[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Fri Nov 22 23:47:10 2024 -0300
+
+    :sparkles: feat: Created the Item Controller with POST method
+
+[33mcommit 72d7c95e7967fbec460bfac8dd3f5082652b96fc[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Fri Nov 22 23:31:31 2024 -0300
+
+    :sparkles: feat: Created the service of Item
+
+[33mcommit df4b44694ec95d4fab42a6bf1620cc9bf62911e5[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Fri Nov 22 23:11:01 2024 -0300
+
+    :sparkles: feat: Creted Dtos and mappers of Item
+
+[33mcommit 45b40873412226934cfd0e0f384a92218c59d3ce[m
+Merge: fb347d6 adc4a61
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Fri Nov 22 16:57:18 2024 -0300
+
+    Merge pull request #18 from glaucotodesco/feature/issue3
+    
+    ✨ feat: Made the POST and PUT method of Squares
+
+[33mcommit a02dad7f5859aa0a7ed4d7505d7f94feb6478cf2[m
+Author: vinisvp <viniciuspedro0905@gmail.com>
+Date:   Fri Nov 22 14:49:00 2024 -0300
+
+    :sparkles: feat: Fixed the entities
+
+[33mcommit ddff09bfd47e885a489bc15769e68a05bf043c1a[m
+Author: João Otávio <jofs2006@gmail.com>
+Date:   Fri Nov 22 14:43:13 2024 -0300
+
+    :sparkles: :feat added data.sql for test get function
+
+[33mcommit 765b9c9592a392ef36283def49a2e5fdcede22b7[m
+Author: vinisvp <viniciuspedro0905@gmail.com>
+Date:   Fri Nov 22 14:31:58 2024 -0300
+
+    :construction: feat: Created the Item Entity
+
+[33mcommit 2eb32eec43fa3ebbab19b2b3dc1384d1407704dc[m
+Author: Gustavo Andrelo <andrelog56@gmail.com>
+Date:   Fri Nov 22 14:31:14 2024 -0300
+
+    :tada: added initial select & rescue user
+
+[33mcommit 634a48e3a6d18b3afbba848431d8688fa1189c3c[m
+Author: João Otávio <jofs2006@gmail.com>
+Date:   Fri Nov 22 14:17:04 2024 -0300
+
+    :books: docs: added record on dtos & mapper
+
+[33mcommit adc4a61251f01ae986f8cb4654e379fd8aaf8924[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Thu Nov 21 19:42:44 2024 -0300
+
+    :sparkles: feat: Made the Put method
+
+[33mcommit f7d2deca6b7af26588e55425e42c95b6a3720b39[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Thu Nov 21 19:38:31 2024 -0300
+
+    :bug: fix: Fixed the lower case of the name attribute
+
+[33mcommit 5ed742c57d03a2158766044d18313337c1bef3ac[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Thu Nov 21 19:26:12 2024 -0300
+
+    :sparkles: feat: Created Square Controller
+
+[33mcommit 1ac84b15bf3f5e78c89cd01807274ef053676c84[m
+Author: Pedro Vinincius <viniciuspedro0905@gmail.com>
+Date:   Thu Nov 21 18:49:27 2024 -0300
+
+    :sparkles: feat: Created the entity and service of square
+
+[33mcommit e196584f8bab7dab8c5f41deb2b413c2518b5835[m
+Author: canavezzi <161068647+JuliaCanavezzi@users.noreply.github.com>
+Date:   Thu Nov 21 15:31:22 2024 -0300
+
+    Revert "✨ feat: GetMapping and GetMapping by Id"
+
+[33mcommit d681932b7eb8fdfe7154c4265b1df5103c6b2d8a[m
+Merge: 5be82e8 85b914e
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Wed Nov 20 01:08:58 2024 -0300
+
+    Merge pull request #16 from glaucotodesco/feature/issue1
+    
+    ✨ feat: GetMapping and GetMapping by Id
+
+[33mcommit 85b914e2f63275755b9306aa1413d5fab303070b[m
+Author: JuliaCanavezzi <jucanavezzi03@gmail.com>
+Date:   Tue Nov 19 17:48:13 2024 -0300
+
+    :sparkles: feat: GetMapping and GetMapping by Id
+
+[33mcommit a9a9a0aa4dc3154f753e7832e3a59e9d8744472b[m
+Author: JuliaCanavezzi <jucanavezzi03@gmail.com>
+Date:   Tue Nov 19 17:44:21 2024 -0300
+
+    :sparkles: feat: Dtos and GetMapping
+
+[33mcommit 88876362db9335d0e39cb2e029be78489a8576f0[m
+Author: JuliaCanavezzi <jucanavezzi03@gmail.com>
+Date:   Tue Nov 19 17:33:25 2024 -0300
+
+    :sparkles: feat: Create Entity, Repository, Resource and Service
+
+[33mcommit fb347d60e8f8465b4021614a7c257476dbb100f4[m
+Merge: 2e41e77 fe94a1c
+Author: Pedro Vinicius <114880650+vinisvp@users.noreply.github.com>
+Date:   Tue Nov 19 17:22:20 2024 -0300
+
+    Merge pull request #13 from glaucotodesco/feature/issue6
+    
+    :wrench:  chore: Add products base files
+
+[33mcommit cc41c924492682cf3fcf474fa084b0ebfb1aa18a[m
+Author: João Otávio <jofs2006@gmail.com>
+Date:   Tue Nov 19 17:04:25 2024 -0300
+
+    :sparkles: feat: added path and tbl for user
+
+[33mcommit fe94a1c5f36c3303c659945669f85a44c2cdfa86[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Tue Nov 19 16:40:53 2024 -0300
+
+    :sparkles: feat: add product request
+
+[33mcommit ec7a733cd8a9bc705afa8f481e1181d8fc39976d[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Tue Nov 19 16:39:45 2024 -0300
+
+    :sparkles: feat: add product response
+
+[33mcommit 3872827fcf8bc9ae8b2d340a829bdbe3b2c6f17d[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Tue Nov 19 16:33:45 2024 -0300
+
+    :sparkles: feat: add product repository
+
+[33mcommit 887516f41e2c9e61048fcb47981f3c56cd36b3ee[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Tue Nov 19 16:30:45 2024 -0300
+
+    :sparkles: feat: add product entity
+
+[33mcommit 276c4a69fd17f9338d9fb9baa9c84e1d717119d4[m
+Author: rafaScalet <rafaelscalet2018@gmail.com>
+Date:   Tue Nov 19 16:18:15 2024 -0300
+
+    :wrench: chore: add asdf-vm config file
+
+[33mcommit 94d2580d156eef55c1428801298bdb2e428647fc[m
+Author: Soares007 <soaresstar947@gmail.com>
+Date:   Tue Nov 19 16:05:46 2024 -0300
+
+    :tada: feat: added initial code for user
+
+[33mcommit 2e41e77ee49e09d2a99461a443f70848696c86a3[m
+Merge: 5be82e8 d0cd14d
+Author: Glauco Todesco <glauco.todesco@gmail.com>
+Date:   Tue Nov 19 15:10:34 2024 -0300
+
+    Merge pull request #11 from glaucotodesco/fixed-package
+    
+    Fixed package
+
+[33mcommit d0cd14d99cadf0b126439f4ae6bc3be737252b51[m[33m ([m[1;31morigin/fixed-package[m[33m)[m
+Author: glaucotodesco <glauco.todesco@gmail.com>
+Date:   Tue Nov 19 15:07:51 2024 -0300
+
+    Fixed package
+
+[33mcommit 5be82e813bbed9c0ad00c850069cc8c8b765c530[m
+Author: glaucotodesco <glauco.todesco@gmail.com>
+Date:   Fri Nov 8 14:32:37 2024 -0300
+
+    first commit
