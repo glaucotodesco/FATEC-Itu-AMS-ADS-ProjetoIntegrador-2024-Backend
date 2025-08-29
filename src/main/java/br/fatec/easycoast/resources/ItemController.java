@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.item.ItemRequest;
 import br.fatec.easycoast.dtos.item.ItemResponse;
 import br.fatec.easycoast.services.ItemService;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -39,7 +40,7 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemResponse> saveItem(@RequestBody ItemRequest request) {
+    public ResponseEntity<ItemResponse> saveItem(@Valid @RequestBody ItemRequest request) {
         ItemResponse item = itemService.saveItem(request);
 
         URI location = ServletUriComponentsBuilder
@@ -52,7 +53,7 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateItem(@PathVariable int id, @RequestBody ItemRequest request) {
+    public ResponseEntity<Void> updateItem(@Valid @PathVariable int id, @RequestBody ItemRequest request) {
         itemService.updateItem(id, request);
         return ResponseEntity.ok().build();
     }

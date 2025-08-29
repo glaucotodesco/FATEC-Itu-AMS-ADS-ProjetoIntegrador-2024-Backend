@@ -20,6 +20,7 @@ import br.fatec.easycoast.dtos.card.CardRequest;
 import br.fatec.easycoast.dtos.card.CardResponse;
 import br.fatec.easycoast.services.CardService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin // Needed for the Frontend
@@ -45,7 +46,7 @@ public class CardController {
     }
 
     @PostMapping("cards")
-    public ResponseEntity<CardResponse> saveCard(@RequestBody CardRequest request) {
+    public ResponseEntity<CardResponse> saveCard(@Valid @RequestBody CardRequest request) {
         CardResponse response = cardService.saveCard(request); // Save and the get the element with ID
 
         // Creating the URI of the new element
@@ -60,7 +61,7 @@ public class CardController {
     }
 
     @PutMapping("cards/{id}")
-    public ResponseEntity<Void> updateCard(@PathVariable int id, @RequestBody CardRequest request) {
+    public ResponseEntity<Void> updateCard(@Valid @PathVariable int id, @RequestBody CardRequest request) {
         cardService.updateCard(id, request);
         return ResponseEntity.ok().build(); // Return the status code 200, with no content
     }

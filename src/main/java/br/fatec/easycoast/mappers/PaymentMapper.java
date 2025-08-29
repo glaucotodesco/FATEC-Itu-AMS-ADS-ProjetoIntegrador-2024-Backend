@@ -2,18 +2,17 @@ package br.fatec.easycoast.mappers;
 
 import br.fatec.easycoast.dtos.payment.PaymentRequest;
 import br.fatec.easycoast.dtos.payment.PaymentResponse;
-import br.fatec.easycoast.entities.Order;
 import br.fatec.easycoast.entities.Payment;
 
 public class PaymentMapper {
 
-    public static Payment toEntity(PaymentRequest request, Order order) {
+    public static Payment toEntity(PaymentRequest request) {
         Payment payment = new Payment();
-        payment.setPaymentValue(request.PaymentValue());
+        payment.setPaymentValue(request.paymentValue());
         payment.setMethodPayment(request.methodPayment());
         payment.setDate(request.date());
         payment.setStatus(request.status());
-        payment.setOrder(order);
+        payment.setOrder(request.order());
         return payment;
     }
 

@@ -8,9 +8,12 @@ import jakarta.validation.constraints.Size;
 
 public record AddonRequest(
 
-        @NotBlank(message = "Nome do adicional não pode ser em branco") @Size(min = 3, message = "Tamanho mínimo para nome dp adicional é 3") String name,
+        @NotBlank(message = "Name of the addon cant be blank")
+        @Size(min = 3, message = "Minimum name size is 3 characters")
+        String name,
         Float price,
-        @NotNull(message = "A disponibilidade não pode ser nula aqui.") Boolean availability,
+        @NotNull(message = "Availability can't be null")
+        Boolean availability,
         // Item item,
         Square square,
         AddonCategory addonCategory

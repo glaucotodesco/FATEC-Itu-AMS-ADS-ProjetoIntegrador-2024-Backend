@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.scheduling.SchedulingRequest;
 import br.fatec.easycoast.dtos.scheduling.SchedulingResponse;
 import br.fatec.easycoast.services.SchedulingService;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -38,7 +39,7 @@ public class SchedulingController {
     }
 
     @PostMapping
-    public ResponseEntity<SchedulingResponse> create(@RequestBody SchedulingRequest request) {
+    public ResponseEntity<SchedulingResponse> create(@Valid @RequestBody SchedulingRequest request) {
         SchedulingResponse scheduling = schedulingService.saveScheduling(request);
 
         URI location = ServletUriComponentsBuilder
@@ -51,7 +52,7 @@ public class SchedulingController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody SchedulingRequest request) {
+    public ResponseEntity<Void> update(@Valid @PathVariable Integer id, @RequestBody SchedulingRequest request) {
         schedulingService.updateScheduling(id, request);
         return ResponseEntity.ok().build();
     }

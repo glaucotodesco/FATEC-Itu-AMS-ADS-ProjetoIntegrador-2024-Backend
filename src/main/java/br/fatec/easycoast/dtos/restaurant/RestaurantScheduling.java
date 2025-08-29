@@ -3,13 +3,21 @@ package br.fatec.easycoast.dtos.restaurant;
 import java.time.LocalTime;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Embeddable
 public class RestaurantScheduling {
+    @NotBlank(message = "Scheduling name can't be blank")
     private String name;
+    @NotNull(message = "Starting Time can't be null")
     private LocalTime startingTime;
+    @NotNull(message = "Ending Time can't be null")
     private LocalTime endingTime;
     //This will need to have 7 values
+    @NotNull(message = "Available days can't be null")
+    @Size(min = 7, max = 7, message = "Available needs to have exactly 7 booleans values, each one representing a day of the week, starting from Sunday and ending with Saturday")
     private boolean[] availableDays;
     
     public RestaurantScheduling() {}

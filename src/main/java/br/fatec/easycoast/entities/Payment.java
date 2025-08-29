@@ -23,7 +23,7 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Double PaymentValue;
+    private Double paymentValue;
 
     @Enumerated(EnumType.STRING)
     private PaymentMethod methodPayment;
@@ -46,11 +46,11 @@ public class Payment {
     }
 
     public Double getPaymentValue() {
-        return PaymentValue;
+        return paymentValue;
     }
 
     public void setPaymentValue(Double PaymentValue) {
-        this.PaymentValue = PaymentValue;
+        this.paymentValue = PaymentValue;
     }
 
     public PaymentMethod getMethodPayment() {

@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.square.SquareRequest;
 import br.fatec.easycoast.dtos.square.SquareResponse;
 import br.fatec.easycoast.services.SquareService;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -40,7 +41,7 @@ public class SquareController {
     }
 
     @PostMapping
-    public ResponseEntity<SquareResponse> saveSquare(@RequestBody SquareRequest request) {
+    public ResponseEntity<SquareResponse> saveSquare(@Valid @RequestBody SquareRequest request) {
         SquareResponse square = squareService.saveSquare(request);
 
         URI location = ServletUriComponentsBuilder
@@ -53,7 +54,7 @@ public class SquareController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateSquare(@PathVariable int id, @RequestBody SquareRequest request) {
+    public ResponseEntity<Void> updateSquare(@Valid @PathVariable int id, @RequestBody SquareRequest request) {
         squareService.updateSquare(id, request);
         return ResponseEntity.ok().build();
     }

@@ -1,10 +1,13 @@
 package br.fatec.easycoast.dtos.restaurant;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotNull;
 
 @Embeddable
 public class Link {
+    @NotNull(message = "Site can't be blank")
     private String site;
+    @NotNull(message = "URL can't be blank")
     private String url;
 
     public Link() {}
