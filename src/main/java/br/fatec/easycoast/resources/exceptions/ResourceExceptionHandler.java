@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.fatec.easycoast.services.exceptions.DatabaseException;
+import br.fatec.easycoast.services.exceptions.EntityGoneException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -104,6 +105,30 @@ public class ResourceExceptionHandler {
 
         //Set the error text
         error.setError("Bad request");
+        //Set the error messsage
+        error.setMessage(exception.getMessage());
+        //Set the path of the error
+        error.setPath(request.getRequestURI());
+        //Set the status code
+        error.setStatus(status.value());
+        //Set the time when it happened
+        error.setTimeStamp(Instant.now());
+
+        //Return the standard error in the body of the response
+        return ResponseEntity.status(status).body(error);
+    }
+
+    //It will run when there is an EntityGoneException, and return an error for the request of the API
+    @ExceptionHandler(EntityGoneException.class)
+    public ResponseEntity<StandardError> entityGoneException(EntityGoneException exception, HttpServletRequest request){
+        //Create a standard error
+        StandardError error = new StandardError();
+        
+        //Get the status code
+        HttpStatus status = HttpStatus.GONE;
+
+        //Set the error text
+        error.setError("Gone");
         //Set the error messsage
         error.setMessage(exception.getMessage());
         //Set the path of the error
