@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 
 @Service
@@ -48,7 +49,11 @@ public class FileStorageService {
 	}
 
     public Path load(String filename) {
-		return rootLocation.toAbsolutePath().resolve(filename);
+		try{
+			return rootLocation.toAbsolutePath().resolve(filename);
+		} catch (InvalidPathException e){
+			throw new EntityNotFoundException("File not found!");
+		}
 	}
 
     public Resource loadAsResource(String filename) {
