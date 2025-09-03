@@ -57,8 +57,9 @@ public class ProductService {
       Product temp = productRepository.getReferenceById(id);
 
       fileStorageService.store(file);
-
+      System.out.println(fileStorageService.load(file.getOriginalFilename()));
       temp.setImage(Files.readAllBytes(fileStorageService.load(file.getOriginalFilename())));
+      productRepository.save(temp);
     } catch(IOException e) {
       throw new EntityNotFoundException("Couldn't upload the file");
     }
