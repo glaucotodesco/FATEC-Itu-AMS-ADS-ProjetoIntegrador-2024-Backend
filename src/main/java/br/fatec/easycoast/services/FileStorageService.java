@@ -50,7 +50,7 @@ public class FileStorageService {
 
     public Path load(String filename) {
 		try{
-			return rootLocation.toAbsolutePath().resolve(filename);
+			return rootLocation.resolve(filename);
 		} catch (InvalidPathException e){
 			throw new EntityNotFoundException("File not found!");
 		}
@@ -58,7 +58,7 @@ public class FileStorageService {
 
     public Resource loadAsResource(String filename) {
 		try {
-			Path file =  rootLocation.resolve(filename);
+			Path file =  this.load(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;

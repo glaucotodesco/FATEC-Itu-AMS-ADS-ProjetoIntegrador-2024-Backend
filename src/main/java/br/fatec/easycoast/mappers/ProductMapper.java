@@ -15,7 +15,7 @@ public class ProductMapper {
     product.setDiscount(request.discount());
     product.setAvailability(request.availability());
     product.setSubcategory(request.subcategory());
-    product.setImageurl(request.imageurl());
+    product.setImage(request.image());
     product.setAddonsCategories(request.addonCategories());
     product.setItems(request.items());
 
@@ -33,7 +33,7 @@ public class ProductMapper {
         product.getDiscount(),
         product.getAvailability(),
         product.getSubcategory() != null ? SubcategoryMapper.toDTO(product.getSubcategory()) : null,
-        product.getImageurl(),
+        product.getImage(),
         product.getAddonsCategories(),
         product.getItems()
 

@@ -16,7 +16,7 @@ public record ProductResponse(
         Double discount,
         Boolean availability,
         @JsonIgnoreProperties("products") SubcategoryResponse subcategory,
-        String imageurl,
+        byte[] image,
         @JsonIgnoreProperties("product") List<AddonCategory> addonCategories,
         List<Item> items
 

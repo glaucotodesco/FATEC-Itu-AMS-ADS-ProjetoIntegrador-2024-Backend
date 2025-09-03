@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -35,7 +36,8 @@ public class Product {
 
   private Subcategory subcategory;
 
-  private String imageurl;
+  @Lob
+  private byte[] image;
 
   @JsonIgnoreProperties("product")
   @OneToMany(mappedBy = "product")
@@ -49,25 +51,25 @@ public class Product {
   }
 
   public Product(Integer id, String name, Double price, Double discount, Boolean availability, Subcategory subcategory,
-      String imageurl) {
+      byte[] image) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.discount = discount;
     this.availability = availability;
     this.subcategory = subcategory;
-    this.imageurl = imageurl;
+    this.image = image;
   }
 
   public Product(Integer id, String name, Double price, Double discount, Boolean availability, Subcategory subcategory,
-      String imageurl, List<AddonCategory> addonCategories, List<Item> items) {
+      byte[] image, List<AddonCategory> addonCategories, List<Item> items) {
     this.id = id;
     this.name = name;
     this.price = price;
     this.discount = discount;
     this.availability = availability;
     this.subcategory = subcategory;
-    this.imageurl = imageurl;
+    this.image = image;
     this.addonsCategories = addonCategories;
     this.items = items;
   }
@@ -120,8 +122,8 @@ public class Product {
     this.availability = availability;
   }
 
-  public String getImageurl() {
-    return imageurl;
+  public byte[] getImage() {
+    return image;
   }
 
   public Subcategory getSubcategory() {
@@ -132,8 +134,8 @@ public class Product {
     this.subcategory = subcategory;
   }
 
-  public void setImageurl(String imageurl) {
-    this.imageurl = imageurl;
+  public void setImage(byte[] image) {
+    this.image = image;
   }
 
   public List<AddonCategory> getAddonsCategories() {

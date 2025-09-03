@@ -13,31 +13,31 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public record ProductRequest(
-                @NotBlank(message = "Product name cannot be blank")
-                @Size(min = 3, message = "Minimum length for the name is 3 characters")
-                String name,
-                
-                @NotBlank(message = "Description cannot be blank")
-                String description,
-                
-                @NotNull(message = "Price cannot be null")
-                @Positive(message = "Price must be positive")
-                Double price,
-                
-                @NotNull(message = "Discount cannot be null")
-                @Min(value = 0, message = "Discount must be at least 0")
-                @Max(value = 100, message = "Discount cannot be more than 100")
-                Double discount,
+    @NotBlank(message = "Product name cannot be blank")
+    @Size(min = 3, message = "Minimum length for the name is 3 characters")
+    String name,
+    
+    @NotBlank(message = "Description cannot be blank")
+    String description,
+    
+    @NotNull(message = "Price cannot be null")
+    @Positive(message = "Price must be positive")
+    Double price,
+    
+    @NotNull(message = "Discount cannot be null")
+    @Min(value = 0, message = "Discount must be at least 0")
+    @Max(value = 100, message = "Discount cannot be more than 100")
+    Double discount,
 
-                @NotNull(message = "Availability cannot be null")
-                Boolean availability,
+    @NotNull(message = "Availability cannot be null")
+    Boolean availability,
 
-                @NotNull(message = "Subcategory cannot be null")
-                Subcategory subcategory,
+    @NotNull(message = "Subcategory cannot be null")
+    Subcategory subcategory,
 
-                String imageurl,
-                List<AddonCategory> addonCategories,
-                List<Item> items
+    byte[] image,
+    List<AddonCategory> addonCategories,
+    List<Item> items
 
 ) {
 }

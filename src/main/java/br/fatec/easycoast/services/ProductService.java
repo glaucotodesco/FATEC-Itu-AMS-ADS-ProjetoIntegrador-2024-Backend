@@ -1,9 +1,12 @@
 package br.fatec.easycoast.services;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.fatec.easycoast.dtos.product.ProductRequest;
 import br.fatec.easycoast.dtos.product.ProductResponse;
@@ -14,6 +17,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
+  @Autowired
+  private FileStorageService fileStorageService;
 
   @Autowired
   private ProductRepository productRepository;
@@ -45,6 +50,18 @@ public class ProductService {
 
     productRepository.save(temp);
 
+  }
+
+  public void setProductImage(int id, MultipartFile file){
+    try{
+      Product temp = productRepository.getReferenceById(id);
+
+      fileStorageService.store(file);
+
+      temp.setImage(Files.readAllBytes(fileStorageService.load(file.getOriginalFilename())));
+    } catch(IOException e) {
+      throw new EntityNotFoundException("Couldn't upload the file");
+    }
   }
 
   public void deleteProduct(int id) {
