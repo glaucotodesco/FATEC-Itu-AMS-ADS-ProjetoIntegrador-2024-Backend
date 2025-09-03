@@ -8,6 +8,8 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -46,24 +48,24 @@ public class FileStorageService {
 	}
 
     public Path load(String filename) {
-		return rootLocation.resolve(filename);
+		return rootLocation.toAbsolutePath().resolve(filename);
 	}
 
     public Resource loadAsResource(String filename) {
 		try {
-			Path file = load(filename);
+			Path file =  rootLocation.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			}
 			else {
-				throw new IllegalArgumentException(
+				throw new EntityNotFoundException(
 						"Could not read file: " + filename);
 
 			}
 		}
 		catch (MalformedURLException e) {
-			throw new IllegalArgumentException("Could not read file: " + filename, e);
+			throw new EntityNotFoundException("Could not read file: " + filename, e);
 		}
 	}
 
