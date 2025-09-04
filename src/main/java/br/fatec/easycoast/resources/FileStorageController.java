@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,7 +64,6 @@ public class FileStorageController {
 	}
 
     @GetMapping("/{filename}/download")
-	@ResponseBody
 	public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
 
 		Resource file = storageService.loadAsResource(filename);
@@ -73,4 +73,10 @@ public class FileStorageController {
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
+
+    @DeleteMapping("/{filename}")
+    public ResponseEntity<Void> deleteFile(@PathVariable String filename) {
+        storageService.deleteFile(filename);
+        return ResponseEntity.ok().build();
+    }
 }

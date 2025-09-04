@@ -73,12 +73,23 @@ public class FileStorageService {
 		}
 	}
 
+	public void deleteFile(String filename){
+		Path file = this.load(filename);
+
+		try {
+			Files.move(file, rootLocation.resolve("deleted").resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			throw new EntityNotFoundException("Couldn't reada the file:" + filename);
+		}
+	}
+
     public void init() {
 		try {
 			Files.createDirectories(rootLocation);
+			Files.createDirectories(rootLocation.resolve("deleted"));
 		}
 		catch (IOException e) {
-			throw new IllegalArgumentException("Could not initialize storage", e);
+			throw new IllegalArgumentException("Could not initialize storage");
 		}
 	}
 }
