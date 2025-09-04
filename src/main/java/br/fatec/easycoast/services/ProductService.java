@@ -65,6 +65,16 @@ public class ProductService {
     productRepository.save(temp);
   }
 
+  public void removeProductImage(int id){
+    Product temp = productRepository.getReferenceById(id);
+
+    String[] path = temp.getImage().getPath().split("/");
+    fileStorageService.deleteFile(path[path.length - 1]);
+    temp.setImage(null);
+    
+    productRepository.save(temp);
+  }
+
   public void deleteProduct(int id) {
     if (productRepository.existsById(id)) {
       productRepository.deleteById(id);

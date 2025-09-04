@@ -82,4 +82,10 @@ public class ProductController {
     return ResponseEntity.noContent().build();
   }
 
+  @DeleteMapping("{id}/image")
+  public ResponseEntity<Void> deleteProductImage(@PathVariable int id){
+    productService.removeProductImage(id);
+    return ResponseEntity.ok().build();
+  }
+
 }
