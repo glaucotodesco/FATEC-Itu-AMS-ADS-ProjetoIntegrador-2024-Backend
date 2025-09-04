@@ -1,5 +1,6 @@
 package br.fatec.easycoast.dtos.product;
 
+import java.net.URI;
 import java.util.List;
 
 import br.fatec.easycoast.entities.AddonCategory;
@@ -35,7 +36,7 @@ public record ProductRequest(
     @NotNull(message = "Subcategory cannot be null")
     Subcategory subcategory,
 
-    byte[] image,
+    URI image,
     List<AddonCategory> addonCategories,
     List<Item> items
 

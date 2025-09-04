@@ -1,5 +1,6 @@
 package br.fatec.easycoast.entities;
 
+import java.net.URI;
 import java.util.List;
 
 import org.hibernate.annotations.SoftDelete;
@@ -11,7 +12,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -36,8 +36,7 @@ public class Product {
 
   private Subcategory subcategory;
 
-  @Lob
-  private byte[] image;
+  private URI image;
 
   @JsonIgnoreProperties("product")
   @OneToMany(mappedBy = "product")
@@ -51,7 +50,7 @@ public class Product {
   }
 
   public Product(Integer id, String name, Double price, Double discount, Boolean availability, Subcategory subcategory,
-      byte[] image) {
+      URI image) {
     this.id = id;
     this.name = name;
     this.price = price;
@@ -62,7 +61,7 @@ public class Product {
   }
 
   public Product(Integer id, String name, Double price, Double discount, Boolean availability, Subcategory subcategory,
-      byte[] image, List<AddonCategory> addonCategories, List<Item> items) {
+      URI image, List<AddonCategory> addonCategories, List<Item> items) {
     this.id = id;
     this.name = name;
     this.price = price;
@@ -122,8 +121,12 @@ public class Product {
     this.availability = availability;
   }
 
-  public byte[] getImage() {
+  public URI getImage() {
     return image;
+  }
+
+  public void setImage(URI image) {
+    this.image = image;
   }
 
   public Subcategory getSubcategory() {
@@ -132,10 +135,6 @@ public class Product {
 
   public void setSubcategory(Subcategory subcategory) {
     this.subcategory = subcategory;
-  }
-
-  public void setImage(byte[] image) {
-    this.image = image;
   }
 
   public List<AddonCategory> getAddonsCategories() {

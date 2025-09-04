@@ -1,12 +1,12 @@
 package br.fatec.easycoast.services;
 
-import java.io.IOException;
-import java.nio.file.Files;
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.product.ProductRequest;
 import br.fatec.easycoast.dtos.product.ProductResponse;
@@ -53,16 +53,16 @@ public class ProductService {
   }
 
   public void setProductImage(int id, MultipartFile file){
-    try{
-      Product temp = productRepository.getReferenceById(id);
+    Product temp = productRepository.getReferenceById(id);
 
-      fileStorageService.store(file);
-      System.out.println(fileStorageService.load(file.getOriginalFilename()));
-      temp.setImage(Files.readAllBytes(fileStorageService.load(file.getOriginalFilename())));
-      productRepository.save(temp);
-    } catch(IOException e) {
-      throw new EntityNotFoundException("Couldn't upload the file");
-    }
+    fileStorageService.store(file);
+    URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                .path("/images/{filename}")
+                                .buildAndExpand(file.getOriginalFilename())
+                                .toUri();
+
+    temp.setImage(location);
+    productRepository.save(temp);
   }
 
   public void deleteProduct(int id) {

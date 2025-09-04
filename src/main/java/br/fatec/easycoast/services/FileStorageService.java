@@ -28,15 +28,14 @@ public class FileStorageService {
     public void store(MultipartFile file) {
 		try {
 			if (file.isEmpty()) {
-				throw new IllegalArgumentException("Failed to store empty file.");
+				throw new IllegalArgumentException("Failed to store empty file!");
 			}
 			Path destinationFile = this.rootLocation.resolve(
 					Paths.get(file.getOriginalFilename()))
 					.normalize().toAbsolutePath();
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-				// This is a security check
 				throw new IllegalArgumentException(
-						"Cannot store file outside current directory.");
+						"Cannot store file outside current directory!");
 			}
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, destinationFile,
@@ -44,7 +43,7 @@ public class FileStorageService {
 			}
 		}
 		catch (IOException e) {
-			throw new IllegalArgumentException("Failed to store file.", e);
+			throw new IllegalArgumentException("Failed to store file!", e);
 		}
 	}
 

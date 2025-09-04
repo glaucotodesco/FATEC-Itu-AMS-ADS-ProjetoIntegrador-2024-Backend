@@ -1,16 +1,9 @@
 package br.fatec.easycoast.resources;
 
-import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,17 +22,13 @@ import br.fatec.easycoast.dtos.addonCategory.AddonCategoryResponse;
 import br.fatec.easycoast.dtos.product.ProductRequest;
 import br.fatec.easycoast.dtos.product.ProductResponse;
 import br.fatec.easycoast.services.AddonCategoryService;
-import br.fatec.easycoast.services.FileStorageService;
 import br.fatec.easycoast.services.ProductService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
 @RequestMapping("products")
 public class ProductController {
-  @Autowired
-  private FileStorageService fileStorageService;
 
   @Autowired
   private ProductService productService;
@@ -55,29 +44,6 @@ public class ProductController {
   @GetMapping("{id}/addonCategories")
   public ResponseEntity<List<AddonCategoryResponse>> getAddonCategoriesWithProductId(@PathVariable int id) {
     return ResponseEntity.ok(addonCategoryService.getAddonCategoriesByProductId(id));
-  }
-
-  @GetMapping("{id}/image")
-  public ResponseEntity<byte[]> showImage(@PathVariable int id) {
-    try{  
-      byte[] image = productService.getProductById(id).image();
-      Path file = Files.list(Paths.get("images").toAbsolutePath()).filter(f -> {
-        try {
-          return Files.readAllBytes(f.getFileName()).equals(image);
-        } catch (IOException e) {
-          return false;
-        }
-      }).findAny().get();
-
-      String type = Files.probeContentType(file);
-      if (type == null) type = "application/octet-stream";
-
-      return ResponseEntity.ok()
-                          .contentType(MediaType.parseMediaType(type))
-                          .body(image);
-    } catch(IOException | NoSuchElementException e) {
-      throw new EntityNotFoundException("Couldn't read the file!");
-    }
   }
 
   @GetMapping

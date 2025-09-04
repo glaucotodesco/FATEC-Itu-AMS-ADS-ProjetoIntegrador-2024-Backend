@@ -1,5 +1,6 @@
 package br.fatec.easycoast.dtos.product;
 
+import java.net.URI;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -16,7 +17,7 @@ public record ProductResponse(
         Double discount,
         Boolean availability,
         @JsonIgnoreProperties("products") SubcategoryResponse subcategory,
-        byte[] image,
+        URI image,
         @JsonIgnoreProperties("product") List<AddonCategory> addonCategories,
         List<Item> items
 
