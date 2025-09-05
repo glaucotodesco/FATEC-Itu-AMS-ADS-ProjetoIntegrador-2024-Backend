@@ -55,6 +55,8 @@ public class ProductService {
   public void setProductImage(int id, MultipartFile file){
     Product temp = productRepository.getReferenceById(id);
 
+    if (temp.getImage() == null) this.removeProductImage(id);
+
     fileStorageService.store(file);
     URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
                                 .path("/images/{filename}")
