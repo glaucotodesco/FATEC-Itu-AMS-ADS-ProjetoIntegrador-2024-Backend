@@ -54,11 +54,13 @@ public class ProductService {
 
   public void setProductImage(int id, MultipartFile file){
     Product temp = productRepository.getReferenceById(id);
+    System.out.println(file.getContentType());
+    String newFileName = "product" + id + "." + file.getContentType().split("/")[1];
 
-    fileStorageService.store(file);
+    fileStorageService.store(file, newFileName);
     URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
                                 .path("/images/{filename}")
-                                .buildAndExpand(file.getOriginalFilename())
+                                .buildAndExpand(newFileName)
                                 .toUri();
 
     temp.setImage(location);
