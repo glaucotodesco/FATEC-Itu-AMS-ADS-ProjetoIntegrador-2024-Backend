@@ -25,26 +25,29 @@ public class FileStorageService {
         this.rootLocation = Paths.get("images");
 	}
     
-    public void store(MultipartFile file) {
+    public void store(MultipartFile file, String newName) {
+		String name = newName.length() != 0 ? newName : file.getOriginalFilename();
+		
 		try {
 			if (file.isEmpty()) {
 				throw new IllegalArgumentException("Failed to store empty file!");
 			}
-			Path destinationFile = this.rootLocation.resolve(
-					Paths.get(file.getOriginalFilename()))
-					.normalize().toAbsolutePath();
+			Path destinationFile = this.rootLocation.resolve(Paths.get(name))
+													.normalize().toAbsolutePath();
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-				throw new IllegalArgumentException(
-						"Cannot store file outside current directory!");
+				throw new IllegalArgumentException("Cannot store file outside current directory!");
 			}
 			try (InputStream inputStream = file.getInputStream()) {
-				Files.copy(inputStream, destinationFile,
-					StandardCopyOption.REPLACE_EXISTING);
+				Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
 			}
 		}
 		catch (IOException e) {
 			throw new IllegalArgumentException("Failed to store file!", e);
 		}
+	}
+
+	public void store(MultipartFile file){
+		store(file, "");
 	}
 
     public Path load(String filename) {
