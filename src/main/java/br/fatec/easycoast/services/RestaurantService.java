@@ -1,7 +1,13 @@
 package br.fatec.easycoast.services;
 
+import java.net.URI;
+import java.util.List;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.restaurant.RestaurantRequest;
 import br.fatec.easycoast.dtos.restaurant.RestaurantResponse;
@@ -14,7 +20,10 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class RestaurantService {
     @Autowired
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private FileStorageService fileStorageService;
 
     public RestaurantResponse getRestaurant() { // There will be only one restaurant in the DB
         // After catching the restaurant, turn it to a DTO
@@ -59,5 +68,30 @@ public class RestaurantService {
         } catch (EntityNotFoundException e) {
             throw new DatabaseException("The Restaurant hasn't been created yet!");
         }
+    }
+
+    public void addRestaurantImage(MultipartFile file){
+        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+
+        Restaurant temp = restaurantRepository.getReferenceById(1);
+        String filename = file.getOriginalFilename();
+
+        if(fileStorageService.load(filename) != null){
+            String type = file.getContentType().split("/")[1];
+            for(int i = 1; fileStorageService.load(filename) != null; i++){
+                filename = file.getOriginalFilename().replace("." + type, "") + "-" + RandomStringUtils.randomAlphanumeric(i) + "." + type;
+            }
+        }
+
+        fileStorageService.store(file, filename);
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                    .path("/images/{filename}")
+                                    .buildAndExpand(filename)
+                                    .toUri();
+        List<String> newImages = temp.getImages();
+        newImages.add(location.toString());
+
+        temp.setImages(newImages);
+        restaurantRepository.save(temp);
     }
 }

@@ -37,6 +37,8 @@ public class ProductService {
   }
 
   public void updateProduct(int id, ProductRequest request) {
+    if (!productRepository.existsById(id)) throw new EntityNotFoundException("Product not found!");
+
     Product temp = productRepository.getReferenceById(id);
 
     temp.setName(request.name());
@@ -53,6 +55,8 @@ public class ProductService {
   }
 
   public void setProductImage(int id, MultipartFile file){
+    if (!productRepository.existsById(id)) throw new EntityNotFoundException("Product not found!");
+
     Product temp = productRepository.getReferenceById(id);
     if (temp.getImage() != null) this.removeProductImage(id);
     
@@ -69,7 +73,10 @@ public class ProductService {
   }
 
   public void removeProductImage(int id){
+    if (!productRepository.existsById(id)) throw new EntityNotFoundException("Product not found!");
+
     Product temp = productRepository.getReferenceById(id);
+    if(temp.getImage() == null) throw new EntityNotFoundException("This product doesn't have a image");
 
     String[] path = temp.getImage().getPath().split("/");
     fileStorageService.deleteFile(path[path.length - 1]);

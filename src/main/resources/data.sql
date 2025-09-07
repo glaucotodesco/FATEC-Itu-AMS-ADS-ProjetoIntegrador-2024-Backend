@@ -1,5 +1,5 @@
 
-INSERT INTO TBL_RESTAURANT (NAME, ZIP_CODE, NEIGHBORHOOD, ADDRESS, NUMBER, STATE, CITY, WHO_ARE_WE, SEATS) VALUES ('Polvo Provençal', '12345-678', 'Jose Andrade', 'R. tal tal', '123', 'SP', 'SOROCABA', 'Um ótimo restaurante', 0);
+INSERT INTO TBL_RESTAURANT (NAME, ZIP_CODE, NEIGHBORHOOD, ADDRESS, NUMBER, STATE, CITY, WHO_ARE_WE, SEATS, IMAGES) VALUES ('Polvo Provençal', '12345-678', 'Jose Andrade', 'R. tal tal', '123', 'SP', 'SOROCABA', 'Um ótimo restaurante', 0, '{}');
 
 INSERT INTO TBL_RESTAURANT_LINK (SITE, URL, RESTAURANT_ID) VALUES ('Facebook', 'https://www.facebook.com', 1);
 INSERT INTO TBL_RESTAURANT_LINK (SITE, URL, RESTAURANT_ID) VALUES ('Instagram', 'https://www.instagram.com', 1);

@@ -48,11 +48,12 @@ public class FileStorageController {
     @GetMapping("/{filename}")
 	@ResponseBody
 	public ResponseEntity<byte[]> showImage(@PathVariable String filename) {
-        Path file = storageService.load(filename).normalize();
+        Path file = storageService.load(filename);
+        if(file == null) throw new EntityNotFoundException("Couldn't find file: " + filename);
 
         try {
-            byte[] content = Files.readAllBytes(file);
-            String type = Files.probeContentType(file);
+            byte[] content = Files.readAllBytes(file.normalize());
+            String type = Files.probeContentType(file.normalize());
             if (type == null) type = "application/octet-stream";
             
             return ResponseEntity.ok()

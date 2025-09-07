@@ -52,15 +52,22 @@ public class FileStorageService {
 
     public Path load(String filename) {
 		try{
-			return rootLocation.resolve(filename);
+			Path uri = rootLocation.resolve(filename);
+			Resource resource = new UrlResource(uri.toUri());
+			if (resource.exists() || resource.isReadable()) {return uri;}
+			else {return null;}
 		} catch (InvalidPathException e){
-			throw new EntityNotFoundException("File not found!");
+			return null;
+		} catch (MalformedURLException e){
+			return null;
 		}
 	}
 
     public Resource loadAsResource(String filename) {
 		try {
 			Path file =  this.load(filename);
+			if(file == null) throw new EntityNotFoundException("Could not find file: " + filename);
+
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
@@ -82,7 +89,7 @@ public class FileStorageService {
 		try {
 			Files.move(file, rootLocation.resolve("deleted").resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
-			throw new EntityNotFoundException("Couldn't reada the file:" + filename);
+			throw new EntityNotFoundException("Couldn't read the file:" + filename);
 		}
 	}
 
