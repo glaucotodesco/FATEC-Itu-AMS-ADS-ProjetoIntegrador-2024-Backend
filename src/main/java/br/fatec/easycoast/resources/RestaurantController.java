@@ -5,7 +5,9 @@ import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,5 +56,11 @@ public class RestaurantController {
     public ResponseEntity<Void> addImage(@RequestParam MultipartFile file){
         restaurantService.addRestaurantImage(file);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("images/{filename}")
+    public ResponseEntity<Void> removeImage(@PathVariable String filename){
+        restaurantService.removeRestaurantImage(filename);
+        return ResponseEntity.noContent().build();
     }
 }

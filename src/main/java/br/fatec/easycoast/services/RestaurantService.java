@@ -1,6 +1,7 @@
 package br.fatec.easycoast.services;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -38,6 +39,7 @@ public class RestaurantService {
         }
         Restaurant restaurant = RestaurantMapper.toEntity(request);
         restaurant.setSeats(0);
+        restaurant.setImages(new ArrayList<String>());
         restaurant = restaurantRepository.save(restaurant);
         return RestaurantMapper.toDto(restaurant);
     }
@@ -92,6 +94,25 @@ public class RestaurantService {
         newImages.add(location.toString());
 
         temp.setImages(newImages);
+        restaurantRepository.save(temp);
+    }
+
+    public void removeRestaurantImage(String filename){
+        if (!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+        if (fileStorageService.load(filename) == null) throw new EntityNotFoundException("Couldn't find image: " + filename);
+
+        String auxUri = ServletUriComponentsBuilder
+                        .fromCurrentContextPath()
+                        .path("/images/{filename}")
+                        .buildAndExpand(filename)
+                        .toUri().toString();
+
+        Restaurant temp = restaurantRepository.getReferenceById(1);
+        List<String> newList = temp.getImages().stream().filter(uri -> !uri.equals(auxUri)).toList();
+
+        fileStorageService.deleteFile(filename);
+        temp.setImages(newList);
+        
         restaurantRepository.save(temp);
     }
 }
