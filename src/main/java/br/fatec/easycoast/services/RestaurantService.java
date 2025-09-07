@@ -76,7 +76,7 @@ public class RestaurantService {
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
         Restaurant temp = restaurantRepository.getReferenceById(1);
-        //if (temp.getLogo() != null) this.removeRestaurantLogo();
+        if (temp.getLogo() != null) this.removeRestaurantLogo();
         
         String newFileName = "restaurantLogo" + "." + file.getContentType().split("/")[1];
 
@@ -94,7 +94,7 @@ public class RestaurantService {
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
         Restaurant temp = restaurantRepository.getReferenceById(1);
-        //if (temp.getBanner() != null) this.removeRestaurantBanner();
+        if (temp.getBanner() != null) this.removeRestaurantBanner();
         
         String newFileName = "restaurantBanner" + "." + file.getContentType().split("/")[1];
 
@@ -130,6 +130,32 @@ public class RestaurantService {
         newImages.add(location.toString());
 
         temp.setImages(newImages);
+        restaurantRepository.save(temp);
+    }
+
+    public void removeRestaurantLogo(){
+        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+
+        Restaurant temp = restaurantRepository.getReferenceById(1);
+        if(temp.getLogo() == null) throw new EntityNotFoundException("Restaurant doesn't have a logo!");
+
+        String[] path = temp.getLogo().getPath().split("/");
+        fileStorageService.deleteFile(path[path.length - 1]);
+        temp.setLogo(null);
+        
+        restaurantRepository.save(temp);
+    }
+
+    public void removeRestaurantBanner(){
+        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+
+        Restaurant temp = restaurantRepository.getReferenceById(1);
+        if(temp.getBanner() == null) throw new EntityNotFoundException("Restaurant doesn't have a banner!");
+
+        String[] path = temp.getBanner().getPath().split("/");
+        fileStorageService.deleteFile(path[path.length - 1]);
+        temp.setBanner(null);
+        
         restaurantRepository.save(temp);
     }
 

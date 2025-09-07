@@ -87,6 +87,7 @@ public class ProductService {
 
   public void deleteProduct(int id) {
     if (productRepository.existsById(id)) {
+      removeProductImage(id);
       productRepository.deleteById(id);
     } else {
       throw new EntityNotFoundException("Product not found!");

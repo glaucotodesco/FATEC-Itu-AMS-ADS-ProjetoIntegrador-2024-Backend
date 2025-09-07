@@ -70,6 +70,18 @@ public class RestaurantController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("logo")
+    public ResponseEntity<Void> removeLogo(){
+        restaurantService.removeRestaurantLogo();
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("banner")
+    public ResponseEntity<Void> removeBanner(){
+        restaurantService.removeRestaurantBanner();
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("images/{filename}")
     public ResponseEntity<Void> removeImage(@PathVariable String filename){
         restaurantService.removeRestaurantImage(filename);
