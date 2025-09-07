@@ -44,7 +44,7 @@ public class Restaurant {
 
     private URI logo;
     private URI banner;
-    private List<URI> images;
+    private List<String> images;
 
     private Integer seats;
     
@@ -129,11 +129,11 @@ public class Restaurant {
         this.banner = banner;
     }
 
-    public List<URI> getImages() {
+    public List<String> getImages() {
         return images;
     }
 
-    public void setImages(List<URI> images) {
+    public void setImages(List<String> images) {
         this.images = images;
     }
 }

@@ -54,7 +54,7 @@ public class ProductService {
 
   public void setProductImage(int id, MultipartFile file){
     Product temp = productRepository.getReferenceById(id);
-    if (temp.getImage() == null) this.removeProductImage(id);
+    if (temp.getImage() != null) this.removeProductImage(id);
     
     String newFileName = "product" + id + "." + file.getContentType().split("/")[1];
 

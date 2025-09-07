@@ -19,7 +19,7 @@ public record RestaurantRequest(
     List<RestaurantScheduling> schedulings,
     URI logo,
     URI banner,
-    List<URI> images
+    List<String> images
 ) {
 
 }
