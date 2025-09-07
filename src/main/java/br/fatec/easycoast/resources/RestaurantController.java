@@ -58,6 +58,18 @@ public class RestaurantController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("logo")
+    public ResponseEntity<Void> setLogo(@RequestParam MultipartFile file){
+        restaurantService.setRestaurantLogo(file);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("banner")
+    public ResponseEntity<Void> setBanner(@RequestParam MultipartFile file){
+        restaurantService.setRestaurantBanner(file);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("images/{filename}")
     public ResponseEntity<Void> removeImage(@PathVariable String filename){
         restaurantService.removeRestaurantImage(filename);

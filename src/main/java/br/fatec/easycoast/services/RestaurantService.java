@@ -72,6 +72,42 @@ public class RestaurantService {
         }
     }
 
+    public void setRestaurantLogo(MultipartFile file){
+        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+
+        Restaurant temp = restaurantRepository.getReferenceById(1);
+        //if (temp.getLogo() != null) this.removeRestaurantLogo();
+        
+        String newFileName = "restaurantLogo" + "." + file.getContentType().split("/")[1];
+
+        fileStorageService.store(file, newFileName);
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                    .path("/images/{filename}")
+                                    .buildAndExpand(newFileName)
+                                    .toUri();
+
+        temp.setLogo(location);
+        restaurantRepository.save(temp);
+    }
+
+    public void setRestaurantBanner(MultipartFile file){
+        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+
+        Restaurant temp = restaurantRepository.getReferenceById(1);
+        //if (temp.getBanner() != null) this.removeRestaurantBanner();
+        
+        String newFileName = "restaurantBanner" + "." + file.getContentType().split("/")[1];
+
+        fileStorageService.store(file, newFileName);
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                    .path("/images/{filename}")
+                                    .buildAndExpand(newFileName)
+                                    .toUri();
+
+        temp.setBanner(location);
+        restaurantRepository.save(temp);
+    }
+
     public void addRestaurantImage(MultipartFile file){
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
