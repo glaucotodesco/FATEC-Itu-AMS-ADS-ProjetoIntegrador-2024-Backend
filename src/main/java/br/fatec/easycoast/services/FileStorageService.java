@@ -22,22 +22,27 @@ public class FileStorageService {
     private final Path rootLocation;
 
 	public FileStorageService() {
+		//Setting the base image directory
         this.rootLocation = Paths.get("images");
 	}
     
     public void store(MultipartFile file, String newName) {
+		//Verify if the file will have a custom name
 		String name = newName.length() != 0 ? newName : file.getOriginalFilename();
 		
 		try {
 			if (file.isEmpty()) {
 				throw new IllegalArgumentException("Failed to store empty file!");
 			}
+			//The directory and name the file will be saved
 			Path destinationFile = this.rootLocation.resolve(Paths.get(name))
 													.normalize().toAbsolutePath();
+			//Check if the directory is correct
 			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
 				throw new IllegalArgumentException("Cannot store file outside current directory!");
 			}
 			try (InputStream inputStream = file.getInputStream()) {
+				//Save the file in the directory
 				Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
 			}
 		}
@@ -46,15 +51,20 @@ public class FileStorageService {
 		}
 	}
 
+	//Save a file without a custom name
 	public void store(MultipartFile file){
 		store(file, "");
 	}
 
     public Path load(String filename) {
 		try{
+			//Get the possible URI
 			Path uri = rootLocation.resolve(filename);
+			//Get it as a resource
 			Resource resource = new UrlResource(uri.toUri());
+			//If it exists, return the URI
 			if (resource.exists() || resource.isReadable()) {return uri;}
+			//Else
 			else {return null;}
 		} catch (InvalidPathException e){
 			return null;
@@ -65,6 +75,7 @@ public class FileStorageService {
 
     public Resource loadAsResource(String filename) {
 		try {
+			//Get the path of the file
 			Path file =  this.load(filename);
 			if(file == null) throw new EntityNotFoundException("Could not find file: " + filename);
 
@@ -73,9 +84,7 @@ public class FileStorageService {
 				return resource;
 			}
 			else {
-				throw new EntityNotFoundException(
-						"Could not read file: " + filename);
-
+				throw new EntityNotFoundException("Could not read file: " + filename);
 			}
 		}
 		catch (MalformedURLException e) {
@@ -85,8 +94,10 @@ public class FileStorageService {
 
 	public void deleteFile(String filename){
 		Path file = this.load(filename);
+		if(file == null) throw new EntityNotFoundException("Couldn't found the file: " + filename);
 
 		try {
+			//Move the file to the "deleted" directory
 			Files.move(file, rootLocation.resolve("deleted").resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException e) {
 			throw new EntityNotFoundException("Couldn't read the file:" + filename);
@@ -95,6 +106,7 @@ public class FileStorageService {
 
     public void init() {
 		try {
+			//Creating the needed directories
 			Files.createDirectories(rootLocation);
 			Files.createDirectories(rootLocation.resolve("deleted"));
 		}

@@ -1,7 +1,6 @@
 package br.fatec.easycoast.resources;
 
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -12,18 +11,22 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.services.FileStorageService;
 import jakarta.persistence.EntityNotFoundException;
+
+/* For the tests 
+import java.net.URI;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+*/
 
 @Controller
 @CrossOrigin
@@ -32,8 +35,9 @@ public class FileStorageController {
     @Autowired
     private FileStorageService storageService;
 
-    @PostMapping()
-	public ResponseEntity<Void> handleFileUpload(@RequestParam() MultipartFile file) {
+    //This was for testing
+    /*@PostMapping()
+	public ResponseEntity<Void> handleFileUpload(@RequestParam MultipartFile file) {
         storageService.store(file);
 
         URI location = ServletUriComponentsBuilder
@@ -43,19 +47,23 @@ public class FileStorageController {
                 .toUri();
 
 		return ResponseEntity.created(location).build();
-	}
+	}*/
 
     @GetMapping("/{filename}")
 	@ResponseBody
 	public ResponseEntity<byte[]> showImage(@PathVariable String filename) {
+        //Load the path
         Path file = storageService.load(filename);
         if(file == null) throw new EntityNotFoundException("Couldn't find file: " + filename);
 
         try {
+            //Get the bytes of the file
             byte[] content = Files.readAllBytes(file.normalize());
+            //Get his content type
             String type = Files.probeContentType(file.normalize());
             if (type == null) type = "application/octet-stream";
             
+            //Show it in the ResponseEntity
             return ResponseEntity.ok()
                                 .contentType(MediaType.parseMediaType(type))
                                 .body(content);
@@ -66,18 +74,20 @@ public class FileStorageController {
 
     @GetMapping("/{filename}/download")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
-
+        //Get the file as a resourse
 		Resource file = storageService.loadAsResource(filename);
 
 		if (file == null) throw new EntityNotFoundException("Couldn't read file: " + filename);
-
+        
+        //Return the file to download in the ResponsEntity
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
 	}
 
-    @DeleteMapping("/{filename}")
+    //This was for testing
+    /*@DeleteMapping("/{filename}")
     public ResponseEntity<Void> deleteFile(@PathVariable String filename) {
         storageService.deleteFile(filename);
         return ResponseEntity.ok().build();
-    }
+    }*/
 }

@@ -60,14 +60,18 @@ public class ProductService {
     Product temp = productRepository.getReferenceById(id);
     if (temp.getImage() != null) this.removeProductImage(id);
     
+    //Every product image will have a custom name for each product
     String newFileName = "product" + id + "." + file.getContentType().split("/")[1];
 
+    //Save the image
     fileStorageService.store(file, newFileName);
+    //Get the URI of the image to show
     URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
                                 .path("/images/{filename}")
                                 .buildAndExpand(newFileName)
                                 .toUri();
 
+    //Set the image in the product
     temp.setImage(location);
     productRepository.save(temp);
   }
@@ -78,8 +82,11 @@ public class ProductService {
     Product temp = productRepository.getReferenceById(id);
     if(temp.getImage() == null) throw new EntityNotFoundException("This product doesn't have a image");
 
+    //Get the file name in the URI
     String[] path = temp.getImage().getPath().split("/");
+    //Delete the image
     fileStorageService.deleteFile(path[path.length - 1]);
+    //Set the product image as null
     temp.setImage(null);
     
     productRepository.save(temp);
