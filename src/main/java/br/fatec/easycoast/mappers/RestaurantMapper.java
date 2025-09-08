@@ -13,9 +13,6 @@ public class RestaurantMapper {
         restaurant.setWhoAreWe(request.whoAreWe());
         restaurant.setLinks(request.links());
         restaurant.setSchedulings(request.schedulings());
-        restaurant.setLogo(request.logo());
-        restaurant.setBanner(request.banner());
-        restaurant.setImages(request.images());
 
         return restaurant;
     }

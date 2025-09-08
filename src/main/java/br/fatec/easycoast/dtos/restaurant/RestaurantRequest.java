@@ -1,6 +1,5 @@
 package br.fatec.easycoast.dtos.restaurant;
 
-import java.net.URI;
 import java.util.List;
 
 import jakarta.validation.Valid;
@@ -16,10 +15,7 @@ public record RestaurantRequest(
     @Valid
     List<Link> links,
     @Valid
-    List<RestaurantScheduling> schedulings,
-    URI logo,
-    URI banner,
-    List<String> images
+    List<RestaurantScheduling> schedulings
 ) {
 
 }

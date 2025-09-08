@@ -8,7 +8,6 @@ public class CardMapper {
     public static Card toEntity(CardRequest request) {
         Card card = new Card();
         card.setActive(request.active());
-        card.setCopy(request.copy());
         return card;
     }
 
