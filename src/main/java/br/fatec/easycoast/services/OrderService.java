@@ -5,10 +5,14 @@ import org.springframework.stereotype.Service;
 
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
+import br.fatec.easycoast.entities.Card;
 import br.fatec.easycoast.entities.Order;
 import br.fatec.easycoast.mappers.OrderMapper;
+import br.fatec.easycoast.repositories.CardRepository;
 import br.fatec.easycoast.repositories.OrderRepository;
+import br.fatec.easycoast.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
+
 
 import java.util.List;
 
@@ -17,6 +21,9 @@ public class OrderService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private CardRepository cardRepository;
 
     @Autowired
     private OrderItemService orderItemService;
@@ -37,9 +44,20 @@ public class OrderService {
     }
 
     public OrderResponse saveOrder(OrderRequest request) {
-        Order order = OrderMapper.toEntity(request);
+        Card card = cardRepository.findById(request.card().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Card not found!"));
 
-        return OrderMapper.toDTO(orderRepository.save(order));
+        if (card.getOrder() != null) {
+            throw new DatabaseException("Card already has an open order!");
+        }
+
+        Order order = OrderMapper.toEntity(request);
+        order = orderRepository.save(order);
+
+        card.setOrder(order);
+        cardRepository.save(card);
+
+        return OrderMapper.toDTO(order);
     }
 
     public OrderResponse updateOrder(Integer id, OrderRequest request) {
@@ -54,6 +72,12 @@ public class OrderService {
             order.setSeat(request.seat());
             order.setEmployee(request.employee());
             order.setOrderItems(request.orderItems());
+
+            if (request.closingTime() != null) {
+                Card card = order.getCard();
+                card.setOrder(null);
+                cardRepository.save(card);
+            }
 
             orderRepository.save(order);
             return OrderMapper.toDTO(order);

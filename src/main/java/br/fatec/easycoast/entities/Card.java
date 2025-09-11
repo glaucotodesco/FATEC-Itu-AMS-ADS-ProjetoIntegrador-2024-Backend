@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,6 +21,10 @@ public class Card {
 
     @Column(nullable = false)
     private Integer copy;
+    
+    @OneToOne
+    @JoinColumn(name = "ORDER_ID")
+    private Order order;
 
     public Card() { }
 
@@ -50,5 +56,13 @@ public class Card {
 
     public void setCopy(Integer copy) {
         this.copy = copy;
+    }
+    
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
