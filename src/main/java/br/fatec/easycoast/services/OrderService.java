@@ -13,7 +13,6 @@ import br.fatec.easycoast.repositories.OrderRepository;
 import br.fatec.easycoast.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
 
-
 import java.util.List;
 
 @Service
@@ -63,7 +62,7 @@ public class OrderService {
     public OrderResponse updateOrder(Integer id, OrderRequest request) {
         try {
             Order order = orderRepository.findById(id)
-                    .orElseThrow(() -> new RuntimeException("Order not found by ID: " + id));
+                    .orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
 
             // Atualiza os campos do pedido
             order.setOpeningTime(request.openingTime());
@@ -73,8 +72,13 @@ public class OrderService {
             order.setEmployee(request.employee());
             order.setOrderItems(request.orderItems());
 
+            // Se o pedido está sendo fechado (closingTime não é nulo)
             if (request.closingTime() != null) {
-                Card card = order.getCard();
+                // Busca o card completo do banco de dados para evitar o erro de campos nulos
+                Card card = cardRepository.findById(order.getCard().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Card not found!"));
+                
+                // Desassocia o pedido do card
                 card.setOrder(null);
                 cardRepository.save(card);
             }
@@ -82,7 +86,7 @@ public class OrderService {
             orderRepository.save(order);
             return OrderMapper.toDTO(order);
         } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Order update failed.");
+            throw new EntityNotFoundException("Order update failed. Reason: " + e.getMessage());
         }
     }
 
