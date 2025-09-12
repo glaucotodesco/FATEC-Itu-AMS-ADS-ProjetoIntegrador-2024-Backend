@@ -1,5 +1,7 @@
 package br.fatec.easycoast.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class Card {
     
     @OneToOne
     @JoinColumn(name = "ORDER_ID")
+    @JsonIgnoreProperties("card")
     private Order order;
 
     public Card() { }

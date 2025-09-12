@@ -1,5 +1,6 @@
 package br.fatec.easycoast.mappers;
 
+import java.util.Collections;
 import java.util.List;
 
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
@@ -35,11 +36,13 @@ public class OrderItemMapper {
     }
 
     public static List<OrderItemResponse> toListDTO(List<OrderItem> orderItems) {
-        List<OrderItemResponse> orderItemResponses = orderItems
-                .stream()
-                .map(orderItem -> toDTO(orderItem))
-                .toList();
-        return orderItemResponses;
+        if (orderItems != null) {
+            List<OrderItemResponse> orderItemResponses = orderItems
+                    .stream()
+                    .map(orderItem -> toDTO(orderItem))
+                    .toList();
+            return orderItemResponses;
+        }
+        return Collections.emptyList();
     }
-
 }
