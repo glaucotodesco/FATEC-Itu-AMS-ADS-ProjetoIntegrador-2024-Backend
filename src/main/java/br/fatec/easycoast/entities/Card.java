@@ -26,7 +26,7 @@ public class Card {
     
     @OneToOne
     @JoinColumn(name = "ORDER_ID")
-    @JsonIgnoreProperties("card")
+    @JsonIgnoreProperties("card") 
     private Order order;
 
     public Card() { }

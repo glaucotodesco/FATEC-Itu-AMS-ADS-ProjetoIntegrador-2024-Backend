@@ -56,4 +56,9 @@ public class OrderController {
         return ResponseEntity.ok(orderResponse);
     }
 
+    @PutMapping("{id}/close")
+    public ResponseEntity<Void> closeOrder(@PathVariable int id) {
+        orderService.closeOrder(id);
+        return ResponseEntity.noContent().build();
+    }
 }

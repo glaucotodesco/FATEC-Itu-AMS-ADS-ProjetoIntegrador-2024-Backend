@@ -1,5 +1,6 @@
 package br.fatec.easycoast.mappers;
 
+import br.fatec.easycoast.dtos.card.CardResponse; 
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
 import br.fatec.easycoast.entities.Order;
@@ -9,7 +10,6 @@ public class OrderMapper {
     public static Order toEntity(OrderRequest request) {
         Order order = new Order();
         order.setOpeningTime(request.openingTime());
-        order.setClosingTime(request.closingTime());
         order.setCard(request.card());
         order.setSeat(request.seat());
         order.setEmployee(request.employee());
@@ -19,12 +19,22 @@ public class OrderMapper {
     }
 
     public static OrderResponse toDTO(Order order) {
+        CardResponse cardResponse = null;
+        if (order.getCard() != null) {
+            cardResponse = new CardResponse(
+                order.getCard().getId(),
+                order.getCard().getActive(),
+                order.getCard().getCopy(),
+                null
+            );
+        }
+
         return new OrderResponse(
                 order.getId(),
                 order.getOpeningTime(),
                 order.getClosingTime(),
                 order.getTotal(),
-                order.getCard(),
+                cardResponse, 
                 order.getSeat(),
                 order.getEmployee(),
                 OrderItemMapper.toListDTO(order.getOrderItems()));

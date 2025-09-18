@@ -1,7 +1,9 @@
 package br.fatec.easycoast.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
@@ -13,6 +15,7 @@ import br.fatec.easycoast.repositories.OrderRepository;
 import br.fatec.easycoast.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -64,30 +67,44 @@ public class OrderService {
             Order order = orderRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
 
+            // Lança uma exceção se o pedido já estiver fechado
+            if (order.getClosingTime() != null) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot update a closed order.");
+            }
+
             // Atualiza os campos do pedido
             order.setOpeningTime(request.openingTime());
-            order.setClosingTime(request.closingTime());
+            // O closingTime não é mais atualizado por aqui
             order.setCard(request.card());
             order.setSeat(request.seat());
             order.setEmployee(request.employee());
             order.setOrderItems(request.orderItems());
-
-            // Se o pedido está sendo fechado (closingTime não é nulo)
-            if (request.closingTime() != null) {
-                // Busca o card completo do banco de dados para evitar o erro de campos nulos
-                Card card = cardRepository.findById(order.getCard().getId())
-                    .orElseThrow(() -> new EntityNotFoundException("Card not found!"));
-                
-                // Desassocia o pedido do card
-                card.setOrder(null);
-                cardRepository.save(card);
-            }
 
             orderRepository.save(order);
             return OrderMapper.toDTO(order);
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Order update failed. Reason: " + e.getMessage());
         }
+    }
+
+    public void closeOrder(Integer id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
+
+        if (order.getClosingTime() != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Order is already closed.");
+        }
+
+        order.setClosingTime(Instant.now());
+
+        // Desassocia o pedido do card
+        Card card = order.getCard();
+        if (card != null) {
+            card.setOrder(null);
+            cardRepository.save(card);
+        }
+
+        orderRepository.save(order);
     }
 
     public void updateTotal(Integer id) {
