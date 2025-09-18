@@ -1,4 +1,3 @@
-// renatoluizcardoso/fatec-itu-ams-ads-projetointegrador-2025-backend/FATEC-Itu-AMS-ADS-ProjetoIntegrador-2025-Backend-feature-issue122/src/main/java/br/fatec/easycoast/services/OrderService.java
 package br.fatec.easycoast.services;
 
 import br.fatec.easycoast.dtos.order.OrderRequest;
@@ -69,7 +68,6 @@ public class OrderService {
                 .orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
 
         if (order.getClosingTime() != null) {
-            // ✅ MUDANÇA AQUI
             throw new IllegalStateException("Cannot update a closed order.");
         }
 
@@ -82,7 +80,6 @@ public class OrderService {
                     .orElseThrow(() -> new EntityNotFoundException("New card not found with ID: " + newCardFromRequest.getId()));
 
             if (newCard.getOrder() != null) {
-                // ✅ MUDANÇA AQUI
                 throw new IllegalStateException("Card " + newCard.getId() + " is already in use.");
             }
             
@@ -111,7 +108,6 @@ public class OrderService {
                 .orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
 
         if (order.getClosingTime() != null) {
-            // ✅ MUDANÇA AQUI
             throw new IllegalStateException("Order is already closed.");
         }
 
