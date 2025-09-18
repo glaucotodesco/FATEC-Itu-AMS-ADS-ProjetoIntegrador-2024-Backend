@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     build:
       context: .
-      target: ${DOCKER_BUILD_STAGE:-dev}
+      target: ${DOCKER_BUILD_STAGE:-prod}
     develop:
       watch:
         - path: ./src/
@@ -19,6 +19,8 @@ services:
       easycoast:
     ports:
       - ${APP_PORT:-8080}:8080
+    volumes:
+      - mvn_deps:/root/.m2
 
   database:
     image: docker.io/library/postgres
@@ -37,6 +39,7 @@ services:
 
 volumes:
   database:
+  mvn_deps:
 
 networks:
   easycoast:

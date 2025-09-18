@@ -6,9 +6,9 @@ FROM ${MAVEN_IMAGE} AS build
 ARG WORKDIR
 WORKDIR ${WORKDIR}
 COPY ./pom.xml ${WORKDIR}
-RUN --mount=type=cache,id=maven,target=/deps [ "mvn", "dependency:go-offline", "-Dmaven.repo.local=/deps" ]
+RUN [ "mvn", "dependency:go-offline" ]
 COPY ./src ${WORKDIR}/src
-RUN --mount=type=cache,id=maven,target=/deps [ "mvn", "package", "-DskipTests", "-Dmaven.repo.local=/deps" ]
+RUN [ "mvn", "package", "-DskipTests" ]
 
 FROM ${JDK_IMAGE} AS prod
 ARG WORKDIR
@@ -20,4 +20,4 @@ FROM ${MAVEN_IMAGE} AS dev
 ARG WORKDIR
 WORKDIR ${WORKDIR}
 COPY . ${WORKDIR}
-CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=prod"]
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=dev"]
