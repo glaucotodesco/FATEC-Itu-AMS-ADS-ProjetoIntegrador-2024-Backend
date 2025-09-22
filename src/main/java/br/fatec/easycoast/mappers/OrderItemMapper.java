@@ -16,19 +16,18 @@ public class OrderItemMapper {
         orderItem.setAddons(request.addons());
         orderItem.setOrder(request.order());
         return orderItem;
-
     }
 
     public static OrderItemResponse toDTO(OrderItem orderItem, Boolean isPost) {
-
         return new OrderItemResponse(
                 orderItem.getId(),
                 orderItem.getQuantity(),
                 orderItem.getObservations(),
                 orderItem.getTotal(),
-                orderItem.getProduct() != null?  ProductMapper.toDTO(orderItem.getProduct()) : null,
-                orderItem.getAddons() != null?  AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null,
-                orderItem.getOrder());
+                orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
+                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null
+        // O último parâmetro "orderItem.getOrder()" foi REMOVIDO
+        );
     }
 
     public static OrderItemResponse toDTO(OrderItem orderItem) {

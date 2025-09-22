@@ -2,6 +2,8 @@ package br.fatec.easycoast.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,6 +36,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "ORDER_ID")
+    @JsonBackReference
     private Order order;
 
     // Getters e Setters

@@ -6,20 +6,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
+import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest; 
+import br.fatec.easycoast.entities.Order;
 import br.fatec.easycoast.services.OrderService;
 import jakarta.validation.Valid;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @CrossOrigin
 @RequestMapping("orders")
@@ -61,4 +62,22 @@ public class OrderController {
         orderService.closeOrder(id);
         return ResponseEntity.noContent().build();
     }
+    
+    @GetMapping("/by-card/{cardId}")
+    public ResponseEntity<Order> getOrderByCardId(@PathVariable Integer cardId) {
+        Order order = orderService.findActiveOrderByCardId(cardId);
+
+        if (order != null) {
+            return ResponseEntity.ok(order);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{id}/pay")
+    public ResponseEntity<Void> processPayment(@PathVariable Integer id, @Valid @RequestBody ProcessPaymentRequest request) {
+        orderService.processPayment(id, request);
+        return ResponseEntity.ok().build();
+    }
 }
+
