@@ -54,7 +54,7 @@ public class OrderService {
         Card card = cardRepository.findById(request.card().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Card not found!"));
         
-        // VALIDAÇÃO DE SEGURANÇA
+        // VALIDAÇÃO DE SEGURANÇA PARA VERIFICAR O STATUS DA COMANDA
         if (!card.getActive()) {
             throw new DatabaseException("Card is inactive and cannot be used for new orders.");
         }
