@@ -18,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
 import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest; 
-import br.fatec.easycoast.entities.Order;
 import br.fatec.easycoast.services.OrderService;
 import jakarta.validation.Valid;
 
@@ -64,8 +63,8 @@ public class OrderController {
     }
     
     @GetMapping("/by-card/{cardId}")
-    public ResponseEntity<Order> getOrderByCardId(@PathVariable Integer cardId) {
-        Order order = orderService.findActiveOrderByCardId(cardId);
+    public ResponseEntity<OrderResponse> getOrderByCardId(@PathVariable Integer cardId) {
+        OrderResponse order = orderService.findActiveOrderByCardId(cardId);
 
         if (order != null) {
             return ResponseEntity.ok(order);
@@ -80,4 +79,3 @@ public class OrderController {
         return ResponseEntity.ok().build();
     }
 }
-

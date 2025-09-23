@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
+import br.fatec.easycoast.dtos.orderItem.OrderItemResponseWithOrder;
 import br.fatec.easycoast.entities.OrderItem;
 
 public class OrderItemMapper {
@@ -26,21 +27,41 @@ public class OrderItemMapper {
                 orderItem.getTotal(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
                 orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null
-        // O último parâmetro "orderItem.getOrder()" foi REMOVIDO
         );
     }
 
     public static OrderItemResponse toDTO(OrderItem orderItem) {
         return toDTO(orderItem, null);
     }
+    
+    public static OrderItemResponseWithOrder toDTOWithOrder(OrderItem orderItem) {
+        return new OrderItemResponseWithOrder(
+                orderItem.getId(),
+                orderItem.getQuantity(),
+                orderItem.getObservations(),
+                orderItem.getTotal(),
+                orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
+                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), false) : null,
+                orderItem.getOrder() != null ? OrderMapper.toDTO(orderItem.getOrder()) : null
+        );
+    }
 
     public static List<OrderItemResponse> toListDTO(List<OrderItem> orderItems) {
         if (orderItems != null) {
-            List<OrderItemResponse> orderItemResponses = orderItems
+            return orderItems
                     .stream()
-                    .map(orderItem -> toDTO(orderItem))
+                    .map(OrderItemMapper::toDTO)
                     .toList();
-            return orderItemResponses;
+        }
+        return Collections.emptyList();
+    }
+    
+    public static List<OrderItemResponseWithOrder> toListDTOWithOrder(List<OrderItem> orderItems) {
+        if (orderItems != null) {
+            return orderItems
+                    .stream()
+                    .map(OrderItemMapper::toDTOWithOrder)
+                    .toList();
         }
         return Collections.emptyList();
     }

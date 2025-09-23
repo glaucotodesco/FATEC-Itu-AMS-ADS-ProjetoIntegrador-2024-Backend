@@ -23,7 +23,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -33,20 +35,20 @@ public class OrderService {
     @Autowired private CardRepository cardRepository;
     @Autowired private ProductRepository productRepository;
     @Autowired private PaymentRepository paymentRepository;
+    @Autowired private OrderItemService orderItemService;
 
     public List<OrderResponse> getOrders() {
         return orderRepository.findAll().stream().map(OrderMapper::toDTO).toList();
     }
 
-    public Order findActiveOrderByCardId(Integer cardId) {
+    public OrderResponse findActiveOrderByCardId(Integer cardId) {
         Order order = orderRepository.findByCardIdAndClosingTimeIsNull(cardId).orElse(null);
 
-        // Não retorna o pedido se a comanda associada a ele estiver inativa.
         if (order != null && (order.getCard() == null || !order.getCard().getActive())) {
             return null;
         }
         
-        return order;
+        return OrderMapper.toDTO(order);
     }
     
     @Transactional
@@ -54,7 +56,6 @@ public class OrderService {
         Card card = cardRepository.findById(request.card().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Card not found!"));
         
-        // VALIDAÇÃO DE SEGURANÇA PARA VERIFICAR O STATUS DA COMANDA
         if (!card.getActive()) {
             throw new DatabaseException("Card is inactive and cannot be used for new orders.");
         }
@@ -65,14 +66,25 @@ public class OrderService {
 
         Order order = OrderMapper.toEntity(request);
         order.setOpeningTime(Instant.now());
-        order.setTotal(0.0);
+        order.setOrderItems(Collections.emptyList()); 
         
-        order = orderRepository.save(order);
+        Order savedOrder = orderRepository.save(order);
+
+        if (request.orderItems() != null && !request.orderItems().isEmpty()) {
+            List<OrderItem> items = request.orderItems().stream().map(item -> {
+                item.setOrder(savedOrder);
+                item.setTotal(orderItemService.calculateOrderItemTotal(item));
+                return item;
+            }).collect(Collectors.toList());
+            savedOrder.setOrderItems(items);
+        }
         
-        card.setOrder(order);
+        updateTotal(savedOrder.getId());
+        
+        card.setOrder(savedOrder);
         cardRepository.save(card);
         
-        return OrderMapper.toDTO(order);
+        return OrderMapper.toDTO(orderRepository.findById(savedOrder.getId()).get());
     }
     
     @Transactional
@@ -80,7 +92,6 @@ public class OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
 
-        // VALIDAÇÃO DE SEGURANÇA
         if (order.getCard() != null && !order.getCard().getActive()) {
             throw new IllegalStateException("Associated card is inactive/blocked. Order cannot be updated.");
         }
@@ -97,9 +108,8 @@ public class OrderService {
                 newItem.setProduct(productEntity);
                 newItem.setQuantity(requestedItem.getQuantity());
                 newItem.setObservations(requestedItem.getObservations());
-                
-                double itemTotal = productEntity.getPrice() * requestedItem.getQuantity();
-                newItem.setTotal(itemTotal);
+                newItem.setAddons(requestedItem.getAddons());
+                newItem.setTotal(orderItemService.calculateOrderItemTotal(newItem));
                 
                 order.getOrderItems().add(newItem);
             }
@@ -117,14 +127,7 @@ public class OrderService {
                 .orElseThrow(() -> new EntityNotFoundException("Order not found to update total: " + id));
         
         double newTotal = order.getOrderItems().stream()
-                .mapToDouble(item -> {
-                    if (item.getProduct() != null && item.getProduct().getPrice() != null && item.getQuantity() != null) {
-                        double itemTotal = item.getProduct().getPrice() * item.getQuantity();
-                        item.setTotal(itemTotal);
-                        return itemTotal;
-                    }
-                    return 0.0;
-                })
+                .mapToDouble(OrderItem::getTotal)
                 .sum();
         
         order.setTotal(newTotal);
@@ -136,14 +139,12 @@ public class OrderService {
         Order updatedOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
 
-        // VALIDAÇÃO DE SEGURANÇA CRÍTICA
         if (updatedOrder.getCard() != null && !updatedOrder.getCard().getActive()) {
             throw new IllegalStateException("Associated card is inactive/blocked. Payment not allowed.");
         }
 
         updateTotal(orderId);
         
-        // Recarrega o pedido para garantir que o total está atualizado antes de validar o pagamento
         Order orderWithTotal = orderRepository.findById(orderId).get();
 
         if (orderWithTotal.getClosingTime() != null) {
@@ -190,7 +191,6 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    // MÉTODO para desativar a comanda
     @Transactional
     public void deactivateCard(Integer cardId) {
         Card card = cardRepository.findById(cardId)
