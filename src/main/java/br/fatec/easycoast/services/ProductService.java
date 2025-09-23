@@ -46,6 +46,10 @@ public class ProductService {
     productRepository.save(temp);
 
   }
+  public List<Product> findByNameContainingIgnoreCase(String name) {
+    // Este método simplesmente chama o método correspondente no repositório - usado na opção de adicionar um produto na tela de pagamento
+    return productRepository.findByNameContainingIgnoreCase(name);
+}
 
   public void deleteProduct(int id) {
     if (productRepository.existsById(id)) {
