@@ -25,6 +25,7 @@ public class OrderItemMapper {
                 orderItem.getQuantity(),
                 orderItem.getObservations(),
                 orderItem.getTotal(),
+                orderItem.getReversed(), 
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
                 orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null
         );
@@ -40,6 +41,7 @@ public class OrderItemMapper {
                 orderItem.getQuantity(),
                 orderItem.getObservations(),
                 orderItem.getTotal(),
+                orderItem.getReversed(), 
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
                 orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), false) : null,
                 orderItem.getOrder() != null ? OrderMapper.toDTO(orderItem.getOrder()) : null

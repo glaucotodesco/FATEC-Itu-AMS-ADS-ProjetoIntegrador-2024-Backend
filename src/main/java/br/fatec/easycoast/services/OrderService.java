@@ -109,6 +109,7 @@ public class OrderService {
                 newItem.setQuantity(requestedItem.getQuantity());
                 newItem.setObservations(requestedItem.getObservations());
                 newItem.setAddons(requestedItem.getAddons());
+                newItem.setReversed(requestedItem.getReversed());
                 newItem.setTotal(orderItemService.calculateOrderItemTotal(newItem));
                 
                 order.getOrderItems().add(newItem);
@@ -127,6 +128,7 @@ public class OrderService {
                 .orElseThrow(() -> new EntityNotFoundException("Order not found to update total: " + id));
         
         double newTotal = order.getOrderItems().stream()
+                .filter(item -> !Boolean.TRUE.equals(item.getReversed()))
                 .mapToDouble(OrderItem::getTotal)
                 .sum();
         
@@ -138,6 +140,14 @@ public class OrderService {
     public void processPayment(Integer orderId, ProcessPaymentRequest request) {
         Order updatedOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found: " + orderId));
+
+        long activeItemsCount = updatedOrder.getOrderItems().stream()
+                .filter(item -> !Boolean.TRUE.equals(item.getReversed()))
+                .count();
+
+        if (activeItemsCount == 0) {
+            throw new IllegalStateException("Cannot process payment for an order with no active items.");
+        }
 
         if (updatedOrder.getCard() != null && !updatedOrder.getCard().getActive()) {
             throw new IllegalStateException("Associated card is inactive/blocked. Payment not allowed.");
@@ -190,6 +200,24 @@ public class OrderService {
         
         orderRepository.save(order);
     }
+    
+    @Transactional
+    public void closeOrderWithoutPayment(Integer id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
+        if (order.getClosingTime() != null) {
+            throw new IllegalStateException("Order is already closed.");
+        }
+        order.setClosingTime(Instant.now());
+
+        Card card = order.getCard();
+        if (card != null) {
+            card.setOrder(null);
+            cardRepository.save(card);
+        }
+
+        orderRepository.save(order);
+    }
+
 
     @Transactional
     public void deactivateCard(Integer cardId) {
