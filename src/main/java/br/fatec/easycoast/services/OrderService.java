@@ -201,23 +201,7 @@ public class OrderService {
         orderRepository.save(order);
     }
     
-    @Transactional
-    public void closeOrderWithoutPayment(Integer id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
-        if (order.getClosingTime() != null) {
-            throw new IllegalStateException("Order is already closed.");
-        }
-        order.setClosingTime(Instant.now());
-
-        Card card = order.getCard();
-        if (card != null) {
-            card.setOrder(null);
-            cardRepository.save(card);
-        }
-
-        orderRepository.save(order);
-    }
-
+    
 
     @Transactional
     public void deactivateCard(Integer cardId) {

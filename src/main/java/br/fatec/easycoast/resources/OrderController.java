@@ -62,11 +62,7 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("{id}/close-without-payment")
-    public ResponseEntity<Void> closeOrderWithoutPayment(@PathVariable int id) {
-        orderService.closeOrderWithoutPayment(id);
-        return ResponseEntity.noContent().build();
-    }
+     
     
     @GetMapping("/by-card/{cardId}")
     public ResponseEntity<OrderResponse> getOrderByCardId(@PathVariable Integer cardId) {
