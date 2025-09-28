@@ -22,9 +22,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -92,30 +97,50 @@ public class OrderService {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found by ID: " + id));
 
+        if (order.getClosingTime() != null) {
+            throw new IllegalStateException("Order is closed and cannot be modified.");
+        }
+
         if (order.getCard() != null && !order.getCard().getActive()) {
             throw new IllegalStateException("Associated card is inactive/blocked. Order cannot be updated.");
         }
-
-        order.getOrderItems().clear();
-
+    
+        Map<Integer, OrderItem> existingItemsMap = order.getOrderItems().stream()
+                .collect(Collectors.toMap(OrderItem::getId, Function.identity()));
+    
         if (request.orderItems() != null) {
             for (OrderItem requestedItem : request.orderItems()) {
-                Product productEntity = productRepository.findById(requestedItem.getProduct().getId())
-                        .orElseThrow(() -> new EntityNotFoundException("Product not found"));
-
-                OrderItem newItem = new OrderItem();
-                newItem.setOrder(order);
-                newItem.setProduct(productEntity);
-                newItem.setQuantity(requestedItem.getQuantity());
-                newItem.setObservations(requestedItem.getObservations());
-                newItem.setAddons(requestedItem.getAddons());
-                newItem.setReversed(requestedItem.getReversed());
-                newItem.setTotal(orderItemService.calculateOrderItemTotal(newItem));
-                
-                order.getOrderItems().add(newItem);
+                if (requestedItem.getId() != null && existingItemsMap.containsKey(requestedItem.getId())) {
+                    OrderItem existingItem = existingItemsMap.get(requestedItem.getId());
+                    existingItem.setQuantity(requestedItem.getQuantity());
+                    existingItem.setObservations(requestedItem.getObservations());
+                    existingItem.setAddons(requestedItem.getAddons());
+                    existingItem.setReversed(requestedItem.getReversed()); 
+                    existingItem.setTotal(orderItemService.calculateOrderItemTotal(existingItem));
+                } else { 
+                    Product productEntity = productRepository.findById(requestedItem.getProduct().getId())
+                            .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+    
+                    OrderItem newItem = new OrderItem();
+                    newItem.setOrder(order);
+                    newItem.setProduct(productEntity);
+                    newItem.setQuantity(requestedItem.getQuantity());
+                    newItem.setObservations(requestedItem.getObservations());
+                    newItem.setAddons(requestedItem.getAddons());
+                    newItem.setReversed(requestedItem.getReversed());
+                    newItem.setTotal(orderItemService.calculateOrderItemTotal(newItem));
+                    order.getOrderItems().add(newItem);
+                }
             }
         }
         
+        List<Integer> requestItemIds = request.orderItems() != null ? 
+            request.orderItems().stream()
+            .map(OrderItem::getId)
+            .collect(Collectors.toList()) : Collections.emptyList();
+    
+        order.getOrderItems().removeIf(item -> item.getId() != null && !requestItemIds.contains(item.getId()));
+
         Order savedOrder = orderRepository.save(order);
         updateTotal(savedOrder.getId());
         
@@ -161,11 +186,16 @@ public class OrderService {
             throw new IllegalStateException("Este pedido já está fechado.");
         }
         
-        double orderTotal = orderWithTotal.getTotal() != null ? orderWithTotal.getTotal() : 0.0;
-        double orderTotalWithTip = orderTotal * 1.1; 
-        double totalPaid = request.payments().stream().mapToDouble(PaymentPart::amount).sum();
-        
-        if (Math.abs(totalPaid - orderTotalWithTip) > 0.01) {
+        double orderTotalDouble = orderWithTotal.getTotal() != null ? orderWithTotal.getTotal() : 0.0;
+        double totalPaidDouble = request.payments().stream().mapToDouble(PaymentPart::amount).sum();
+
+        BigDecimal orderTotal = BigDecimal.valueOf(orderTotalDouble).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal totalPaid = BigDecimal.valueOf(totalPaidDouble).setScale(2, RoundingMode.HALF_UP);
+
+        BigDecimal tipMultiplier = new BigDecimal("1.1");
+        BigDecimal orderTotalWithTip = orderTotal.multiply(tipMultiplier).setScale(2, RoundingMode.HALF_UP);
+
+        if (totalPaid.compareTo(orderTotalWithTip) != 0) {
             throw new IllegalStateException(
                 String.format("O valor pago (R$%.2f) não corresponde ao total do pedido com gorjeta (R$%.2f).", totalPaid, orderTotalWithTip)
             );

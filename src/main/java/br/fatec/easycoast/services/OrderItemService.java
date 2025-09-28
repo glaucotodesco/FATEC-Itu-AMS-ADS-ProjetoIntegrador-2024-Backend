@@ -73,6 +73,8 @@ public class OrderItemService {
             orderItem.setProduct(request.product());
             orderItem.setAddons(request.addons());
             orderItem.setOrder(request.order());
+            // A linha abaixo foi removida para impedir a alteração do estorno por este endpoint
+            // orderItem.setReversed(request.reversed()); 
             orderItem.setTotal(calculateOrderItemTotal(orderItem));
             orderItemRepository.save(orderItem);
         } catch (EntityNotFoundException e) {
