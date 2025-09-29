@@ -16,6 +16,7 @@ import br.fatec.easycoast.entities.OrderItem;
 import br.fatec.easycoast.mappers.OrderItemMapper;
 import br.fatec.easycoast.repositories.AddonRepository;
 import br.fatec.easycoast.repositories.OrderItemRepository;
+import br.fatec.easycoast.repositories.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -26,6 +27,9 @@ public class OrderItemService {
 
     @Autowired
     private AddonRepository addonRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private AddonService addonService;
@@ -44,6 +48,9 @@ public class OrderItemService {
     }
 
     public OrderItemResponse saveOrderItem(OrderItemRequest request) {
+        orderRepository.findById(request.order().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
+
         List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
         if (!addonIds.isEmpty()) {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
@@ -58,6 +65,9 @@ public class OrderItemService {
     }
 
     public void updateOrderItem(Integer id, OrderItemRequest request) {
+        orderRepository.findById(request.order().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
+        
         List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
         if (!addonIds.isEmpty()) {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
