@@ -15,7 +15,8 @@ public record OrderItemRequest(
         Product product,
         List<Addon> addons,
         @NotNull(message = "Order Item order can't be null")
-        Order order
+        Order order,
+        Boolean reversed
 ) {
 
 }

@@ -51,7 +51,7 @@ public class OrderItemService {
                 throw new EntityNotFoundException("Addon incorrect!");
             }
         }
-        
+
         OrderItem orderItem = OrderItemMapper.toEntity(request);
         orderItem.setTotal(calculateOrderItemTotal(orderItem));
         return OrderItemMapper.toDTO(orderItemRepository.save(orderItem), true);
@@ -73,28 +73,27 @@ public class OrderItemService {
             orderItem.setProduct(request.product());
             orderItem.setAddons(request.addons());
             orderItem.setOrder(request.order());
-            // A linha abaixo foi removida para impedir a alteração do estorno por este endpoint
-            // orderItem.setReversed(request.reversed()); 
+            orderItem.setReversed(request.reversed());
             orderItem.setTotal(calculateOrderItemTotal(orderItem));
             orderItemRepository.save(orderItem);
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Not found Order Item!");
         }
     }
-    
+
     public double calculateOrderItemTotal(OrderItem orderItem) {
         double total = 0.0;
         if (orderItem.getProduct() != null && orderItem.getQuantity() != null) {
             ProductResponse product = productService.getProductById(orderItem.getProduct().getId());
             double productPrice = product.price() - (product.price() * product.discount() / 100);
-            
+
             double addonsPrice = 0.0;
             if (orderItem.getAddons() != null) {
                 addonsPrice = orderItem.getAddons().stream()
                         .mapToDouble(addon -> addonService.getAddonById(addon.getId()).price())
                         .sum();
             }
-            
+
             total = (productPrice + addonsPrice) * orderItem.getQuantity();
         }
         return new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
