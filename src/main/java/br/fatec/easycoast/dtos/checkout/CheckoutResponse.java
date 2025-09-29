@@ -11,5 +11,6 @@ public record CheckoutResponse(
     Instant closingDate,
     Double entryAmount,
     Double exitAmount,
+    Double changeAmount,
     EmployeeResponse employee
 ) { }
