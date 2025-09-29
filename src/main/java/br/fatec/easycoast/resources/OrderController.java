@@ -61,6 +61,8 @@ public class OrderController {
         orderService.closeOrder(id);
         return ResponseEntity.noContent().build();
     }
+
+     
     
     @GetMapping("/by-card/{cardId}")
     public ResponseEntity<OrderResponse> getOrderByCardId(@PathVariable Integer cardId) {

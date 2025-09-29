@@ -15,6 +15,7 @@ public record OrderItemResponseWithOrder(
         Integer quantity,
         String observations,
         Double total,
+        Boolean reversed,
         @JsonIgnoreProperties("addonCategories") ProductResponse product,
         List<AddonResponse> addons,
         @JsonIgnoreProperties("orderItems") OrderResponse order

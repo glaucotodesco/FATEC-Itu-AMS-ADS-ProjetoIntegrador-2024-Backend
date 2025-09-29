@@ -16,6 +16,7 @@ import br.fatec.easycoast.entities.OrderItem;
 import br.fatec.easycoast.mappers.OrderItemMapper;
 import br.fatec.easycoast.repositories.AddonRepository;
 import br.fatec.easycoast.repositories.OrderItemRepository;
+import br.fatec.easycoast.repositories.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -26,6 +27,9 @@ public class OrderItemService {
 
     @Autowired
     private AddonRepository addonRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private AddonService addonService;
@@ -44,6 +48,9 @@ public class OrderItemService {
     }
 
     public OrderItemResponse saveOrderItem(OrderItemRequest request) {
+        orderRepository.findById(request.order().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
+
         List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
         if (!addonIds.isEmpty()) {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
@@ -51,13 +58,16 @@ public class OrderItemService {
                 throw new EntityNotFoundException("Addon incorrect!");
             }
         }
-        
+
         OrderItem orderItem = OrderItemMapper.toEntity(request);
         orderItem.setTotal(calculateOrderItemTotal(orderItem));
         return OrderItemMapper.toDTO(orderItemRepository.save(orderItem), true);
     }
 
     public void updateOrderItem(Integer id, OrderItemRequest request) {
+        orderRepository.findById(request.order().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
+        
         List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
         if (!addonIds.isEmpty()) {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
@@ -73,26 +83,27 @@ public class OrderItemService {
             orderItem.setProduct(request.product());
             orderItem.setAddons(request.addons());
             orderItem.setOrder(request.order());
+            orderItem.setReversed(request.reversed());
             orderItem.setTotal(calculateOrderItemTotal(orderItem));
             orderItemRepository.save(orderItem);
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Not found Order Item!");
         }
     }
-    
+
     public double calculateOrderItemTotal(OrderItem orderItem) {
         double total = 0.0;
         if (orderItem.getProduct() != null && orderItem.getQuantity() != null) {
             ProductResponse product = productService.getProductById(orderItem.getProduct().getId());
             double productPrice = product.price() - (product.price() * product.discount() / 100);
-            
+
             double addonsPrice = 0.0;
             if (orderItem.getAddons() != null) {
                 addonsPrice = orderItem.getAddons().stream()
                         .mapToDouble(addon -> addonService.getAddonById(addon.getId()).price())
                         .sum();
             }
-            
+
             total = (productPrice + addonsPrice) * orderItem.getQuantity();
         }
         return new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();

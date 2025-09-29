@@ -16,6 +16,9 @@ public class OrderItemMapper {
         orderItem.setProduct(request.product());
         orderItem.setAddons(request.addons());
         orderItem.setOrder(request.order());
+        if (request.reversed() != null) {
+            orderItem.setReversed(request.reversed());
+        }
         return orderItem;
     }
 
@@ -25,6 +28,7 @@ public class OrderItemMapper {
                 orderItem.getQuantity(),
                 orderItem.getObservations(),
                 orderItem.getTotal(),
+                orderItem.getReversed(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
                 orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null
         );
@@ -33,13 +37,14 @@ public class OrderItemMapper {
     public static OrderItemResponse toDTO(OrderItem orderItem) {
         return toDTO(orderItem, null);
     }
-    
+
     public static OrderItemResponseWithOrder toDTOWithOrder(OrderItem orderItem) {
         return new OrderItemResponseWithOrder(
                 orderItem.getId(),
                 orderItem.getQuantity(),
                 orderItem.getObservations(),
                 orderItem.getTotal(),
+                orderItem.getReversed(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
                 orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), false) : null,
                 orderItem.getOrder() != null ? OrderMapper.toDTO(orderItem.getOrder()) : null
@@ -55,7 +60,7 @@ public class OrderItemMapper {
         }
         return Collections.emptyList();
     }
-    
+
     public static List<OrderItemResponseWithOrder> toListDTOWithOrder(List<OrderItem> orderItems) {
         if (orderItems != null) {
             return orderItems

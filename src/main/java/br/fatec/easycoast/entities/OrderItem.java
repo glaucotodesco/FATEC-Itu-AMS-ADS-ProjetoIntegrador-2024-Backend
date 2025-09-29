@@ -27,6 +27,7 @@ public class OrderItem {
 
     private Double total;
 
+    private Boolean reversed = false; 
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
@@ -39,7 +40,6 @@ public class OrderItem {
     @JsonBackReference
     private Order order;
 
-    // Getters e Setters
     public Integer getId() {
         return id;
     }
@@ -96,4 +96,11 @@ public class OrderItem {
         this.order = order;
     }
 
+    public Boolean getReversed() {
+        return reversed;
+    }
+
+    public void setReversed(Boolean reversed) {
+        this.reversed = reversed;
+    }
 }
