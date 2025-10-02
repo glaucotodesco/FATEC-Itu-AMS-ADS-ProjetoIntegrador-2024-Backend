@@ -45,7 +45,12 @@ public class CheckoutService {
         existingCheckout.setOpeningDate(request.openingDate());
         existingCheckout.setClosingDate(request.closingDate());
         existingCheckout.setEntryAmount(request.entryAmount());
-        existingCheckout.setExitAmount(request.exitAmount());
+        if (request.exitAmount() != null) {
+            existingCheckout.setExitAmount(request.exitAmount());
+        }
+        if (request.changeAmount() != null) {
+            existingCheckout.setChangeAmount(request.changeAmount());
+        }
         existingCheckout.setEmployee(request.employee());
 
         Checkout updatedCheckout = checkoutRepository.save(existingCheckout);
