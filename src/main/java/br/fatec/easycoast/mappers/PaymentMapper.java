@@ -23,7 +23,7 @@ public class PaymentMapper {
             payment.getMethodPayment(),
             payment.getDate(),
             payment.getStatus(),
-            payment.getOrder()
+            OrderMapper.toDTO(payment.getOrder())
         );
     }
 }
