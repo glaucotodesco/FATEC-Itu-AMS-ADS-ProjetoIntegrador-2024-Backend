@@ -116,10 +116,9 @@ public class RestaurantService {
         restaurantRepository.save(temp);
     }
 
-    public void addRestaurantImage(MultipartFile file){
+    public synchronized void addRestaurantImage(MultipartFile file){
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
-        Restaurant temp = restaurantRepository.getReferenceById(1);
         //Get the name of the image
         String filename = file.getOriginalFilename();
 
@@ -141,7 +140,10 @@ public class RestaurantService {
                                     .path("/images/{filename}")
                                     .buildAndExpand(filename)
                                     .toUri();
-        List<String> newImages = temp.getImages();
+        
+        //Reload entity to get latest state and avoid overwriting concurrent changes
+        Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
+        List<String> newImages = new ArrayList<>(temp.getImages());
         //Add the URI to the list
         newImages.add(location.toString());
         //Save it
