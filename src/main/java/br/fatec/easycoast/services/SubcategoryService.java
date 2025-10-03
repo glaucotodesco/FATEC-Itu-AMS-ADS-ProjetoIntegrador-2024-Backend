@@ -21,18 +21,18 @@ public class SubcategoryService {
     public SubcategoryResponse getSubcategory(Integer id) {
         Subcategory subcategory = subcategoryRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Not found subcategory!"));
-        return SubcategoryMapper.toDTO(subcategory);
+        return SubcategoryMapper.toDto(subcategory);
     }
 
     public List<SubcategoryResponse> getSubcategories() {
         List<SubcategoryResponse> subcategories = subcategoryRepository.findAll().stream()
-                .map(subcategory -> SubcategoryMapper.toDTO(subcategory)).toList();
+                .map(subcategory -> SubcategoryMapper.toDto(subcategory)).toList();
         return subcategories;
     }
 
     public SubcategoryResponse saveSubcategory(SubcategoryRequest request) {
         Subcategory subcategory = subcategoryRepository.save(SubcategoryMapper.toEntity(request));
-        return SubcategoryMapper.toDTO(subcategory);
+        return SubcategoryMapper.toDto(subcategory);
 
     }
 
