@@ -72,10 +72,10 @@ public class RestaurantService {
         }
     }
 
-    public void setRestaurantLogo(MultipartFile file){
+    public synchronized void setRestaurantLogo(MultipartFile file){
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
-        Restaurant temp = restaurantRepository.getReferenceById(1);
+        Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         if (temp.getLogo() != null) this.removeRestaurantLogo();
         
         //Create a custom name for the logo image
@@ -89,15 +89,17 @@ public class RestaurantService {
                                     .buildAndExpand(newFileName)
                                     .toUri();
 
+        //Reload entity to get latest state
+        temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         //Set the logo in the restaurant
         temp.setLogo(location);
         restaurantRepository.save(temp);
     }
 
-    public void setRestaurantBanner(MultipartFile file){
+    public synchronized void setRestaurantBanner(MultipartFile file){
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
-        Restaurant temp = restaurantRepository.getReferenceById(1);
+        Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         if (temp.getBanner() != null) this.removeRestaurantBanner();
         
         //Create a custom name for the banner image
@@ -111,6 +113,8 @@ public class RestaurantService {
                                     .buildAndExpand(newFileName)
                                     .toUri();
 
+        //Reload entity to get latest state
+        temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         //Set the banner in the restaurant
         temp.setBanner(location);
         restaurantRepository.save(temp);
@@ -183,7 +187,7 @@ public class RestaurantService {
         restaurantRepository.save(temp);
     }
 
-    public void removeRestaurantImage(String filename){
+    public synchronized void removeRestaurantImage(String filename){
         if (!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
         if (fileStorageService.load(filename) == null) throw new EntityNotFoundException("Couldn't find image: " + filename);
 
@@ -194,7 +198,7 @@ public class RestaurantService {
                         .buildAndExpand(filename)
                         .toUri().toString();
 
-        Restaurant temp = restaurantRepository.getReferenceById(1);
+        Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         //Create a new list without the URI of the image
         List<String> newList = temp.getImages().stream().filter(uri -> !uri.equals(auxUri)).toList();
         //Delete the image
