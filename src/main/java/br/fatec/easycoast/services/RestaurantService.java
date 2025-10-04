@@ -155,7 +155,7 @@ public class RestaurantService {
         restaurantRepository.save(temp);
     }
 
-    public void removeRestaurantLogo(){
+    public synchronized void removeRestaurantLogo(){
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
         Restaurant temp = restaurantRepository.getReferenceById(1);
@@ -171,7 +171,7 @@ public class RestaurantService {
         restaurantRepository.save(temp);
     }
 
-    public void removeRestaurantBanner(){
+    public synchronized void removeRestaurantBanner(){
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
         Restaurant temp = restaurantRepository.getReferenceById(1);
