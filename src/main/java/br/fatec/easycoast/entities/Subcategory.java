@@ -1,5 +1,6 @@
 package br.fatec.easycoast.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.SoftDelete;
@@ -32,12 +33,11 @@ public class Subcategory {
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID")
     @JsonIgnoreProperties("subcategories")
-
     private Category category;
 
     @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>(); // inicializado já
 
     public Integer getId() {
         return id;
@@ -78,5 +78,4 @@ public class Subcategory {
     public void setProducts(List<Product> products) {
         this.products = products;
     }
-
 }

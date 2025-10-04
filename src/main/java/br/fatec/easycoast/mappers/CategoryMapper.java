@@ -16,29 +16,35 @@ public class CategoryMapper {
     return category;
   }
 
-  // Mapeamento COMPLETO: usado quando você quer a categoria com todas as suas subcategorias
+  // Mapeamento COMPLETO: usado quando você quer a categoria com todas as suas
+  // subcategorias
   public static CategoryResponse toDto(Category category) {
+    // Verificação de nulo para evitar o crash
+    if (category == null) {
+      return null;
+    }
     return new CategoryResponse(
         category.getId(),
         category.getName(),
         category.getAvailability(),
-        // MUDANÇA: Convertendo a lista de Entidades para uma lista de DTOs
-        // Para cada subcategoria na lista de entidades, chamamos o SubcategoryMapper
         category.getSubcategories()
             .stream()
-            .map(SubcategoryMapper::toDto) // Mapeia cada subcategoria para seu DTO
-            .collect(Collectors.toList())
-    );
+            .map(SubcategoryMapper::toDto)
+            .collect(Collectors.toList()));
   }
 
   // Mapeamento RASO (SHALLOW): usado para evitar loops infinitos
-  // Quando chamado de dentro do SubcategoryMapper, ele não inclui a lista de subcategorias
+  // Quando chamado de dentro do SubcategoryMapper, ele não inclui a lista de
+  // subcategorias
   public static CategoryResponse toDtoShallow(Category category) {
+    // Verificação de nulo para evitar o crash
+    if (category == null) {
+      return null;
+    }
     return new CategoryResponse(
         category.getId(),
         category.getName(),
         category.getAvailability(),
-        Collections.emptyList() // MUDANÇA: Retorna uma lista vazia para quebrar o loop
-    );
+        Collections.emptyList());
   }
 }

@@ -39,9 +39,8 @@ public class AddonCategoryService {
     }
 
     public AddonCategoryResponse saveAddonCategory(AddonCategoryRequest request) {
-        AddonCategory addonCategory = addonCategoryRepository.save(AddonCategoryMapper.ToEntity(request));
+        AddonCategory addonCategory = addonCategoryRepository.save(AddonCategoryMapper.toEntity(request));
         return AddonCategoryMapper.toDTO(addonCategory);
-
     }
 
     public void updateAddonCategory(Integer id, AddonCategoryRequest request) {

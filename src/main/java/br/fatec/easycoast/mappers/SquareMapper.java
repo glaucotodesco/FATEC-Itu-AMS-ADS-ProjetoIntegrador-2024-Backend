@@ -8,7 +8,6 @@ public class SquareMapper {
     public static Square toEntity(SquareRequest request) {
         Square square = new Square();
         square.setName(request.name());
-
         return square;
     }
 
@@ -16,5 +15,4 @@ public class SquareMapper {
         SquareResponse squareResponse = new SquareResponse(square.getId(), square.getName(), square.getItems());
         return squareResponse;
     }
-
 }

@@ -1,8 +1,10 @@
 package br.fatec.easycoast.mappers;
 
 import java.util.Collections;
-import java.util.stream.Collectors; // Import necessário
+import java.util.List;
+import java.util.stream.Collectors;
 
+import br.fatec.easycoast.dtos.product.ProductResponse;
 import br.fatec.easycoast.dtos.subcategory.SubcategoryRequest;
 import br.fatec.easycoast.dtos.subcategory.SubcategoryResponse;
 import br.fatec.easycoast.entities.Subcategory;
@@ -10,6 +12,9 @@ import br.fatec.easycoast.entities.Subcategory;
 public class SubcategoryMapper {
 
   public static Subcategory toEntity(SubcategoryRequest request) {
+    if (request == null)
+      return null;
+
     Subcategory subcategory = new Subcategory();
     subcategory.setName(request.name());
     subcategory.setAvailability(request.availability());
@@ -17,31 +22,34 @@ public class SubcategoryMapper {
     return subcategory;
   }
 
-  // Mapeamento COMPLETO
   public static SubcategoryResponse toDto(Subcategory subcategory) {
+    if (subcategory == null)
+      return null;
+
+    List<ProductResponse> productResponses = subcategory.getProducts() != null
+        ? subcategory.getProducts().stream()
+            .map(ProductMapper::toDTO) // retorna ProductResponse
+            .collect(Collectors.toList())
+        : Collections.emptyList();
+
     return new SubcategoryResponse(
         subcategory.getId(),
         subcategory.getName(),
         subcategory.getAvailability(),
-        // MUDANÇA: Chamando o mapper raso para a categoria pai para evitar o loop
-        CategoryMapper.toDtoShallow(subcategory.getCategory()),
-        // MUDANÇA: Convertendo a lista de Entidades de Produto para uma lista de DTOs
-        subcategory.getProducts()
-            .stream()
-            .map(ProductMapper::toDTO)
-            .collect(Collectors.toList())
-    );
+        subcategory.getCategory() != null ? CategoryMapper.toDtoShallow(subcategory.getCategory()) : null,
+        productResponses);
   }
 
-  // Mapeamento RASO: para ser chamado de dentro do ProductMapper
   public static SubcategoryResponse toDtoShallow(Subcategory subcategory) {
+    if (subcategory == null)
+      return null;
+
     return new SubcategoryResponse(
         subcategory.getId(),
         subcategory.getName(),
         subcategory.getAvailability(),
-        // MUDANÇA: Chama o mapper raso para a categoria pai
-        CategoryMapper.toDtoShallow(subcategory.getCategory()),
-        Collections.emptyList() // MUDANÇA: Retorna lista de produtos vazia para quebrar o loop
+        subcategory.getCategory() != null ? CategoryMapper.toDtoShallow(subcategory.getCategory()) : null,
+        Collections.emptyList() // quebra o loop com lista vazia
     );
   }
 }
