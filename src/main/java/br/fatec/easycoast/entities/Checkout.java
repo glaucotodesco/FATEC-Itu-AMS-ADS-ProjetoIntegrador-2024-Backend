@@ -31,6 +31,9 @@ public class Checkout {
   @Column(name = "EXIT_AMOUNT")
   private double exitAmount;
 
+  @Column(name = "CHANGE_AMOUNT")
+  private double changeAmount;
+
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "EMPLOYEE_ID")
   private Employee employee;
@@ -73,6 +76,14 @@ public class Checkout {
 
   public void setExitAmount(double exitAmount) {
     this.exitAmount = exitAmount;
+  }
+
+  public double getChangeAmount() {
+    return changeAmount;
+  }
+
+  public void setChangeAmount(double changeAmount) {
+    this.changeAmount = changeAmount;
   }
 
   public Employee getEmployee() {

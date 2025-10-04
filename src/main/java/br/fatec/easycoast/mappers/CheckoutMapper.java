@@ -11,7 +11,12 @@ public class CheckoutMapper {
         checkout.setOpeningDate(request.openingDate());
         checkout.setClosingDate(request.closingDate());
         checkout.setEntryAmount(request.entryAmount());
-        checkout.setExitAmount(request.exitAmount());
+        if (request.exitAmount() != null) {
+            checkout.setExitAmount(request.exitAmount());
+        }
+        if (request.changeAmount() != null) {
+            checkout.setChangeAmount(request.changeAmount());
+        }
         checkout.setEmployee(request.employee());
         return checkout;
     }
@@ -23,6 +28,7 @@ public class CheckoutMapper {
             checkout.getClosingDate(),
             checkout.getEntryAmount(),
             checkout.getExitAmount(),
+            checkout.getChangeAmount(),
             EmployeeMapper.toDto(checkout.getEmployee())
         );
     }

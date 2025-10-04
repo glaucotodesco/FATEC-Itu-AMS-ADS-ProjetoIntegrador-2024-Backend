@@ -13,6 +13,6 @@ public class CardMapper {
     }
 
     public static CardResponse toDto(Card card) {
-        return new CardResponse(card.getId(), card.getActive(), card.getCopy());
+        return new CardResponse(card.getId(), card.getActive(), card.getCopy(), card.getOrder());
     }
 }
