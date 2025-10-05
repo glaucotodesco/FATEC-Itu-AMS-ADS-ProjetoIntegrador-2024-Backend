@@ -2,6 +2,8 @@ package br.fatec.easycoast.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +27,7 @@ public class OrderItem {
 
     private Double total;
 
+    private Boolean reversed = false; 
     @ManyToOne
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
@@ -34,9 +37,9 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "ORDER_ID")
+    @JsonBackReference
     private Order order;
 
-    // Getters e Setters
     public Integer getId() {
         return id;
     }
@@ -93,4 +96,11 @@ public class OrderItem {
         this.order = order;
     }
 
+    public Boolean getReversed() {
+        return reversed;
+    }
+
+    public void setReversed(Boolean reversed) {
+        this.reversed = reversed;
+    }
 }

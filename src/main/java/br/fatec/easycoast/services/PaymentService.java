@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import br.fatec.easycoast.dtos.payment.PaymentRequest;
 import br.fatec.easycoast.dtos.payment.PaymentResponse;
-import br.fatec.easycoast.entities.Order;
 import br.fatec.easycoast.entities.Payment;
 import br.fatec.easycoast.mappers.PaymentMapper;
 import br.fatec.easycoast.repositories.PaymentRepository;
@@ -29,14 +28,7 @@ public class PaymentService {
     public PaymentResponse getPayment(Integer id) {
         Payment payment = paymentRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Payment not found"));
-
-        Order order = payment.getOrder(); 
-        PaymentResponse response = PaymentMapper.toResponse(payment);
-
-        response = new PaymentResponse(response.id(), response.paymentValue(), response.methodPayment(),
-            response.date(), response.status(), order);
-
-        return response;
+        return PaymentMapper.toResponse(payment);
     }
 
     public PaymentResponse savePayment(PaymentRequest request) {

@@ -12,6 +12,7 @@ public record CheckoutRequest(
     @NotNull(message = "Entry amount can't be null")
     Double entryAmount,
     Double exitAmount,
+    Double changeAmount,
     @NotNull(message = "Employee can't be null")
     Employee employee
 ) { }
