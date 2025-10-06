@@ -56,7 +56,7 @@ public class OrderItemService {
         //Check if it is quantitative
         if (aux.getAddonCategory().getType() == AddonType.GENERAL && addon.getQuantity() == null) throw new IllegalArgumentException("Max quantity is required for this addon!");
         //Check the max quantity
-        if (aux.getMaxQuantity() != null && aux.getMaxQuantity() < addon.getQuantity()) throw new IllegalArgumentException("Max quantity exceeded!");
+        if (aux.getMaxQuantity() != null && addon.getQuantity() != null && aux.getMaxQuantity() < addon.getQuantity()) throw new IllegalArgumentException("Max quantity exceeded!");
     }
 
     public OrderItemResponse saveOrderItem(OrderItemRequest request) {
