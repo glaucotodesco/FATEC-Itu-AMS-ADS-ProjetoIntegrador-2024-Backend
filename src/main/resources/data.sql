@@ -6,6 +6,13 @@ INSERT INTO TBL_RESTAURANT_CONTACT (TYPE, CONTACT, RESTAURANT_ID) VALUES ('Insta
 
 INSERT INTO TBL_RESTAURANT_SCHEDULING (NAME, STARTING_TIME, ENDING_TIME, AVAILABLE_DAYS, RESTAURANT_ID) VALUES ('Almoço', '13:00:00', '15:00:00', '{false, true, true, true, false, true, false}', 1);
 INSERT INTO TBL_RESTAURANT_SCHEDULING (NAME, STARTING_TIME, ENDING_TIME, AVAILABLE_DAYS, RESTAURANT_ID) VALUES ('Jantar', '18:00:00', '21:30:00', '{false, true, true, true, false, true, false}', 1);
+/*
+INSERT INTO TBL_RESTAURANT_ABOUT_US (HEADER, CONTENT, IMAGE, RESTAURANT_ID) VALUES
+('Um pouco sobre nós', 'Somos um bom restaurante', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/12/51/77/a2/intro-restaurant-plaza.jpg?w=900&h=500&s=1', 1);
+
+INSERT INTO TBL_RESTAURANT_HIGHLIGHT (HEADER, CONTENT, IMAGE, RESTAURANT_ID) VALUES
+('Frutos do mar', 'Apenas os melhores crustáceos', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoYAxxMBE_EZ5lFvxgv33-Y4r6lunvgk-hEw&s', 1);
+*/
 
 INSERT INTO TBL_SEAT (STATUS) VALUES (0); 
 INSERT INTO TBL_SEAT (STATUS) VALUES (0); 
