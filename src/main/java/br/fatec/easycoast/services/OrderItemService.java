@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
 import br.fatec.easycoast.dtos.product.ProductResponse;
-import br.fatec.easycoast.entities.Addon;
 import br.fatec.easycoast.entities.OrderItem;
 import br.fatec.easycoast.mappers.OrderItemMapper;
 import br.fatec.easycoast.repositories.AddonRepository;
@@ -51,7 +50,7 @@ public class OrderItemService {
         orderRepository.findById(request.order().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
 
-        List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
+        List<Integer> addonIds = request.addons().stream().map(a -> a.getAddon().getId()).collect(Collectors.toList());
         if (!addonIds.isEmpty()) {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
             if (addonNumber > 0) {
@@ -68,7 +67,7 @@ public class OrderItemService {
         orderRepository.findById(request.order().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
         
-        List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
+        List<Integer> addonIds = request.addons().stream().map(a -> a.getAddon().getId()).collect(Collectors.toList());
         if (!addonIds.isEmpty()) {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
             if (addonNumber > 0) {
@@ -100,7 +99,7 @@ public class OrderItemService {
             double addonsPrice = 0.0;
             if (orderItem.getAddons() != null) {
                 addonsPrice = orderItem.getAddons().stream()
-                        .mapToDouble(addon -> addonService.getAddonById(addon.getId()).price())
+                        .mapToDouble(addon -> addonService.getAddonById(addon.getAddon().getId()).price())
                         .sum();
             }
 
