@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import br.fatec.easycoast.dtos.product.ProductResponse;
+import br.fatec.easycoast.dtos.subcategory.SubcategoryRefDTO;
 import br.fatec.easycoast.dtos.subcategory.SubcategoryRequest;
 import br.fatec.easycoast.dtos.subcategory.SubcategoryResponse;
 import br.fatec.easycoast.entities.Subcategory;
@@ -52,4 +53,11 @@ public class SubcategoryMapper {
         Collections.emptyList() // quebra o loop com lista vazia
     );
   }
+
+  public static SubcategoryRefDTO toSubcategoryRefDTO(Subcategory subcategory) {
+        if (subcategory == null) {
+            return null;
+        }
+        return new SubcategoryRefDTO(subcategory.getId(), subcategory.getName());
+    }
 }

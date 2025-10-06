@@ -1,10 +1,11 @@
 package br.fatec.easycoast.mappers;
 
-import java.util.Collections;
-
 import br.fatec.easycoast.dtos.product.ProductRequest;
 import br.fatec.easycoast.dtos.product.ProductResponse;
+import br.fatec.easycoast.dtos.product.ProductRefDTO;
 import br.fatec.easycoast.entities.Product;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class ProductMapper {
 
@@ -32,8 +33,19 @@ public class ProductMapper {
         product.getDiscount(),
         product.getAvailability(),
         product.getImageurl(),
-        product.getSubcategory() != null ? SubcategoryMapper.toDtoShallow(product.getSubcategory()) : null,
-        Collections.emptyList(),
+        product.getSubcategory() != null ? SubcategoryMapper.toSubcategoryRefDTO(product.getSubcategory()) : null,
+        product.getAddonsCategories() != null
+            ? product.getAddonsCategories().stream().map(AddonCategoryMapper::toDTO).collect(Collectors.toList())
+            : Collections.emptyList(),
         Collections.emptyList());
+  }
+
+  // <-- NOVO MÉTODO AQUI -->
+  // Este método cria a referência simples para evitar recursão.
+  public static ProductRefDTO toProductRefDTO(Product product) {
+    if (product == null) {
+      return null;
+    }
+    return new ProductRefDTO(product.getId(), product.getName());
   }
 }

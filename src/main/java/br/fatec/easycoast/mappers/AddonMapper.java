@@ -2,7 +2,6 @@ package br.fatec.easycoast.mappers;
 
 import java.util.Collections;
 import java.util.List;
-
 import br.fatec.easycoast.dtos.addon.AddonRequest;
 import br.fatec.easycoast.dtos.addon.AddonResponse;
 import br.fatec.easycoast.entities.Addon;
@@ -29,7 +28,10 @@ public class AddonMapper {
                 addon.getPrice(),
                 addon.getAvailability(),
                 addon.getSquare() != null ? SquareMapper.toDto(addon.getSquare()) : null,
-                addon.getAddonCategory() != null ? AddonCategoryMapper.toDTO(addon.getAddonCategory()) : null);
+                // <-- MUDANÇA AQUI -->
+                // Usamos o mapper de referência para a categoria
+                addon.getAddonCategory() != null ? AddonCategoryMapper.toAddonCategoryRefDTO(addon.getAddonCategory())
+                        : null);
     }
 
     public static List<AddonResponse> toListDTO(List<Addon> addons) {
