@@ -37,7 +37,7 @@ public record ProductRequest(
 
                 String imageurl,
                 List<AddonCategory> addonCategories,
-                List<Item> items
+                List<ProductItem> items
 
 ) {
 }

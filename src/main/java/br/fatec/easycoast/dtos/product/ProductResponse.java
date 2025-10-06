@@ -18,7 +18,7 @@ public record ProductResponse(
         @JsonIgnoreProperties("products") SubcategoryResponse subcategory,
         String imageurl,
         @JsonIgnoreProperties("product") List<AddonCategory> addonCategories,
-        List<Item> items
+        List<ProductItem> items
 
 ) {
 }

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.fatec.easycoast.dtos.product.ProductItem;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -46,7 +47,7 @@ public class Product {
   @JsonIgnore
   @OneToMany
   @JoinColumn(name = "ITEM_ID")
-  private List<Item> items;
+  private List<ProductItem> items;
 
   public Product() {
   }
@@ -63,7 +64,7 @@ public class Product {
   }
 
   public Product(Integer id, String name, Double price, Double discount, Boolean availability, Subcategory subcategory,
-      String imageurl, List<AddonCategory> addonCategories, List<Item> items) {
+      String imageurl, List<AddonCategory> addonCategories, List<ProductItem> items) {
     this.id = id;
     this.name = name;
     this.price = price;
@@ -147,11 +148,11 @@ public class Product {
     this.addonsCategories = addonsCategories;
   }
 
-  public List<Item> getItems() {
+  public List<ProductItem> getItems() {
     return items;
   }
 
-  public void setItems(List<Item> items) {
+  public void setItems(List<ProductItem> items) {
     this.items = items;
   }
 
