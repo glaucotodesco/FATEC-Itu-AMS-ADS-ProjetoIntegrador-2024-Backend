@@ -16,7 +16,9 @@ public record RestaurantRequest(
     @Valid
     List<Contact> contacts,
     @Valid
-    List<RestaurantScheduling> schedulings
+    List<RestaurantScheduling> schedulings,
+    @Valid
+    List<Highlight> highlights
 ) {
 
 }

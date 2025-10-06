@@ -13,6 +13,7 @@ public class RestaurantMapper {
         restaurant.setAboutUs(request.aboutUs());
         restaurant.setContacts(request.contacts());
         restaurant.setSchedulings(request.schedulings());
+        restaurant.setHighlights(request.highlights());
 
         return restaurant;
     }
@@ -24,7 +25,8 @@ public class RestaurantMapper {
                                       restaurant.getAboutUs(),
                                       restaurant.getContacts(),
                                       restaurant.getSchedulings(),
-                                      restaurant.getSeats()
+                                      restaurant.getSeats(),
+                                      restaurant.getHighlights()
         );
     }
 }

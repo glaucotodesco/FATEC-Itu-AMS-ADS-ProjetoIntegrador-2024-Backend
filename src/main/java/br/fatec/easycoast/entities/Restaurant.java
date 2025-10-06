@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.fatec.easycoast.dtos.restaurant.AboutUsSection;
 import br.fatec.easycoast.dtos.restaurant.Contact;
+import br.fatec.easycoast.dtos.restaurant.Highlight;
 import br.fatec.easycoast.dtos.restaurant.Location;
 import br.fatec.easycoast.dtos.restaurant.RestaurantScheduling;
 import jakarta.persistence.CollectionTable;
@@ -45,7 +46,11 @@ public class Restaurant {
     private List<RestaurantScheduling> schedulings;
 
     private Integer seats;
-    
+
+    @ElementCollection
+    @CollectionTable(name = "TBL_RESTAURANT_HIGHLIGHT")
+    private List<Highlight> highlights;
+
     public Restaurant() {}
 
     public Restaurant(Integer id, String name, Location location) {
@@ -108,5 +113,13 @@ public class Restaurant {
 
     public void setSchedulings(List<RestaurantScheduling> schedulings) {
         this.schedulings = schedulings;
+    }
+
+    public List<Highlight> getHighlights() {
+        return highlights;
+    }
+
+    public void setHighlights(List<Highlight> highlights) {
+        this.highlights = highlights;
     }
 }

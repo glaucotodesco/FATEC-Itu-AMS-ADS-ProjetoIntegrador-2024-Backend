@@ -9,7 +9,8 @@ public record RestaurantResponse(
     List<AboutUsSection> aboutUs,
     List<Contact> contacts,
     List<RestaurantScheduling> schedulings,
-    Integer seats
+    Integer seats,
+    List<Highlight> highlights
 ) {
 
 }
