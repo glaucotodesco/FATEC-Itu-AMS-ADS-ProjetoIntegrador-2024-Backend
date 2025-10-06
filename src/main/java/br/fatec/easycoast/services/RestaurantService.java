@@ -39,8 +39,8 @@ public class RestaurantService {
 
             restaurant.setName(request.name());
             restaurant.setLocation(request.location());
-            restaurant.setWhoAreWe(request.whoAreWe());
-            restaurant.setContacts(request.links());
+            restaurant.setAboutUs(request.aboutUs());
+            restaurant.setContacts(request.contacts());
             restaurant.setSchedulings(request.schedulings());
 
             restaurantRepository.save(restaurant);

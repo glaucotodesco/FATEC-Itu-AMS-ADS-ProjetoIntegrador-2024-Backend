@@ -2,6 +2,7 @@ package br.fatec.easycoast.entities;
 
 import java.util.List;
 
+import br.fatec.easycoast.dtos.restaurant.AboutUsSection;
 import br.fatec.easycoast.dtos.restaurant.Contact;
 import br.fatec.easycoast.dtos.restaurant.Location;
 import br.fatec.easycoast.dtos.restaurant.RestaurantScheduling;
@@ -30,11 +31,13 @@ public class Restaurant {
     @Column(nullable = false)
     private Location location;
 
-    private String whoAreWe;
+    @ElementCollection
+    @CollectionTable(name = "TBL_RESTAURANT_ABOUT_US")
+    private List<AboutUsSection> aboutUs;
 
     //This will save the list as a new table
     @ElementCollection
-    @CollectionTable(name = "TBL_RESTAURANT_LINK")
+    @CollectionTable(name = "TBL_RESTAURANT_CONTACT")
     private List<Contact> contacts;
 
     @ElementCollection
@@ -45,11 +48,10 @@ public class Restaurant {
     
     public Restaurant() {}
 
-    public Restaurant(Integer id, String name, Location location, String whoAreWe) {
+    public Restaurant(Integer id, String name, Location location) {
         this.id = id;
         this.name = name;
         this.location = location;
-        this.whoAreWe = whoAreWe;
     }
 
     public Integer getId() {
@@ -76,12 +78,12 @@ public class Restaurant {
         this.location = location;
     }
 
-    public String getWhoAreWe() {
-        return whoAreWe;
+    public List<AboutUsSection> getAboutUs() {
+        return aboutUs;
     }
 
-    public void setWhoAreWe(String whoAreWe) {
-        this.whoAreWe = whoAreWe;
+    public void setAboutUs(List<AboutUsSection> aboutUs) {
+        this.aboutUs = aboutUs;
     }
 
     public Integer getSeats() {

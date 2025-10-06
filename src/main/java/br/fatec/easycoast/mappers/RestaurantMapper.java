@@ -10,8 +10,8 @@ public class RestaurantMapper {
 
         restaurant.setName(request.name());
         restaurant.setLocation(request.location());
-        restaurant.setWhoAreWe(request.whoAreWe());
-        restaurant.setContacts(request.links());
+        restaurant.setAboutUs(request.aboutUs());
+        restaurant.setContacts(request.contacts());
         restaurant.setSchedulings(request.schedulings());
 
         return restaurant;
@@ -21,7 +21,7 @@ public class RestaurantMapper {
         return new RestaurantResponse(restaurant.getId(),
                                       restaurant.getName(),
                                       restaurant.getLocation(),
-                                      restaurant.getWhoAreWe(),
+                                      restaurant.getAboutUs(),
                                       restaurant.getContacts(),
                                       restaurant.getSchedulings(),
                                       restaurant.getSeats()

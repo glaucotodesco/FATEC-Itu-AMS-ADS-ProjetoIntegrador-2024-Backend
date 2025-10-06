@@ -11,9 +11,10 @@ public record RestaurantRequest(
     //It can be null, be if it'll have the object, it'll need to be valid
     @Valid
     Location location,
-    String whoAreWe,
     @Valid
-    List<Contact> links,
+    List<AboutUsSection> aboutUs,
+    @Valid
+    List<Contact> contacts,
     @Valid
     List<RestaurantScheduling> schedulings
 ) {

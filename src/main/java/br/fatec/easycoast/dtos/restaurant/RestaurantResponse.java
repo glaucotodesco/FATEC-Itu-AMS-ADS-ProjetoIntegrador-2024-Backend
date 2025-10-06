@@ -6,8 +6,8 @@ public record RestaurantResponse(
     Integer id,
     String name,
     Location location,
-    String whoAreWe,
-    List<Contact> links,
+    List<AboutUsSection> aboutUs,
+    List<Contact> contacts,
     List<RestaurantScheduling> schedulings,
     Integer seats
 ) {
