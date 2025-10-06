@@ -7,7 +7,7 @@ public record RestaurantResponse(
     String name,
     Location location,
     String whoAreWe,
-    List<Link> links,
+    List<Contact> links,
     List<RestaurantScheduling> schedulings,
     Integer seats
 ) {

@@ -11,7 +11,7 @@ public class RestaurantMapper {
         restaurant.setName(request.name());
         restaurant.setLocation(request.location());
         restaurant.setWhoAreWe(request.whoAreWe());
-        restaurant.setLinks(request.links());
+        restaurant.setContacts(request.links());
         restaurant.setSchedulings(request.schedulings());
 
         return restaurant;
@@ -22,7 +22,7 @@ public class RestaurantMapper {
                                       restaurant.getName(),
                                       restaurant.getLocation(),
                                       restaurant.getWhoAreWe(),
-                                      restaurant.getLinks(),
+                                      restaurant.getContacts(),
                                       restaurant.getSchedulings(),
                                       restaurant.getSeats()
         );

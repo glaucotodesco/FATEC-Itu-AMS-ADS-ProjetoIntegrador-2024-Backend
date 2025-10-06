@@ -13,7 +13,7 @@ public record RestaurantRequest(
     Location location,
     String whoAreWe,
     @Valid
-    List<Link> links,
+    List<Contact> links,
     @Valid
     List<RestaurantScheduling> schedulings
 ) {

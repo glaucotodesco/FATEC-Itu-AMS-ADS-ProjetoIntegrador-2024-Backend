@@ -2,7 +2,7 @@ package br.fatec.easycoast.entities;
 
 import java.util.List;
 
-import br.fatec.easycoast.dtos.restaurant.Link;
+import br.fatec.easycoast.dtos.restaurant.Contact;
 import br.fatec.easycoast.dtos.restaurant.Location;
 import br.fatec.easycoast.dtos.restaurant.RestaurantScheduling;
 import jakarta.persistence.CollectionTable;
@@ -35,7 +35,7 @@ public class Restaurant {
     //This will save the list as a new table
     @ElementCollection
     @CollectionTable(name = "TBL_RESTAURANT_LINK")
-    private List<Link> links;
+    private List<Contact> contacts;
 
     @ElementCollection
     @CollectionTable(name = "TBL_RESTAURANT_SCHEDULING")
@@ -92,12 +92,12 @@ public class Restaurant {
         this.seats = seats;
     }
 
-    public List<Link> getLinks() {
-        return links;
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
-    public void setLinks(List<Link> links) {
-        this.links = links;
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public List<RestaurantScheduling> getSchedulings() {
