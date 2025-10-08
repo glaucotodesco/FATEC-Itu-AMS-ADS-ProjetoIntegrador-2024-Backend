@@ -43,7 +43,7 @@ Vamos usar um único comando que lê o seu arquivo `.sql` e envia todo o seu con
 Copie e cole o comando abaixo no seu terminal:
 
 ```bash
-cat carga_inicial.sql | docker exec -i postgres psql -U postgres -d easy_coast
+cat carga_inicial_up.sql | docker exec -i postgres psql -U postgres -d easy_coast
 ```
 
 #### O que este comando faz?

@@ -29,7 +29,7 @@ public class SubcategoryMapper {
 
     List<ProductResponse> productResponses = subcategory.getProducts() != null
         ? subcategory.getProducts().stream()
-            .map(ProductMapper::toDTO) // retorna ProductResponse
+            .map(ProductMapper::toDTO) 
             .collect(Collectors.toList())
         : Collections.emptyList();
 
@@ -50,14 +50,14 @@ public class SubcategoryMapper {
         subcategory.getName(),
         subcategory.getAvailability(),
         subcategory.getCategory() != null ? CategoryMapper.toDtoShallow(subcategory.getCategory()) : null,
-        Collections.emptyList() // quebra o loop com lista vazia
+        Collections.emptyList() 
     );
   }
 
   public static SubcategoryRefDTO toSubcategoryRefDTO(Subcategory subcategory) {
-        if (subcategory == null) {
-            return null;
-        }
-        return new SubcategoryRefDTO(subcategory.getId(), subcategory.getName());
+    if (subcategory == null) {
+      return null;
     }
+    return new SubcategoryRefDTO(subcategory.getId(), subcategory.getName());
+  }
 }

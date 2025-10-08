@@ -37,7 +37,7 @@ public class Subcategory {
 
     @OneToMany(mappedBy = "subcategory", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Product> products = new ArrayList<>(); // inicializado já
+    private List<Product> products = new ArrayList<>();
 
     public Integer getId() {
         return id;

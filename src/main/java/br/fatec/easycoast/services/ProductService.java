@@ -44,7 +44,6 @@ public class ProductService {
     public ProductResponse saveProduct(ProductRequest request) {
         Product product = ProductMapper.toEntity(request);
 
-        // Buscar AddonCategories existentes e associar
         if (request.addonCategories() != null) {
             List<AddonCategory> categories = request.addonCategories().stream()
                     .map(ac -> addonCategoryRepository.findById(ac.getId())
@@ -53,7 +52,6 @@ public class ProductService {
             product.setAddonsCategories(categories);
         }
 
-        // Associar Items existentes
         if (request.items() != null) {
             List<Item> items = request.items().stream()
                     .map(i -> itemRepository.findById(i.getId())

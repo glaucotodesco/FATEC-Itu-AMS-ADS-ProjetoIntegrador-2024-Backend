@@ -35,7 +35,6 @@ public class AddonController {
         return ResponseEntity.ok(addonService.getAddons());
     }
 
-    // A mesma situação do código acima.
     @GetMapping("{id}")
     public ResponseEntity<AddonResponse> getAddonById(@PathVariable Integer id) {
         return ResponseEntity.ok(addonService.getAddonById(id));

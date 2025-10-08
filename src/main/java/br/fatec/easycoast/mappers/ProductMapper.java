@@ -40,8 +40,6 @@ public class ProductMapper {
         Collections.emptyList());
   }
 
-  // <-- NOVO MÉTODO AQUI -->
-  // Este método cria a referência simples para evitar recursão.
   public static ProductRefDTO toProductRefDTO(Product product) {
     if (product == null) {
       return null;

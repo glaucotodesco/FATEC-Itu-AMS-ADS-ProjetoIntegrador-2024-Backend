@@ -59,7 +59,7 @@ public class Category {
     return subcategories;
   }
 
-  public void setSubcategories(List<Subcategory> subcategories) { // "setSubcategories" no plural
+  public void setSubcategories(List<Subcategory> subcategories) { 
     this.subcategories = subcategories;
   }
 

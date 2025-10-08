@@ -29,7 +29,7 @@ public class AddonCategoryMapper {
                 addonCategory.getProduct() != null ? ProductMapper.toProductRefDTO(addonCategory.getProduct()) : null,
                 addonCategory.getAddons() != null
                         ? addonCategory.getAddons().stream().map(AddonMapper::toDTO).collect(Collectors.toList())
-                        : Collections.emptyList() // <-- MUDANÇA AQUI
+                        : Collections.emptyList() 
         );
     }
 

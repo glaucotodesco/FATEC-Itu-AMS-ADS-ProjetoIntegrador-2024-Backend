@@ -23,7 +23,6 @@ public class Employee {
     private Profile profile;
     private Boolean blocked;
 
-    // Getters e Setters
     public Integer getId() {
         return id;
     }

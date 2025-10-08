@@ -1,7 +1,7 @@
 package br.fatec.easycoast.mappers;
 
 import java.util.Collections;
-import java.util.stream.Collectors; // Import necessário
+import java.util.stream.Collectors; 
 
 import br.fatec.easycoast.dtos.category.CategoryRequest;
 import br.fatec.easycoast.dtos.category.CategoryResponse;
@@ -16,10 +16,7 @@ public class CategoryMapper {
     return category;
   }
 
-  // Mapeamento COMPLETO: usado quando você quer a categoria com todas as suas
-  // subcategorias
   public static CategoryResponse toDto(Category category) {
-    // Verificação de nulo para evitar o crash
     if (category == null) {
       return null;
     }
@@ -33,11 +30,8 @@ public class CategoryMapper {
             .collect(Collectors.toList()));
   }
 
-  // Mapeamento RASO (SHALLOW): usado para evitar loops infinitos
-  // Quando chamado de dentro do SubcategoryMapper, ele não inclui a lista de
-  // subcategorias
+  
   public static CategoryResponse toDtoShallow(Category category) {
-    // Verificação de nulo para evitar o crash
     if (category == null) {
       return null;
     }

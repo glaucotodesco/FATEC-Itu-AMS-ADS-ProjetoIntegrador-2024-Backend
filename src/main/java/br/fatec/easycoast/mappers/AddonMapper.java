@@ -28,8 +28,6 @@ public class AddonMapper {
                 addon.getPrice(),
                 addon.getAvailability(),
                 addon.getSquare() != null ? SquareMapper.toDto(addon.getSquare()) : null,
-                // <-- MUDANÇA AQUI -->
-                // Usamos o mapper de referência para a categoria
                 addon.getAddonCategory() != null ? AddonCategoryMapper.toAddonCategoryRefDTO(addon.getAddonCategory())
                         : null);
     }
