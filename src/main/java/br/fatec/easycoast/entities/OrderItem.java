@@ -35,6 +35,9 @@ public class OrderItem {
     @ManyToMany
     private List<Addon> addons;
 
+    @ManyToMany
+    private List<Item> removable;
+
     @ManyToOne
     @JoinColumn(name = "ORDER_ID")
     @JsonBackReference
@@ -86,6 +89,14 @@ public class OrderItem {
 
     public void setAddons(List<Addon> addons) {
         this.addons = addons;
+    }
+
+    public List<Item> getRemovable() {
+        return removable;
+    }
+
+    public void setRemovable(List<Item> removable) {
+        this.removable = removable;
     }
 
     public Order getOrder() {

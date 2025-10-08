@@ -15,6 +15,7 @@ public class OrderItemMapper {
         orderItem.setObservations(request.observations());
         orderItem.setProduct(request.product());
         orderItem.setAddons(request.addons());
+        orderItem.setRemovable(request.removable());
         orderItem.setOrder(request.order());
         if (request.reversed() != null) {
             orderItem.setReversed(request.reversed());
@@ -30,7 +31,8 @@ public class OrderItemMapper {
                 orderItem.getTotal(),
                 orderItem.getReversed(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
-                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null
+                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null,
+                orderItem.getRemovable() != null ? ItemMapper.toListDTO(orderItem.getRemovable()) : null
         );
     }
 
@@ -47,6 +49,7 @@ public class OrderItemMapper {
                 orderItem.getReversed(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
                 orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), false) : null,
+                orderItem.getRemovable() != null ? ItemMapper.toListDTO(orderItem.getRemovable()) : null,
                 orderItem.getOrder() != null ? OrderMapper.toDTO(orderItem.getOrder()) : null
         );
     }
