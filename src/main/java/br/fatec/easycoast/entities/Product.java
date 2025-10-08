@@ -5,10 +5,11 @@ import java.util.List;
 import org.hibernate.annotations.SoftDelete;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.fatec.easycoast.dtos.product.ProductItem;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -44,9 +45,9 @@ public class Product {
   @OneToMany(mappedBy = "product")
   private List<AddonCategory> addonsCategories;
 
-  @JsonIgnore
-  @OneToMany
-  @JoinColumn(name = "ITEM_ID")
+  @ElementCollection
+  @CollectionTable(name = "TBL_PRODUCT_ITEM", joinColumns = @JoinColumn(name = "PRODUCT_ID"))
+  @JsonIgnoreProperties("product")
   private List<ProductItem> items;
 
   public Product() {
