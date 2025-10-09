@@ -4,8 +4,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fatec.easycoast.dtos.CategoryRequest;
-import br.fatec.easycoast.dtos.CategoryResponse;
+import br.fatec.easycoast.dtos.category.CategoryRequest;
+import br.fatec.easycoast.dtos.category.CategoryResponse;
 import br.fatec.easycoast.entities.Category;
 import br.fatec.easycoast.mappers.CategoryMapper;
 import br.fatec.easycoast.repositories.CategoryRepository;
@@ -24,9 +24,9 @@ public class CategoryService {
         .toList();
   }
 
-  public CategoryResponse getCategoryById(int id) {
+  public CategoryResponse getCategory(int id) {
     Category category = repository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Categoria não Cadastrada"));
+        () -> new EntityNotFoundException("Category not found!"));
     return CategoryMapper.toDto(category);
   }
 
@@ -35,17 +35,17 @@ public class CategoryService {
     return CategoryMapper.toDto(category);
   }
 
-  public void deleteById(int id) {
+  public void deleteCategory(int id) {
     if (repository.existsById(id)) {
       repository.deleteById(id);
     } else {
-      throw new EntityNotFoundException("Categoria não encontrada");
+      throw new EntityNotFoundException("Category not found!");
     }
   }
 
-  public void update(int id, CategoryRequest dtoRequestCategory) {
+  public void updateCategory(int id, CategoryRequest dtoRequestCategory) {
     Category aux = repository.findById(id).orElseThrow(
-        () -> new EntityNotFoundException("Categoria não encontrada"));
+        () -> new EntityNotFoundException("Category not found!"));
     aux.setName(dtoRequestCategory.name());
     aux.setAvailability(dtoRequestCategory.availability());
     repository.save(aux);

@@ -1,25 +1,82 @@
 package br.fatec.easycoast.entities;
 
+import java.util.List;
+
+import org.hibernate.annotations.SoftDelete;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TBL_PRODUCT")
+@SoftDelete
 public class Product {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
   private String name;
+  @Column(columnDefinition = "TEXT")
   private String description;
-  private Float price;
-  private Float discount;
+  private Double price;
+  private Double discount;
   private Boolean availability;
-  private String category;
+
+  @ManyToOne
+  @JoinColumn(name = "SUBCATEGORY_ID")
+  @JsonBackReference
+
+  private Subcategory subcategory;
+
+  @Column(columnDefinition = "TEXT")
   private String imageurl;
+
+  @JsonIgnoreProperties("product")
+  @OneToMany(mappedBy = "product")
+  private List<AddonCategory> addonsCategories;
+
+  @JsonIgnore
+  @OneToMany
+  @JoinColumn(name = "ITEM_ID")
+  private List<Item> items;
+
+  public Product() {
+  }
+
+  public Product(Integer id, String name, Double price, Double discount, Boolean availability, Subcategory subcategory,
+      String imageurl) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.discount = discount;
+    this.availability = availability;
+    this.subcategory = subcategory;
+    this.imageurl = imageurl;
+  }
+
+  public Product(Integer id, String name, Double price, Double discount, Boolean availability, Subcategory subcategory,
+      String imageurl, List<AddonCategory> addonCategories, List<Item> items) {
+    this.id = id;
+    this.name = name;
+    this.price = price;
+    this.discount = discount;
+    this.availability = availability;
+    this.subcategory = subcategory;
+    this.imageurl = imageurl;
+    this.addonsCategories = addonCategories;
+    this.items = items;
+  }
 
   public Integer getId() {
     return id;
@@ -45,18 +102,19 @@ public class Product {
     this.description = description;
   }
 
-  public Float getPrice() {
+  public Double getPrice() {
     return price;
   }
-  public void setPrice(Float price) {
+
+  public void setPrice(Double price) {
     this.price = price;
   }
 
-  public Float getDiscount() {
+  public Double getDiscount() {
     return discount;
   }
 
-  public void setDiscount(Float discount) {
+  public void setDiscount(Double discount) {
     this.discount = discount;
   }
 
@@ -68,20 +126,36 @@ public class Product {
     this.availability = availability;
   }
 
-  public String getCategory() {
-    return category;
-  }
-
-  public void setCategory(String category) {
-    this.category = category;
-  }
-
   public String getImageurl() {
     return imageurl;
   }
 
+  public Subcategory getSubcategory() {
+    return subcategory;
+  }
+
+  public void setSubcategory(Subcategory subcategory) {
+    this.subcategory = subcategory;
+  }
+
   public void setImageurl(String imageurl) {
     this.imageurl = imageurl;
+  }
+
+  public List<AddonCategory> getAddonsCategories() {
+    return addonsCategories;
+  }
+
+  public void setAddonsCategories(List<AddonCategory> addonsCategories) {
+    this.addonsCategories = addonsCategories;
+  }
+
+  public List<Item> getItems() {
+    return items;
+  }
+
+  public void setItems(List<Item> items) {
+    this.items = items;
   }
 
 }

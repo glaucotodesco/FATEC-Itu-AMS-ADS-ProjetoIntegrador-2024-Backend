@@ -6,8 +6,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fatec.easycoast.dtos.ItemRequest;
-import br.fatec.easycoast.dtos.ItemResponse;
+import br.fatec.easycoast.dtos.item.ItemRequest;
+import br.fatec.easycoast.dtos.item.ItemResponse;
 import br.fatec.easycoast.entities.Item;
 import br.fatec.easycoast.mappers.ItemMapper;
 import br.fatec.easycoast.repositories.ItemRepository;
@@ -21,19 +21,19 @@ public class ItemService {
     public ItemResponse getItem(int id) {
         Item item = itemRepository.findById(id)
                                   .orElseThrow(() -> new EntityNotFoundException("Item not found!"));
-        return ItemMapper.toDto(item);
+        return ItemMapper.toDTO(item);
     }
 
     public List<ItemResponse> getItems(){
         return itemRepository.findAll()
                              .stream()
-                             .map(s -> ItemMapper.toDto(s))
+                             .map(s -> ItemMapper.toDTO(s))
                              .collect(Collectors.toList());
     }
 
     public ItemResponse saveItem(ItemRequest request) {
         Item item = itemRepository.save(ItemMapper.toEntity(request));
-        return ItemMapper.toDto(item);
+        return ItemMapper.toDTO(item);
     }
 
     public void updateItem(int id, ItemRequest request) {
@@ -45,6 +45,14 @@ public class ItemService {
 
             itemRepository.save(item);
         } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Item not found!");
+        }
+    }
+
+    public void deleteItem(int id) {
+        if (itemRepository.existsById(id)) {
+            itemRepository.deleteById(id);
+        } else {
             throw new EntityNotFoundException("Item not found!");
         }
     }

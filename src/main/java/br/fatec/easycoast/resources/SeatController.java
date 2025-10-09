@@ -1,0 +1,68 @@
+package br.fatec.easycoast.resources;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import br.fatec.easycoast.dtos.seat.SeatRequest;
+import br.fatec.easycoast.dtos.seat.SeatResponse;
+
+import br.fatec.easycoast.services.SeatService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+
+@RestController
+@CrossOrigin
+@RequestMapping("seats")
+public class SeatController {
+
+    @Autowired
+    private SeatService seatService;
+
+    @GetMapping
+    public ResponseEntity<List<SeatResponse>> getSeats(@RequestParam(name = "_start", required = false)
+                                                       Integer start,
+                                                       @RequestParam(name = "_end", required = false) 
+                                                       Integer end,
+                                                       HttpServletRequest request
+    ) {
+        if (request.getParameterMap().containsKey("_start") && request.getParameterMap().containsKey("_end")) {
+            return ResponseEntity.ok(seatService.filterSeats(start, end));
+        } else {
+            return ResponseEntity.ok(seatService.getSeats());
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<SeatResponse> getSeat(@PathVariable Integer id) {
+        return ResponseEntity.ok(seatService.getSeat(id));
+
+    }
+
+    @PostMapping
+    public ResponseEntity<SeatResponse> saveSeat(@Valid @RequestBody SeatRequest seatRequest) {
+        seatService.saveSeat(seatRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<SeatResponse> updateSeat(@Valid @PathVariable Integer id, @RequestBody SeatRequest seatRequest) {
+        seatService.updateSeat(id, seatRequest);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<List<SeatResponse>> manageSeats(@RequestParam(name = "_quantity") Integer quantitity){
+        return ResponseEntity.ok(seatService.manageSeats(quantitity));
+    }
+}

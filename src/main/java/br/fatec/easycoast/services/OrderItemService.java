@@ -1,0 +1,111 @@
+package br.fatec.easycoast.services;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
+import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
+import br.fatec.easycoast.dtos.product.ProductResponse;
+import br.fatec.easycoast.entities.Addon;
+import br.fatec.easycoast.entities.OrderItem;
+import br.fatec.easycoast.mappers.OrderItemMapper;
+import br.fatec.easycoast.repositories.AddonRepository;
+import br.fatec.easycoast.repositories.OrderItemRepository;
+import br.fatec.easycoast.repositories.OrderRepository;
+import jakarta.persistence.EntityNotFoundException;
+
+@Service
+public class OrderItemService {
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
+
+    @Autowired
+    private AddonRepository addonRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private AddonService addonService;
+
+    @Autowired
+    private ProductService productService;
+
+    public List<OrderItem> getOrderItems() {
+        return orderItemRepository.findAll();
+    }
+
+    public OrderItemResponse getOrderItem(Integer id) {
+        OrderItem orderItem = orderItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order Item not found!"));
+        return OrderItemMapper.toDTO(orderItem);
+    }
+
+    public OrderItemResponse saveOrderItem(OrderItemRequest request) {
+        orderRepository.findById(request.order().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
+
+        List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
+        if (!addonIds.isEmpty()) {
+            int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
+            if (addonNumber > 0) {
+                throw new EntityNotFoundException("Addon incorrect!");
+            }
+        }
+
+        OrderItem orderItem = OrderItemMapper.toEntity(request);
+        orderItem.setTotal(calculateOrderItemTotal(orderItem));
+        return OrderItemMapper.toDTO(orderItemRepository.save(orderItem), true);
+    }
+
+    public void updateOrderItem(Integer id, OrderItemRequest request) {
+        orderRepository.findById(request.order().getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
+        
+        List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
+        if (!addonIds.isEmpty()) {
+            int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
+            if (addonNumber > 0) {
+                throw new EntityNotFoundException("Addon incorrect!");
+            }
+        }
+
+        try {
+            OrderItem orderItem = orderItemRepository.getReferenceById(id);
+            orderItem.setQuantity(request.quantity());
+            orderItem.setObservations(request.observations());
+            orderItem.setProduct(request.product());
+            orderItem.setAddons(request.addons());
+            orderItem.setOrder(request.order());
+            orderItem.setReversed(request.reversed());
+            orderItem.setTotal(calculateOrderItemTotal(orderItem));
+            orderItemRepository.save(orderItem);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Not found Order Item!");
+        }
+    }
+
+    public double calculateOrderItemTotal(OrderItem orderItem) {
+        double total = 0.0;
+        if (orderItem.getProduct() != null && orderItem.getQuantity() != null) {
+            ProductResponse product = productService.getProductById(orderItem.getProduct().getId());
+            double productPrice = product.price() - (product.price() * product.discount() / 100);
+
+            double addonsPrice = 0.0;
+            if (orderItem.getAddons() != null) {
+                addonsPrice = orderItem.getAddons().stream()
+                        .mapToDouble(addon -> addonService.getAddonById(addon.getId()).price())
+                        .sum();
+            }
+
+            total = (productPrice + addonsPrice) * orderItem.getQuantity();
+        }
+        return new BigDecimal(total).setScale(2, RoundingMode.HALF_UP).doubleValue();
+    }
+}

@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+
+  application:
+    name: easycoast
+
+  config:
+    import: optional:file:.env[.properties]

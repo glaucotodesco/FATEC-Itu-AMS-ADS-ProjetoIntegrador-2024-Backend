@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-
-import br.fatec.easycoast.dtos.SquareResponse;
-import br.fatec.easycoast.dtos.SquareItems;
-
-import br.fatec.easycoast.dtos.SquareRequest;
+import br.fatec.easycoast.dtos.square.SquareRequest;
+import br.fatec.easycoast.dtos.square.SquareResponse;
 import br.fatec.easycoast.services.SquareService;
+import jakarta.validation.Valid;
 
 @RestController
 @CrossOrigin
@@ -32,31 +31,38 @@ public class SquareController {
     SquareService squareService;
 
     @GetMapping
-    public ResponseEntity<List<SquareItems>> getSquares(){
+    public ResponseEntity<List<SquareResponse>> getSquares() {
         return ResponseEntity.ok(squareService.getSquares());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SquareItems> getSquare(@PathVariable int id){
+    @GetMapping("{id}")
+    public ResponseEntity<SquareResponse> getSquare(@PathVariable int id) {
         return ResponseEntity.ok(squareService.getSquare(id));
     }
 
     @PostMapping
-    public ResponseEntity<SquareResponse> saveSquare(@RequestBody SquareRequest request){
+    public ResponseEntity<SquareResponse> saveSquare(@Valid @RequestBody SquareRequest request) {
         SquareResponse square = squareService.saveSquare(request);
 
         URI location = ServletUriComponentsBuilder
-                       .fromCurrentRequest()
-                       .path("/{id}")
-                       .buildAndExpand(square.id())
-                       .toUri();
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(square.id())
+                .toUri();
 
         return ResponseEntity.created(location).body(square);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateSquare(@PathVariable int id, @RequestBody SquareRequest request){
+    public ResponseEntity<Void> updateSquare(@Valid @PathVariable int id, @RequestBody SquareRequest request) {
         squareService.updateSquare(id, request);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteSquare(@PathVariable int id) {
+        squareService.deleteSquare(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

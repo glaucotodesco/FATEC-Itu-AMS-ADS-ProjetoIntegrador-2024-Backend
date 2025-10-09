@@ -1,55 +1,105 @@
 package br.fatec.easycoast.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.fatec.easycoast.dtos.ProductRequest;
-import br.fatec.easycoast.dtos.ProductResponse;
+import br.fatec.easycoast.dtos.product.ProductRequest;
+import br.fatec.easycoast.dtos.product.ProductResponse;
+import br.fatec.easycoast.entities.AddonCategory;
+import br.fatec.easycoast.entities.Item;
 import br.fatec.easycoast.entities.Product;
 import br.fatec.easycoast.mappers.ProductMapper;
+import br.fatec.easycoast.repositories.AddonCategoryRepository;
+import br.fatec.easycoast.repositories.ItemRepository;
 import br.fatec.easycoast.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
 
-  @Autowired
-  private ProductRepository repository;
+    @Autowired
+    private ProductRepository productRepository;
 
-  public ProductResponse getProductById(int id) {
-    return ProductMapper
-        .toDTO(repository.findById(id).orElseThrow(() -> (new EntityNotFoundException("Product not found"))));
-  }
+    @Autowired
+    private AddonCategoryRepository addonCategoryRepository;
 
-  public List<ProductResponse> getProducts() {
-    return repository.findAll().stream().map(item -> ProductMapper.toDTO(item)).toList();
-  }
+    @Autowired
+    private ItemRepository itemRepository;
 
-  public ProductResponse postProduct(ProductRequest request) {
-    return ProductMapper.toDTO(repository.save(ProductMapper.toEntity(request)));
-  }
-
-  public void putProduct(int id, ProductRequest request) {
-    Product temp = repository.getReferenceById(id);
-
-    temp.setName(request.name());
-    temp.setDescription(request.description());
-    temp.setPrice(request.price());
-    temp.setDiscount(request.discount());
-    temp.setAvailability(request.availability());
-    temp.setCategory(request.category());
-
-    repository.save(temp);
-  }
-
-  public void deleteProduct(int id) {
-    if (repository.existsById(id)) {
-      repository.deleteById(id);
-    } else {
-      throw new EntityNotFoundException("Product not found");
+    public ProductResponse getProductById(int id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+        return ProductMapper.toDTO(product);
     }
-  }
 
+    public List<ProductResponse> getProducts() {
+        return productRepository.findAll().stream()
+                .map(ProductMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    public ProductResponse saveProduct(ProductRequest request) {
+        Product product = ProductMapper.toEntity(request);
+
+        if (request.addonCategories() != null) {
+            List<AddonCategory> categories = request.addonCategories().stream()
+                    .map(ac -> addonCategoryRepository.findById(ac.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("AddonCategory not found")))
+                    .collect(Collectors.toList());
+            product.setAddonsCategories(categories);
+        }
+
+        if (request.items() != null) {
+            List<Item> items = request.items().stream()
+                    .map(i -> itemRepository.findById(i.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("Item not found")))
+                    .collect(Collectors.toList());
+            product.setItems(items);
+        }
+
+        return ProductMapper.toDTO(productRepository.save(product));
+    }
+
+    public void updateProduct(int id, ProductRequest request) {
+        Product product = productRepository.getReferenceById(id);
+
+        product.setName(request.name());
+        product.setDescription(request.description());
+        product.setPrice(request.price());
+        product.setDiscount(request.discount());
+        product.setAvailability(request.availability());
+        product.setSubcategory(request.subcategory());
+
+        if (request.addonCategories() != null) {
+            List<AddonCategory> categories = request.addonCategories().stream()
+                    .map(ac -> addonCategoryRepository.findById(ac.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("AddonCategory not found")))
+                    .collect(Collectors.toList());
+            product.setAddonsCategories(categories);
+        }
+
+        if (request.items() != null) {
+            List<Item> items = request.items().stream()
+                    .map(i -> itemRepository.findById(i.getId())
+                            .orElseThrow(() -> new EntityNotFoundException("Item not found")))
+                    .collect(Collectors.toList());
+            product.setItems(items);
+        }
+
+        productRepository.save(product);
+    }
+
+    public void deleteProduct(int id) {
+        if (!productRepository.existsById(id)) {
+            throw new EntityNotFoundException("Product not found!");
+        }
+        productRepository.deleteById(id);
+    }
+
+    public List<Product> findByNameContainingIgnoreCase(String name) {
+        return productRepository.findByNameContainingIgnoreCase(name);
+    }
 }
