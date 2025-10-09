@@ -1,0 +1,20 @@
+[tools]
+java = "21"
+maven = "3"
+
+[tasks.prod]
+run = "java -jar target/easycoast-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod"
+description = "Run the project in a production environment"
+depends = ["build"]
+
+[tasks.dev]
+run = "mvn spring-boot:run"
+description = "Run the project in a development environment"
+
+[tasks.deps]
+run = "mvn dependency:go-offline -B"
+description = "Install all dependencies"
+
+[tasks.build]
+run = "mvn clean package -B"
+description = "Generates the jar file for the project"

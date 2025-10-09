@@ -21,6 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.addonCategory.AddonCategoryResponse;
 import br.fatec.easycoast.dtos.product.ProductRequest;
 import br.fatec.easycoast.dtos.product.ProductResponse;
+import br.fatec.easycoast.entities.Product;
 import br.fatec.easycoast.services.AddonCategoryService;
 import br.fatec.easycoast.services.ProductService;
 import jakarta.validation.Valid;
@@ -62,6 +63,16 @@ public class ProductController {
 
     return ResponseEntity.created(location).body(product);
   }
+  
+  @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProductsByName(@RequestParam("name") String name) {
+        // A CHAVE é esta anotação: @RequestParam("name")
+        // Ela conecta o "?name=..." da URL com a variável 'name' do Java.
+        
+        // A lógica de busca no service/repository
+        List<Product> products = productService.findByNameContainingIgnoreCase(name); 
+        return ResponseEntity.ok(products);
+    }
 
   @PutMapping("{id}")
   public ResponseEntity<ProductResponse> updateProduct(@Valid @PathVariable int id,

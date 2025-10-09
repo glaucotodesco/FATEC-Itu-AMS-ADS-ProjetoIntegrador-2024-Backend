@@ -1,7 +1,8 @@
 package br.fatec.easycoast.entities;
 
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.CascadeType; // <-- IMPORT ADICIONADO
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 import java.time.Instant;
 
 @Entity
@@ -37,7 +37,9 @@ public class Order {
     @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
-    @OneToMany(mappedBy = "order")
+    // alterações feitas para impedir loops na api
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<OrderItem> orderItems;
 
     // Getters and Setters
@@ -104,5 +106,4 @@ public class Order {
     public void setSeat(Seat seat) {
         this.seat = seat;
     }
-
 }

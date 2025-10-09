@@ -12,7 +12,6 @@ import jakarta.validation.constraints.NotNull;
 public record OrderRequest(
         @NotNull(message = "Order opening time can't be null")
         Instant openingTime,
-        Instant closingTime,
         @NotNull(message = "Order card can't be null")
         Card card,
         @NotNull(message = "Order seat can't be null")

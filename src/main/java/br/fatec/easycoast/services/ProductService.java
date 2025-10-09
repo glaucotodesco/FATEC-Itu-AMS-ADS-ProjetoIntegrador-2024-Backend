@@ -53,6 +53,10 @@ public class ProductService {
     productRepository.save(temp);
 
   }
+  public List<Product> findByNameContainingIgnoreCase(String name) {
+    // Este método simplesmente chama o método correspondente no repositório - usado na opção de adicionar um produto na tela de pagamento
+    return productRepository.findByNameContainingIgnoreCase(name);
+}
 
   public void setProductImage(int id, MultipartFile file){
     if (!productRepository.existsById(id)) throw new EntityNotFoundException("Product not found!");
