@@ -1,9 +1,12 @@
 package br.fatec.easycoast.services;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.product.ProductRequest;
 import br.fatec.easycoast.dtos.product.ProductResponse;
@@ -14,6 +17,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ProductService {
+  @Autowired
+  private FileStorageService fileStorageService;
 
   @Autowired
   private ProductRepository productRepository;
@@ -32,6 +37,8 @@ public class ProductService {
   }
 
   public void updateProduct(int id, ProductRequest request) {
+    if (!productRepository.existsById(id)) throw new EntityNotFoundException("Product not found!");
+
     Product temp = productRepository.getReferenceById(id);
 
     temp.setName(request.name());
@@ -51,8 +58,47 @@ public class ProductService {
     return productRepository.findByNameContainingIgnoreCase(name);
 }
 
+  public void setProductImage(int id, MultipartFile file){
+    if (!productRepository.existsById(id)) throw new EntityNotFoundException("Product not found!");
+
+    Product temp = productRepository.getReferenceById(id);
+    if (temp.getImage() != null) this.removeProductImage(id);
+    
+    //Every product image will have a custom name for each product
+    String newFileName = "product" + id + "." + file.getContentType().split("/")[1];
+
+    //Save the image
+    fileStorageService.store(file, newFileName);
+    //Get the URI of the image to show
+    URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                .path("/images/{filename}")
+                                .buildAndExpand(newFileName)
+                                .toUri();
+
+    //Set the image in the product
+    temp.setImage(location);
+    productRepository.save(temp);
+  }
+
+  public void removeProductImage(int id){
+    if (!productRepository.existsById(id)) throw new EntityNotFoundException("Product not found!");
+
+    Product temp = productRepository.getReferenceById(id);
+    if(temp.getImage() == null) throw new EntityNotFoundException("This product doesn't have a image");
+
+    //Get the file name in the URI
+    String[] path = temp.getImage().getPath().split("/");
+    //Delete the image
+    fileStorageService.deleteFile(path[path.length - 1]);
+    //Set the product image as null
+    temp.setImage(null);
+    
+    productRepository.save(temp);
+  }
+
   public void deleteProduct(int id) {
     if (productRepository.existsById(id)) {
+      if(productRepository.getReferenceById(id).getImage() != null) removeProductImage(id);
       productRepository.deleteById(id);
     } else {
       throw new EntityNotFoundException("Product not found!");

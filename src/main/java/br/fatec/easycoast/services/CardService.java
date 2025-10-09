@@ -34,9 +34,15 @@ public class CardService {
                 .collect(Collectors.toList()); // Return a new list with the elements of the last stream
     }
 
-    public CardResponse saveCard(CardRequest request) { // Need the base Element, but without the ID
-        Card card = cardRepository.save(CardMapper.toEntity(request)); // Save the element, and adding an ID
-        return CardMapper.toDto(card); // Transform the element into a DTO
+    protected CardResponse saveCard(CardRequest request, Integer initialCopy) { // Need the base Element, but without the ID
+        Card card = CardMapper.toEntity(request);
+        if (initialCopy != null) card.setCopy(initialCopy); else card.setCopy(0); //Setting the copy
+        // Save the element, and adding an ID
+        return CardMapper.toDto(cardRepository.save(card)); // Transform the element into a DTO
+    }
+
+    public CardResponse saveCard(CardRequest request) {
+        return this.saveCard(request, null);
     }
 
     public List<CardResponse> printCards(int start, int end) {
@@ -50,7 +56,8 @@ public class CardService {
             CardResponse aux = null;
 
             //get the last card created in the database
-            int last = new LinkedList<CardResponse>(getCards()).getLast().id();
+            int last = new LinkedList<CardResponse>(getCards()).size();
+
             //Setting the card to start the loop
             int i = last >= start ? start : last + 1;
             //The loop will last until it pass the last id in the interval
@@ -60,17 +67,14 @@ public class CardService {
                         //Get the existing card
                         aux = this.getCard(i);
                         //Update its copy value
-                        this.updateCard(i, new CardRequest(
-                            aux.active(),
-                            aux.copy() + 1
-                        )); 
+                        this.updateCard(i, new CardRequest(aux.active()), aux.copy() + 1); 
 
                         //add to list
                         cards.add(this.getCard(i));
                     //If the card with that id doest exist
                     } catch (EntityNotFoundException e) {
                         //Create the new card
-                        aux = this.saveCard(new CardRequest(true, i >= start ? 1 : 0));
+                        aux = this.saveCard(new CardRequest(true), i >= start ? 1 : 0);
                         //If its in the interval
                         if (aux.id() >= start) {
                             //add to list
@@ -98,7 +102,7 @@ public class CardService {
             CardResponse aux = null;
 
             //get the last card created in the database
-            int last = new LinkedList<CardResponse>(getCards()).getLast().id();
+            int last = new LinkedList<CardResponse>(getCards()).size();
             //Setting the card to start the loop
             int i = last >= start ? start : last + 1;
             //The loop will last until it pass the last id in the interval
@@ -110,7 +114,7 @@ public class CardService {
                     //If the card with that id doest exist
                     } catch (EntityNotFoundException e) {
                         //Create the new card
-                        aux = this.saveCard(new CardRequest(true, 0));
+                        aux = this.saveCard(new CardRequest(true));
                         //If its in the interval
                         if (aux.id() >= start) {
                             //add to list
@@ -127,17 +131,21 @@ public class CardService {
         return cards;
     }
 
-    public void updateCard(int id, CardRequest request) {
+    protected void updateCard(int id, CardRequest request, Integer copy) {
         try {
             Card card = cardRepository.getReferenceById(id); // Get an reference of the element
 
             // Set the changes
             card.setActive(request.active());
-            card.setCopy(request.copy());
+            if(copy != null) card.setCopy(copy);
 
             cardRepository.save(card); // Overwrite the element with the same ID
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Card not found!"); // Needed because the ID could not exist
         }
+    }
+
+    public void updateCard(int id, CardRequest request) {
+        this.updateCard(id, request, null);
     }
 }

@@ -45,6 +45,7 @@ public class SubcategoryService {
     }
 
     public void updateSubcategory(SubcategoryRequest request, Integer id) {
+        if(!subcategoryRepository.existsById(id)) throw new EntityNotFoundException("Subcategory not found!");
         Subcategory subcategory = subcategoryRepository.getReferenceById(id);
         subcategory.setName(request.name());
         subcategory.setAvailability(request.availability());

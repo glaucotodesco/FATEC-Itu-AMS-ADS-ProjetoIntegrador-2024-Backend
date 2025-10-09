@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.addonCategory.AddonCategoryResponse;
@@ -80,10 +81,22 @@ public class ProductController {
     return ResponseEntity.ok().build();
   }
 
+  @PutMapping("{id}/image")
+  public ResponseEntity<Void> setImage(@PathVariable int id, @RequestParam MultipartFile file){
+    productService.setProductImage(id, file);
+    return ResponseEntity.ok().build();
+  }
+
   @DeleteMapping("{id}")
   public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
     productService.deleteProduct(id);
     return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("{id}/image")
+  public ResponseEntity<Void> deleteProductImage(@PathVariable int id){
+    productService.removeProductImage(id);
+    return ResponseEntity.ok().build();
   }
 
 }
