@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: ${DOCKER_BUILD_STAGE:prod}
 
   application:
     name: easycoast
