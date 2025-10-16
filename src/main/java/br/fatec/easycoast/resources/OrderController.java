@@ -52,7 +52,13 @@ public class OrderController {
                 .buildAndExpand(orderResponse.id())
                 .toUri();
                 
-        messagingTemplate.convertAndSend("/square/orders", orderResponse);
+        try {
+            messagingTemplate.convertAndSend("/square/orders", orderResponse);
+        } catch (Exception e) {
+            // Log do erro sem interromper o fluxo principal
+            System.err.println("Erro ao enviar mensagem WebSocket: " + e.getMessage());
+        }
+        
         return ResponseEntity.created(location).body(orderResponse);
     }
 
