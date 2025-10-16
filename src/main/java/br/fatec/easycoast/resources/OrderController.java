@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @GetMapping()
     public ResponseEntity<List<OrderResponse>> getOrders() {
         return ResponseEntity.ok(orderService.getOrders());
@@ -47,6 +51,8 @@ public class OrderController {
                 .path("/{id}")
                 .buildAndExpand(orderResponse.id())
                 .toUri();
+                
+        messagingTemplate.convertAndSend("/square/orders", orderResponse);
         return ResponseEntity.created(location).body(orderResponse);
     }
 
