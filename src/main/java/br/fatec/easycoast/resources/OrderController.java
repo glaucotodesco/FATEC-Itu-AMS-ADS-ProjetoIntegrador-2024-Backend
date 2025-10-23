@@ -2,6 +2,8 @@ package br.fatec.easycoast.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,14 +54,27 @@ public class OrderController {
                 .buildAndExpand(orderResponse.id())
                 .toUri();
                 
-        try {
-            messagingTemplate.convertAndSend("/square/orders", orderResponse);
-        } catch (Exception e) {
-            // Log do erro sem interromper o fluxo principal
-            System.err.println("Erro ao enviar mensagem WebSocket: " + e.getMessage());
-        }
+        sendWebSocketMessages(orderResponse);
         
         return ResponseEntity.created(location).body(orderResponse);
+    }
+    
+    private void sendWebSocketMessages(OrderResponse order) {
+        try {
+            Set<Integer> squareIds = order.orderItems().stream()
+                .flatMap(orderItem -> orderItem.product().items().stream())
+                .filter(item -> item.getSquare() != null)
+                .map(item -> item.getSquare().getId())
+                .collect(Collectors.toSet());
+            
+            System.out.println("Square IDs: " + squareIds);
+            for (Integer squareId : squareIds) {
+                System.out.println("Sending message to /square/" + squareId + ": " + order);
+                messagingTemplate.convertAndSend("/square/" + squareId, order);
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao enviar mensagem WebSocket: " + e.getMessage());
+        }
     }
 
     @PutMapping("{id}")
