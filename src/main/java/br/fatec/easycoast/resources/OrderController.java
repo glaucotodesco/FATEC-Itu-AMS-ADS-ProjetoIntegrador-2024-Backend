@@ -66,10 +66,8 @@ public class OrderController {
                 .filter(item -> item.getSquare() != null)
                 .map(item -> item.getSquare().getId())
                 .collect(Collectors.toSet());
-            
-            System.out.println("Square IDs: " + squareIds);
+
             for (Integer squareId : squareIds) {
-                System.out.println("Sending message to /square/" + squareId + ": " + order);
                 messagingTemplate.convertAndSend("/square/" + squareId, order);
             }
         } catch (Exception e) {

@@ -17,6 +17,7 @@ import br.fatec.easycoast.mappers.OrderItemMapper;
 import br.fatec.easycoast.repositories.AddonRepository;
 import br.fatec.easycoast.repositories.OrderItemRepository;
 import br.fatec.easycoast.repositories.OrderRepository;
+import br.fatec.easycoast.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -36,6 +37,9 @@ public class OrderItemService {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     public List<OrderItem> getOrderItems() {
         return orderItemRepository.findAll();
@@ -60,6 +64,7 @@ public class OrderItemService {
         }
 
         OrderItem orderItem = OrderItemMapper.toEntity(request);
+        orderItem.setProduct(productRepository.getReferenceById(orderItem.getProduct().getId()));
         orderItem.setTotal(calculateOrderItemTotal(orderItem));
         return OrderItemMapper.toDTO(orderItemRepository.save(orderItem), true);
     }

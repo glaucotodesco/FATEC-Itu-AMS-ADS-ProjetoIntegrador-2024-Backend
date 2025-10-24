@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket STOMP Client</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+</head>
+<body>
+    <h1>WebSocket STOMP Test</h1>
+    <div id="status">Disconnected</div>
+    <button onclick="connect()">Connect</button>
+    <button onclick="disconnect()">Disconnect</button>
+    <button onclick="subscribe()">Subscribe to Square 1</button>
+    <button onclick="testOrder()">Test Order</button>
+    
+    <div id="messages"></div>
+
+    <script>
+        let stompClient = null;
+
+        function connect() {
+            const socket = new SockJS('http://localhost:8080/ws');
+            stompClient = new StompJs.Client({
+                webSocketFactory: () => socket,
+                debug: (str) => console.log(str),
+                onConnect: (frame) => {
+                    document.getElementById('status').innerText = 'Connected';
+                    console.log('Connected: ' + frame);
+                },
+                onStompError: (frame) => {
+                    console.error('STOMP error: ' + frame.headers['message']);
+                }
+            });
+            stompClient.activate();
+        }
+
+        function disconnect() {
+            if (stompClient) {
+                stompClient.deactivate();
+                document.getElementById('status').innerText = 'Disconnected';
+            }
+        }
+
+        function subscribe() {
+            if (stompClient && stompClient.connected) {
+                stompClient.subscribe('/square/2', (message) => {
+                    const order = JSON.parse(message.body);
+                    document.getElementById('messages').innerHTML += 
+                        '<p>Order received: ' + JSON.stringify(order, null, 2) + '</p>';
+                });
+                console.log('Subscribed to /square/1');
+            }
+        }
+
+        function testOrder() {
+            fetch('http://localhost:8080/orders', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cardId: 1,
+                    seatId: 1,
+                    employeeId: 1,
+                    orderItems: [{
+                        productId: 2,
+                        quantity: 1
+                    }]
+                })
+            }).then(response => response.json())
+              .then(data => console.log('Order created:', data));
+        }
+    </script>
+</body>
+</html>
