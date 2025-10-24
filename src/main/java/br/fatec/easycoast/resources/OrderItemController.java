@@ -51,8 +51,8 @@ public class OrderItemController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderItemResponse> saveOrderItem(@Valid @RequestBody OrderItemRequest request) {
-        OrderItemResponse orderItemResponse = orderItemService.saveOrderItem(request);
+    public ResponseEntity<OrderItemResponseWithOrder> saveOrderItem(@Valid @RequestBody OrderItemRequest request) {
+        OrderItemResponseWithOrder orderItemResponse = orderItemService.saveOrderItem(request);
         if (request.order() != null) orderService.updateTotal(request.order().getId());
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -65,16 +65,14 @@ public class OrderItemController {
         return ResponseEntity.created(location).body(orderItemResponse);
     }
 
-    private void sendWebSocketMessages(OrderItemResponse orderItem) {
+    private void sendWebSocketMessages(OrderItemResponseWithOrder orderItem) {
         try {
             Set<Integer> squareIds = orderItem.product().items().stream()
                 .filter(item -> item.getSquare() != null)
                 .map(item -> item.getSquare().getId())
                 .collect(Collectors.toSet());
             
-            System.out.println("Square IDs: " + squareIds);
             for (Integer squareId : squareIds) {
-                System.out.println("Sending message to /square/" + squareId + ": " + orderItem);
                 messagingTemplate.convertAndSend("/square/" + squareId, orderItem);
             }
         } catch (Exception e) {

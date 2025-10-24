@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
+import br.fatec.easycoast.dtos.orderItem.OrderItemResponseWithOrder;
 import br.fatec.easycoast.dtos.product.ProductResponse;
 import br.fatec.easycoast.entities.Addon;
 import br.fatec.easycoast.entities.OrderItem;
@@ -51,7 +52,7 @@ public class OrderItemService {
         return OrderItemMapper.toDTO(orderItem);
     }
 
-    public OrderItemResponse saveOrderItem(OrderItemRequest request) {
+    public OrderItemResponseWithOrder saveOrderItem(OrderItemRequest request) {
         orderRepository.findById(request.order().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
 
@@ -66,7 +67,8 @@ public class OrderItemService {
         OrderItem orderItem = OrderItemMapper.toEntity(request);
         orderItem.setProduct(productRepository.getReferenceById(orderItem.getProduct().getId()));
         orderItem.setTotal(calculateOrderItemTotal(orderItem));
-        return OrderItemMapper.toDTO(orderItemRepository.save(orderItem), true);
+        orderItem.setOrder(orderRepository.getReferenceById(orderItem.getOrder().getId()));
+        return OrderItemMapper.toDTOWithOrder(orderItemRepository.save(orderItem), true);
     }
 
     public void updateOrderItem(Integer id, OrderItemRequest request) {

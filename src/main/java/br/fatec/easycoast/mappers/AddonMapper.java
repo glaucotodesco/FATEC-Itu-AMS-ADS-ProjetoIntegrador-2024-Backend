@@ -46,9 +46,9 @@ public class AddonMapper {
                                 new Addon(addon.getId(), addon.getName(), addon.getPrice(), addon.getAvailability(),
                                         // addon.getItem(),
                                         addon.getSquare(),
-                                        new AddonCategory(addon.getAddonCategory().getId(),
+                                        addon.getAddonCategory() != null ? new AddonCategory(addon.getAddonCategory().getId(),
                                                 addon.getAddonCategory().getName(),
-                                                addon.getAddonCategory().getType())));
+                                                addon.getAddonCategory().getType()) : null));
 
                     }
                 })

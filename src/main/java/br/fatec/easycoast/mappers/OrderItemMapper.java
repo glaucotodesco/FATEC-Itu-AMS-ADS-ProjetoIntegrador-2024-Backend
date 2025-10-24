@@ -38,7 +38,7 @@ public class OrderItemMapper {
         return toDTO(orderItem, null);
     }
 
-    public static OrderItemResponseWithOrder toDTOWithOrder(OrderItem orderItem) {
+    public static OrderItemResponseWithOrder toDTOWithOrder(OrderItem orderItem, Boolean isPost) {
         return new OrderItemResponseWithOrder(
                 orderItem.getId(),
                 orderItem.getQuantity(),
@@ -46,9 +46,13 @@ public class OrderItemMapper {
                 orderItem.getTotal(),
                 orderItem.getReversed(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
-                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), false) : null,
+                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null,
                 orderItem.getOrder() != null ? OrderMapper.toDTO(orderItem.getOrder()) : null
         );
+    }
+
+    public static OrderItemResponseWithOrder toDTOWithOrder(OrderItem orderItem) {
+        return toDTOWithOrder(orderItem, null);
     }
 
     public static List<OrderItemResponse> toListDTO(List<OrderItem> orderItems) {
