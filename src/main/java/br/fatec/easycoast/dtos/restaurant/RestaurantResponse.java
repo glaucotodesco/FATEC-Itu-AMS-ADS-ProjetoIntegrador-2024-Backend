@@ -1,5 +1,6 @@
 package br.fatec.easycoast.dtos.restaurant;
 
+import java.net.URI;
 import java.util.List;
 
 public record RestaurantResponse(
@@ -9,7 +10,10 @@ public record RestaurantResponse(
     String whoAreWe,
     List<Link> links,
     List<RestaurantScheduling> schedulings,
-    Integer seats
+    Integer seats,
+    URI logo,
+    URI banner,
+    List<String> images
 ) {
 
 }

@@ -24,7 +24,10 @@ public class RestaurantMapper {
                                       restaurant.getWhoAreWe(),
                                       restaurant.getLinks(),
                                       restaurant.getSchedulings(),
-                                      restaurant.getSeats()
+                                      restaurant.getSeats(),
+                                      restaurant.getLogo(),
+                                      restaurant.getBanner(),
+                                      restaurant.getImages()
         );
     }
 }

@@ -40,6 +40,8 @@ public class AddonService {
     }
 
     public void updateAddon(Integer id, AddonRequest request) {
+        if(!addonRepository.existsById(id)) throw new EntityNotFoundException("Addon not found!");
+
         Addon addon = addonRepository.getReferenceById(id);
         addon.setName(request.name());
         addon.setPrice(request.price());
