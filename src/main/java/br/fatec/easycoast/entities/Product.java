@@ -6,7 +6,6 @@ import java.util.List;
 import org.hibernate.annotations.SoftDelete;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -15,6 +14,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -45,9 +46,12 @@ public class Product {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<AddonCategory> addonsCategories;
 
-  @JsonIgnore
-  @OneToMany
-  @JoinColumn(name = "ITEM_ID")
+  @ManyToMany
+  @JoinTable(
+    name = "TBL_PRODUCT_ITEM",
+    joinColumns = @JoinColumn(name = "PRODUCT_ID"),
+    inverseJoinColumns = @JoinColumn(name = "ITEM_ID")
+  )
   private List<Item> items;
 
   public Product() {

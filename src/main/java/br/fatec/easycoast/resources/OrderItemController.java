@@ -2,9 +2,12 @@ package br.fatec.easycoast.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +37,9 @@ public class OrderItemController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @GetMapping
     public ResponseEntity<List<OrderItemResponseWithOrder>> getOrderItems() {
         return ResponseEntity.ok(OrderItemMapper.toListDTOWithOrder(orderItemService.getOrderItems()));
@@ -45,15 +51,33 @@ public class OrderItemController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderItemResponse> saveOrderItem(@Valid @RequestBody OrderItemRequest request) {
-        OrderItemResponse orderItemResponse = orderItemService.saveOrderItem(request);
+    public ResponseEntity<OrderItemResponseWithOrder> saveOrderItem(@Valid @RequestBody OrderItemRequest request) {
+        OrderItemResponseWithOrder orderItemResponse = orderItemService.saveOrderItem(request);
         if (request.order() != null) orderService.updateTotal(request.order().getId());
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("{id}")
                 .buildAndExpand(orderItemResponse.id())
                 .toUri();
+
+        sendWebSocketMessages(orderItemResponse);
+
         return ResponseEntity.created(location).body(orderItemResponse);
+    }
+
+    private void sendWebSocketMessages(OrderItemResponseWithOrder orderItem) {
+        try {
+            Set<Integer> squareIds = orderItem.product().items().stream()
+                .filter(item -> item.getSquare() != null)
+                .map(item -> item.getSquare().getId())
+                .collect(Collectors.toSet());
+            
+            for (Integer squareId : squareIds) {
+                messagingTemplate.convertAndSend("/square/" + squareId, orderItem);
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao enviar mensagem WebSocket: " + e.getMessage());
+        }
     }
 
     @PutMapping("{id}")

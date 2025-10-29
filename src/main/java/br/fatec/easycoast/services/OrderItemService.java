@@ -12,6 +12,7 @@ import br.fatec.easycoast.dtos.addonCategory.AddonType;
 import br.fatec.easycoast.dtos.orderItem.OrderItemAddon;
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
+import br.fatec.easycoast.dtos.orderItem.OrderItemResponseWithOrder;
 import br.fatec.easycoast.dtos.product.ProductResponse;
 import br.fatec.easycoast.entities.Addon;
 import br.fatec.easycoast.entities.OrderItem;
@@ -19,6 +20,7 @@ import br.fatec.easycoast.mappers.OrderItemMapper;
 import br.fatec.easycoast.repositories.AddonRepository;
 import br.fatec.easycoast.repositories.OrderItemRepository;
 import br.fatec.easycoast.repositories.OrderRepository;
+import br.fatec.easycoast.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -39,6 +41,9 @@ public class OrderItemService {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     public List<OrderItem> getOrderItems() {
         return orderItemRepository.findAll();
     }
@@ -49,17 +54,7 @@ public class OrderItemService {
         return OrderItemMapper.toDTO(orderItem);
     }
 
-    private void checkAddons(OrderItemAddon addon){
-        Addon aux = addonRepository.getReferenceById(addon.getAddon().getId());
-        //Check quantity value
-        if (addon.getQuantity() != null && addon.getQuantity() < 1) throw new IllegalArgumentException("Quantity must be at least 1");
-        //Check if it is quantitative
-        if (aux.getAddonCategory().getType() == AddonType.GENERAL && addon.getQuantity() == null) throw new IllegalArgumentException("Max quantity is required for this addon!");
-        //Check the max quantity
-        if (aux.getMaxQuantity() != null && addon.getQuantity() != null && aux.getMaxQuantity() < addon.getQuantity()) throw new IllegalArgumentException("Max quantity exceeded!");
-    }
-
-    public OrderItemResponse saveOrderItem(OrderItemRequest request) {
+    public OrderItemResponseWithOrder saveOrderItem(OrderItemRequest request) {
         orderRepository.findById(request.order().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
         //Check addons quantity
@@ -74,8 +69,10 @@ public class OrderItemService {
         }
 
         OrderItem orderItem = OrderItemMapper.toEntity(request);
+        orderItem.setProduct(productRepository.getReferenceById(orderItem.getProduct().getId()));
         orderItem.setTotal(calculateOrderItemTotal(orderItem));
-        return OrderItemMapper.toDTO(orderItemRepository.save(orderItem), true);
+        orderItem.setOrder(orderRepository.getReferenceById(orderItem.getOrder().getId()));
+        return OrderItemMapper.toDTOWithOrder(orderItemRepository.save(orderItem), true);
     }
 
     public void updateOrderItem(Integer id, OrderItemRequest request) {
