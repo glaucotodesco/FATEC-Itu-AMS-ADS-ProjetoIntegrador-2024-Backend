@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.fatec.easycoast.dtos.addonCategory.AddonType;
+import br.fatec.easycoast.dtos.orderItem.OrderItemAddon;
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
 import br.fatec.easycoast.dtos.product.ProductResponse;
@@ -47,11 +49,23 @@ public class OrderItemService {
         return OrderItemMapper.toDTO(orderItem);
     }
 
+    private void checkAddons(OrderItemAddon addon){
+        Addon aux = addonRepository.getReferenceById(addon.getAddon().getId());
+        //Check quantity value
+        if (addon.getQuantity() != null && addon.getQuantity() < 1) throw new IllegalArgumentException("Quantity must be at least 1");
+        //Check if it is quantitative
+        if (aux.getAddonCategory().getType() == AddonType.GENERAL && addon.getQuantity() == null) throw new IllegalArgumentException("Max quantity is required for this addon!");
+        //Check the max quantity
+        if (aux.getMaxQuantity() != null && addon.getQuantity() != null && aux.getMaxQuantity() < addon.getQuantity()) throw new IllegalArgumentException("Max quantity exceeded!");
+    }
+
     public OrderItemResponse saveOrderItem(OrderItemRequest request) {
         orderRepository.findById(request.order().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
-
-        List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
+        //Check addons quantity
+        request.addons().forEach(a -> checkAddons(a));
+        //Check if addons are from the same product
+        List<Integer> addonIds = request.addons().stream().map(a -> a.getAddon().getId()).collect(Collectors.toList());
         if (!addonIds.isEmpty()) {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
             if (addonNumber > 0) {
@@ -68,7 +82,8 @@ public class OrderItemService {
         orderRepository.findById(request.order().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
         
-        List<Integer> addonIds = request.addons().stream().map(Addon::getId).collect(Collectors.toList());
+        request.addons().forEach(a -> checkAddons(a));
+        List<Integer> addonIds = request.addons().stream().map(a -> a.getAddon().getId()).collect(Collectors.toList());
         if (!addonIds.isEmpty()) {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
             if (addonNumber > 0) {
@@ -100,7 +115,7 @@ public class OrderItemService {
             double addonsPrice = 0.0;
             if (orderItem.getAddons() != null) {
                 addonsPrice = orderItem.getAddons().stream()
-                        .mapToDouble(addon -> addonService.getAddonById(addon.getId()).price())
+                        .mapToDouble(addon -> addonService.getAddonById(addon.getAddon().getId()).price())
                         .sum();
             }
 

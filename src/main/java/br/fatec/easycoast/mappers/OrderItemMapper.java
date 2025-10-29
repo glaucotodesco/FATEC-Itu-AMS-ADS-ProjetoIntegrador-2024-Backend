@@ -3,6 +3,8 @@ package br.fatec.easycoast.mappers;
 import java.util.Collections;
 import java.util.List;
 
+import br.fatec.easycoast.dtos.orderItem.OrderItemAddon;
+import br.fatec.easycoast.dtos.orderItem.OrderItemAddonResponse;
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponseWithOrder;
@@ -30,8 +32,20 @@ public class OrderItemMapper {
                 orderItem.getTotal(),
                 orderItem.getReversed(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
-                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null
+                orderItem.getAddons() != null ? addonToResponse(orderItem.getAddons()) : null
         );
+    }
+
+    private static List<OrderItemAddonResponse> addonToResponse(List<OrderItemAddon> addons) {
+        if (addons != null) {
+            return addons
+                    .stream()
+                    .map(a -> {
+                        return new OrderItemAddonResponse(AddonMapper.toDTO(a.getAddon()), a.getQuantity());
+                    })
+                    .toList();
+        }
+        return Collections.emptyList();
     }
 
     public static OrderItemResponse toDTO(OrderItem orderItem) {
@@ -46,7 +60,7 @@ public class OrderItemMapper {
                 orderItem.getTotal(),
                 orderItem.getReversed(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
-                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), false) : null,
+                orderItem.getAddons() != null ? addonToResponse(orderItem.getAddons()) : null,
                 orderItem.getOrder() != null ? OrderMapper.toDTO(orderItem.getOrder()) : null
         );
     }
