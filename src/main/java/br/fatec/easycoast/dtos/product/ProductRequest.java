@@ -33,9 +33,7 @@ public record ProductRequest(
 
     @NotNull(message = "Subcategory cannot be null")
     Subcategory subcategory,
-
-                List<AddonCategory> addonCategories,
-                List<ProductItem> items
-
+    List<AddonCategory> addonCategories,
+    List<ProductItem> items
 ) {
 }
