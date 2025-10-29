@@ -15,6 +15,7 @@ public record AddonRequest(
         Float price,
         @NotNull(message = "Availability can't be null!")
         Boolean availability,
+        Integer maxQuantity,
         // Item item,
         Square square,
         @NotNull(message = "Addon Category can't be null!")

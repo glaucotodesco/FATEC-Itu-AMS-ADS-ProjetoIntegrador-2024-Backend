@@ -14,6 +14,7 @@ public class AddonMapper {
         addon.setName(request.name());
         addon.setPrice(request.price());
         addon.setAvailability(request.availability());
+        addon.setMaxQuantity(request.maxQuantity());
         // addon.setItem(request.item());
         addon.setSquare(request.square());
         addon.setAddonCategory(request.addonCategory());
@@ -27,6 +28,7 @@ public class AddonMapper {
                 addon.getName(),
                 addon.getPrice(),
                 addon.getAvailability(),
+                addon.getMaxQuantity(),
                 addon.getSquare() != null ? SquareMapper.toDto(addon.getSquare()) : null,
                 addon.getAddonCategory() != null ? AddonCategoryMapper.toDTO(addon.getAddonCategory()) : null
 
@@ -44,6 +46,7 @@ public class AddonMapper {
                 else {
                       return toDTO(
                                 new Addon(addon.getId(), addon.getName(), addon.getPrice(), addon.getAvailability(),
+                                        addon.getMaxQuantity(),
                                         // addon.getItem(),
                                         addon.getSquare(),
                                         addon.getAddonCategory() != null ? new AddonCategory(addon.getAddonCategory().getId(),

@@ -13,6 +13,7 @@ public record SchedulingRequest(
         Integer quantity,
         @NotNull(message = "The Scheduling seat can't be null")
         Seat seat,
+        String observations,
         @NotNull(message = "The Scheduling customer can't be null")
         Customer customer
 ) {
