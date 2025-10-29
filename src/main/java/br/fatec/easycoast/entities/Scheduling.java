@@ -26,22 +26,25 @@ public class Scheduling {
     private Integer quantity;
 
     @ManyToOne
-    @JoinColumn(name = "CUSTOMER_ID", nullable = false)
-    private Customer customer;
-
-    @ManyToOne
     @JoinColumn(name = "SEAT_ID", nullable = true)
     private Seat seat;
+
+    private String observations;
+
+    @ManyToOne
+    @JoinColumn(name = "CUSTOMER_ID", nullable = false)
+    private Customer customer;
 
     public Scheduling() {
     }
 
-    public Scheduling(Integer id, Instant startsAt, Integer quantity, Customer customer, Seat seat) {
+    public Scheduling(Integer id, Instant startsAt, Integer quantity, Customer customer, Seat seat, String observations) {
         this.id = id;
         this.startsAt = startsAt;
         this.quantity = quantity;
         this.customer = customer;
         this.seat = seat;
+        this.observations = observations;
     }
 
     public Integer getId() {
@@ -68,14 +71,6 @@ public class Scheduling {
         this.quantity = quantity;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public Seat getSeat() {
         return seat;
     }
@@ -84,4 +79,19 @@ public class Scheduling {
         this.seat = seat;
     }
 
+    public String getObservations() {
+        return observations;
+    }
+
+    public void setObservations(String observations) {
+        this.observations = observations;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }

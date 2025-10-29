@@ -11,6 +11,7 @@ public class SchedulingMapper {
         scheduling.setStartsAt(request.startsAt());
         scheduling.setQuantity(request.quantity());
         scheduling.setSeat(request.seat());
+        scheduling.setObservations(request.observations());
         scheduling.setCustomer(request.customer());
         return scheduling;
     }
@@ -20,6 +21,7 @@ public class SchedulingMapper {
                 scheduling.getId(),
                 scheduling.getStartsAt(),
                 scheduling.getQuantity(),
+                scheduling.getObservations(),
                 scheduling.getCustomer(),
                 scheduling.getSeat());
     }

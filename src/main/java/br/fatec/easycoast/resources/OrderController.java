@@ -2,9 +2,12 @@ package br.fatec.easycoast.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +32,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @GetMapping()
     public ResponseEntity<List<OrderResponse>> getOrders() {
         return ResponseEntity.ok(orderService.getOrders());
@@ -47,7 +53,26 @@ public class OrderController {
                 .path("/{id}")
                 .buildAndExpand(orderResponse.id())
                 .toUri();
+                
+        sendWebSocketMessages(orderResponse);
+        
         return ResponseEntity.created(location).body(orderResponse);
+    }
+    
+    private void sendWebSocketMessages(OrderResponse order) {
+        try {
+            Set<Integer> squareIds = order.orderItems().stream()
+                .flatMap(orderItem -> orderItem.product().items().stream())
+                .filter(item -> item.getSquare() != null)
+                .map(item -> item.getSquare().getId())
+                .collect(Collectors.toSet());
+
+            for (Integer squareId : squareIds) {
+                messagingTemplate.convertAndSend("/square/" + squareId, order);
+            }
+        } catch (Exception e) {
+            System.err.println("Erro ao enviar mensagem WebSocket: " + e.getMessage());
+        }
     }
 
     @PutMapping("{id}")

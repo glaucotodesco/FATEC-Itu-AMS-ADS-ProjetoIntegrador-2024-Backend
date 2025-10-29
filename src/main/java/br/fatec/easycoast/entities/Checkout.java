@@ -25,11 +25,11 @@ public class Checkout {
   @Column(name = "CLOSING_DATE")
   private Instant closingDate;
 
-  @Column(name = "ENTRY_AMOUNT")
-  private double entryAmount;
+    @Column(name = "ENTRY_AMOUNT")
+    private Double entryAmount;
 
-  @Column(name = "EXIT_AMOUNT")
-  private double exitAmount;
+    @Column(name = "EXIT_AMOUNT")
+    private Double exitAmount;
 
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "EMPLOYEE_ID")
@@ -61,23 +61,22 @@ public class Checkout {
   public void setClosingDate(Instant closingDate) {
     this.closingDate = closingDate;
   }
+  
+    public Double getEntryAmount() {
+        return entryAmount;
+    }
 
-  public double getEntryAmount() {
-    return entryAmount;
-  }
+    public void setEntryAmount(Double entryAmount) {
+        this.entryAmount = entryAmount;
+    }
 
-  public void setEntryAmount(double entryAmount) {
-    this.entryAmount = entryAmount;
-  }
+    public Double getExitAmount() {
+        return exitAmount;
+    }
 
-  public double getExitAmount() {
-    return exitAmount;
-  }
-
-  public void setExitAmount(double exitAmount) {
-    this.exitAmount = exitAmount;
-  }
-
+    public void setExitAmount(Double exitAmount) {
+        this.exitAmount = exitAmount;
+    }
     public double getChangeAmount() {
         return changeAmount;
     }

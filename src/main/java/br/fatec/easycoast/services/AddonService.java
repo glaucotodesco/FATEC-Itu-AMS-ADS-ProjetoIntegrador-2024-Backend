@@ -35,7 +35,11 @@ public class AddonService {
     }
 
     public AddonResponse saveAddon(AddonRequest request) {
-        Addon addon = addonRepository.save(AddonMapper.toEntity(request));
+        Addon addon = AddonMapper.toEntity(request);
+        if (addon.getMaxQuantity() == null) addon.setMaxQuantity(1);
+        if (addon.getMaxQuantity() != null
+        && addon.getMaxQuantity() < 1) throw new IllegalArgumentException("Max quantity must be at least 1");
+        addon = addonRepository.save(addon);
         return AddonMapper.toDTO(addon);
     }
 
@@ -47,6 +51,10 @@ public class AddonService {
         addon.setPrice(request.price());
         addon.setAvailability(request.availability());
         addon.setAddonCategory(request.addonCategory());
+        if (addon.getMaxQuantity() == null) addon.setMaxQuantity(1);
+        else addon.setMaxQuantity(request.maxQuantity());
+        if (addon.getMaxQuantity() != null
+        && addon.getMaxQuantity() < 1) throw new IllegalArgumentException("Max quantity must be at least 1");
         // addon.setItem(request.item());
         addon.setSquare(request.square());
 

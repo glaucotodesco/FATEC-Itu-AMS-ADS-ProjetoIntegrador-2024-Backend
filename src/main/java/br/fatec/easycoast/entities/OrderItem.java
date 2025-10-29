@@ -4,12 +4,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import br.fatec.easycoast.dtos.orderItem.OrderItemAddon;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -32,8 +34,9 @@ public class OrderItem {
     @JoinColumn(name = "PRODUCT_ID")
     private Product product;
 
-    @ManyToMany
-    private List<Addon> addons;
+    @ElementCollection
+    @CollectionTable(name = "TBL_ORDERITEM_ADDONS", joinColumns = @JoinColumn(name = "ORDER_ITEM_ID"))
+    private List<OrderItemAddon> addons;
 
     @ManyToMany
     private List<Item> removable;
@@ -83,11 +86,11 @@ public class OrderItem {
         this.product = product;
     }
 
-    public List<Addon> getAddons() {
+    public List<OrderItemAddon> getAddons() {
         return addons;
     }
 
-    public void setAddons(List<Addon> addons) {
+    public void setAddons(List<OrderItemAddon> addons) {
         this.addons = addons;
     }
 
