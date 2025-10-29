@@ -9,6 +9,7 @@ public record SchedulingResponse(
         Integer id,
         Instant startsAt,
         Integer quantity,
+        String observations,
         Customer customer,
         Seat seat) {
 }
