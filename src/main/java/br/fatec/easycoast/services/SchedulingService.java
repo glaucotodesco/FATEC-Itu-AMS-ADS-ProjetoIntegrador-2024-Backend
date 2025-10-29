@@ -66,6 +66,8 @@ public class SchedulingService {
     }
 
     public SchedulingResponse updateScheduling(Integer id, SchedulingRequest request) {
+        if(!schedulingRepository.existsById(id)) throw new EntityNotFoundException("Scheduling not found!");
+        
         Scheduling scheduling = schedulingRepository.getReferenceById(id);
 
         schedulingRepository

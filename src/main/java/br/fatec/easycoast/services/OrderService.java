@@ -192,12 +192,11 @@ public class OrderService {
         BigDecimal orderTotal = BigDecimal.valueOf(orderTotalDouble).setScale(2, RoundingMode.HALF_UP);
         BigDecimal totalPaid = BigDecimal.valueOf(totalPaidDouble).setScale(2, RoundingMode.HALF_UP);
 
-        BigDecimal tipMultiplier = new BigDecimal("1.1");
-        BigDecimal orderTotalWithTip = orderTotal.multiply(tipMultiplier).setScale(2, RoundingMode.HALF_UP);
-
-        if (totalPaid.compareTo(orderTotalWithTip) != 0) {
+        // A gorjeta é opcional. O valor pago deve ser no mínimo o total do pedido.
+        // Se for maior, a diferença é considerada gorjeta.
+        if (totalPaid.compareTo(orderTotal) < 0) {
             throw new IllegalStateException(
-                String.format("O valor pago (R$%.2f) não corresponde ao total do pedido com gorjeta (R$%.2f).", totalPaid, orderTotalWithTip)
+                String.format("O valor pago (R$%.2f) é menor que o total do pedido (R$%.2f).", totalPaid, orderTotal)
             );
         }
 

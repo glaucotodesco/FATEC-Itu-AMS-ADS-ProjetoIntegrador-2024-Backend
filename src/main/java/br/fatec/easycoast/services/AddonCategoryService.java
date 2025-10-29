@@ -14,9 +14,11 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class AddonCategoryService {
-
     @Autowired
     private AddonCategoryRepository addonCategoryRepository;
+
+    @Autowired
+    private ProductService productService;
 
     public List<AddonCategoryResponse> getAddonCategoriesByProductId(Integer id) {
         List<AddonCategory> addonCategories = addonCategoryRepository.findByProductId(id);
@@ -45,7 +47,13 @@ public class AddonCategoryService {
     }
 
     public void updateAddonCategory(Integer id, AddonCategoryRequest request) {
+        if(!addonCategoryRepository.existsById(id)) throw new EntityNotFoundException("Addon Category not found!");
+
         AddonCategory aux = addonCategoryRepository.getReferenceById(id);
+        
+        try { productService.getProductById(request.product().getId()); }
+        catch (EntityNotFoundException e) { throw new EntityNotFoundException("The product wasn't found!"); }
+
         aux.setName(request.name());
         aux.setType(request.type());
         aux.setProduct(request.product());

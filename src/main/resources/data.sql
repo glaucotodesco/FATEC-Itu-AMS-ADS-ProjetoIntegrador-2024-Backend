@@ -1,11 +1,11 @@
-
-INSERT INTO TBL_RESTAURANT (NAME, ZIP_CODE, NEIGHBORHOOD, ADDRESS, NUMBER, STATE, CITY, WHO_ARE_WE, SEATS) VALUES ('Polvo Provençal', '12345-678', 'Jose Andrade', 'R. tal tal', '123', 'SP', 'SOROCABA', 'Um ótimo restaurante', 0);
+INSERT INTO TBL_RESTAURANT (NAME, ZIP_CODE, NEIGHBORHOOD, ADDRESS, NUMBER, STATE, CITY, WHO_ARE_WE, SEATS, IMAGES) VALUES ('Polvo Provençal', '12345-678', 'Jose Andrade', 'R. tal tal', '123', 'SP', 'SOROCABA', 'Um ótimo restaurante', 0, '{}');
 
 INSERT INTO TBL_RESTAURANT_LINK (SITE, URL, RESTAURANT_ID) VALUES ('Facebook', 'https://www.facebook.com', 1);
 INSERT INTO TBL_RESTAURANT_LINK (SITE, URL, RESTAURANT_ID) VALUES ('Instagram', 'https://www.instagram.com', 1);
 
 INSERT INTO TBL_RESTAURANT_SCHEDULING (NAME, STARTING_TIME, ENDING_TIME, AVAILABLE_DAYS, RESTAURANT_ID) VALUES ('Almoço', '13:00:00', '15:00:00', '{false, true, true, true, false, true, false}', 1);
 INSERT INTO TBL_RESTAURANT_SCHEDULING (NAME, STARTING_TIME, ENDING_TIME, AVAILABLE_DAYS, RESTAURANT_ID) VALUES ('Jantar', '18:00:00', '21:30:00', '{false, true, true, true, false, true, false}', 1);
+
 
 INSERT INTO TBL_SEAT (STATUS) VALUES (0); 
 INSERT INTO TBL_SEAT (STATUS) VALUES (0); 
@@ -56,12 +56,12 @@ INSERT INTO TBL_SUBCATEGORY (NAME, AVAILABILITY, CATEGORY_ID, DELETED) VALUES ('
 INSERT INTO TBL_SUBCATEGORY (NAME, AVAILABILITY, CATEGORY_ID, DELETED) VALUES ('Prato Principal', false,  1, false );
 INSERT INTO TBL_SUBCATEGORY (NAME, AVAILABILITY, CATEGORY_ID, DELETED) VALUES ('Sobremesa', true,  1, false );
 
-INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl, DELETED)
-VALUES ('Pizza Margherita', 'Pizza com molho de tomate, mussarela e manjericão fresco', 39.90, 0.0, TRUE, 1, 'https://abrir.link/gSCkw', false);
-INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl, DELETED)
-VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e molho especial', 29.90, 5.0, TRUE, 2, 'https://abrir.link/WrIHG', false);
-INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, imageUrl, DELETED)
-VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 3 , 'https://abrir.link/rbVqV', false);
+INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, DELETED)
+VALUES ('Pizza Margherita', 'Pizza com molho de tomate, mussarela e manjericão fresco', 39.90, 0.0, TRUE, 1, false);
+INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, DELETED)
+VALUES ('Hambúrguer Artesanal', 'Pão brioche, carne Angus, queijo cheddar e molho especial', 29.90, 5.0, TRUE, 2, false);
+INSERT INTO TBL_PRODUCT (name, description, price, discount, availability, SUBCATEGORY_ID, DELETED)
+VALUES ('Salada Caesar', 'Alface americana, croutons, frango grelhado e molho caesar', 24.90, 10.0, TRUE, 3 , false);
 
 INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID, DELETED) VALUES ('Molhos Extras', 1, 3, false);
 INSERT INTO TBL_ADDONCATEGORY (NAME, TYPE, PRODUCT_ID, DELETED) VALUES ('Adicionais do Hambúrguer', 0, 2, false); 
