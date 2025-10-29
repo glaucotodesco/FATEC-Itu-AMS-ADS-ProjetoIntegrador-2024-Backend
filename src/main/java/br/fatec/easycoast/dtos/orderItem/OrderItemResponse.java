@@ -16,7 +16,7 @@ public record OrderItemResponse(
         Double total,
         Boolean reversed,
         @JsonIgnoreProperties("addonCategories") ProductResponse product,
-        List<OrderItemAddonResponse> addons
+        List<OrderItemAddonResponse> addons,
         List<ItemResponse> removable
 ) {
 }

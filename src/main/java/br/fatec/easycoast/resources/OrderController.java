@@ -63,8 +63,8 @@ public class OrderController {
         try {
             Set<Integer> squareIds = order.orderItems().stream()
                 .flatMap(orderItem -> orderItem.product().items().stream())
-                .filter(item -> item.getSquare() != null)
-                .map(item -> item.getSquare().getId())
+                .filter(item -> item.getItem().getSquare() != null)
+                .map(item -> item.getItem().getSquare().getId())
                 .collect(Collectors.toSet());
 
             for (Integer squareId : squareIds) {

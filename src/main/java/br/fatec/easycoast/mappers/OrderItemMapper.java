@@ -62,7 +62,7 @@ public class OrderItemMapper {
                 orderItem.getTotal(),
                 orderItem.getReversed(),
                 orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
-                orderItem.getAddons() != null ? AddonMapper.toListDTO(orderItem.getAddons(), isPost) : null,
+                orderItem.getAddons() != null ? addonToResponse(orderItem.getAddons()) : null,
                 orderItem.getRemovable() != null ? ItemMapper.toListDTO(orderItem.getRemovable()) : null,
                 orderItem.getOrder() != null ? OrderMapper.toDTO(orderItem.getOrder()) : null
         );
