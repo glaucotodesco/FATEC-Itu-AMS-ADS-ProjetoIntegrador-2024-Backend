@@ -13,6 +13,9 @@ public class SquareMapper {
     }
 
     public static SquareResponse toDto(Square square) {
+        if (square == null) {
+            return null;
+        }
         SquareResponse squareResponse = new SquareResponse(square.getId(), square.getName(), square.getItems());
         return squareResponse;
     }

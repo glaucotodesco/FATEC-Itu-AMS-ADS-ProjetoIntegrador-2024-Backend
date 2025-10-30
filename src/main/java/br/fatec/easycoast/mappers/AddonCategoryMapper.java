@@ -14,17 +14,20 @@ public class AddonCategoryMapper {
         return addonCategory;
     }
 
-    public static AddonCategoryResponse toDTO(AddonCategory addonCategory) {
+    public static AddonCategoryResponse toDTO(AddonCategory addonCategory, boolean product) {
 
         return new AddonCategoryResponse(
                 addonCategory.getId(),
                 addonCategory.getName(),
                 addonCategory.getType(),
-                addonCategory.getProduct() != null ? ProductMapper.toDTO(addonCategory.getProduct()) : null,
-                addonCategory.getAddons()
+                addonCategory.getProduct() != null && product ? ProductMapper.toDTO(addonCategory.getProduct()) : null,
+                addonCategory.getAddons() != null ? AddonMapper.toListDTO(addonCategory.getAddons()) : null
 
         );
 
     }
 
+    public static AddonCategoryResponse toDTO(AddonCategory addonCategory) {
+        return toDTO(addonCategory, true);
+    }
 }

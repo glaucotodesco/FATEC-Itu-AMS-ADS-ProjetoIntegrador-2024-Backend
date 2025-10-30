@@ -5,9 +5,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.fatec.easycoast.dtos.addonCategory.AddonCategoryResponse;
 import br.fatec.easycoast.dtos.subcategory.SubcategoryResponse;
-import br.fatec.easycoast.entities.AddonCategory;
-import br.fatec.easycoast.entities.Item;
 
 public record ProductResponse(
         Integer id,
@@ -18,8 +17,8 @@ public record ProductResponse(
         Boolean availability,
         @JsonIgnoreProperties("products") SubcategoryResponse subcategory,
         URI image,
-        @JsonIgnoreProperties("product") List<AddonCategory> addonCategories,
-        List<Item> items
+        @JsonIgnoreProperties("product") List<AddonCategoryResponse> addonCategories,
+        List<ProductItem> items
 
 ) {
 }

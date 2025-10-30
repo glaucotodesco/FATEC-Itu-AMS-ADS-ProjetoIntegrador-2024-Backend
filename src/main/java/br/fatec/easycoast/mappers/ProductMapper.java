@@ -33,7 +33,7 @@ public class ProductMapper {
         product.getAvailability(),
         product.getSubcategory() != null ? SubcategoryMapper.toDTO(product.getSubcategory()) : null,
         product.getImage(),
-        product.getAddonsCategories(),
+        product.getAddonsCategories() != null ? product.getAddonsCategories().stream().map(ac -> AddonCategoryMapper.toDTO(ac, false)).toList() : null,
         product.getItems()
     );
 

@@ -5,8 +5,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import br.fatec.easycoast.dtos.item.ItemResponse;
 import br.fatec.easycoast.dtos.product.ProductResponse;
-//'br.fatec.easycoast.entities.Order' 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record OrderItemResponse(
@@ -16,7 +16,7 @@ public record OrderItemResponse(
         Double total,
         Boolean reversed,
         @JsonIgnoreProperties("addonCategories") ProductResponse product,
-        List<OrderItemAddonResponse> addons
-// O campo 'Order order' foi REMOVIDO daqui
+        List<OrderItemAddonResponse> addons,
+        List<ItemResponse> removable
 ) {
 }
