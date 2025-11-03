@@ -7,15 +7,15 @@ import org.hibernate.annotations.SoftDelete;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.CascadeType;
+import br.fatec.easycoast.dtos.product.ProductItem;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -46,13 +46,10 @@ public class Product {
   @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
   private List<AddonCategory> addonsCategories;
 
-  @ManyToMany
-  @JoinTable(
-    name = "TBL_PRODUCT_ITEM",
-    joinColumns = @JoinColumn(name = "PRODUCT_ID"),
-    inverseJoinColumns = @JoinColumn(name = "ITEM_ID")
-  )
-  private List<Item> items;
+  @ElementCollection
+  @CollectionTable(name = "TBL_PRODUCT_ITEM", joinColumns = @JoinColumn(name = "PRODUCT_ID"))
+  @JsonIgnoreProperties("product")
+  private List<ProductItem> items;
 
   public Product() {
   }
@@ -69,7 +66,7 @@ public class Product {
   }
 
   public Product(Integer id, String name, Double price, Double discount, Boolean availability, Subcategory subcategory,
-      URI image, List<AddonCategory> addonCategories, List<Item> items) {
+      URI image, List<AddonCategory> addonCategories, List<ProductItem> items) {
     this.id = id;
     this.name = name;
     this.price = price;
@@ -153,11 +150,11 @@ public class Product {
     this.addonsCategories = addonsCategories;
   }
 
-  public List<Item> getItems() {
+  public List<ProductItem> getItems() {
     return items;
   }
 
-  public void setItems(List<Item> items) {
+  public void setItems(List<ProductItem> items) {
     this.items = items;
   }
 

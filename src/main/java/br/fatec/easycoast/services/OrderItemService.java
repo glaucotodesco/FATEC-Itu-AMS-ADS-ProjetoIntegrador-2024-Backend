@@ -78,6 +78,17 @@ public class OrderItemService {
             }
         }
 
+        if (request.removable() != null && !request.removable().isEmpty()) {
+            ProductResponse product = productService.getProductById(request.product().getId());
+            boolean allItemsValid = request.removable().stream()
+                .allMatch(removableItem -> product.items().stream()
+                    .anyMatch(productItem -> productItem.getItem().getId().equals(removableItem.getId()) 
+                        && productItem.getRemovable()));
+            if (!allItemsValid) {
+                throw new IllegalArgumentException("Some removable items are not present in the product or not removable!");
+            }
+        }
+
         OrderItem orderItem = OrderItemMapper.toEntity(request);
         orderItem.setProduct(productRepository.getReferenceById(orderItem.getProduct().getId()));
         orderItem.setTotal(calculateOrderItemTotal(orderItem));
@@ -95,6 +106,17 @@ public class OrderItemService {
             int addonNumber = addonRepository.findAddonIfexists(addonIds, request.product().getId());
             if (addonNumber > 0) {
                 throw new EntityNotFoundException("Addon incorrect!");
+            }
+        }
+
+        if (request.removable() != null && !request.removable().isEmpty()) {
+            ProductResponse product = productService.getProductById(request.product().getId());
+            boolean allItemsValid = request.removable().stream()
+                .allMatch(removableItem -> product.items().stream()
+                    .anyMatch(productItem -> productItem.getItem().getId().equals(removableItem.getId()) 
+                        && productItem.getRemovable()));
+            if (!allItemsValid) {
+                throw new EntityNotFoundException("Some removable items are not present in the product or not removable!");
             }
         }
 

@@ -3,7 +3,6 @@ package br.fatec.easycoast.dtos.product;
 import java.util.List;
 
 import br.fatec.easycoast.entities.AddonCategory;
-import br.fatec.easycoast.entities.Item;
 import br.fatec.easycoast.entities.Subcategory;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -34,9 +33,7 @@ public record ProductRequest(
 
     @NotNull(message = "Subcategory cannot be null")
     Subcategory subcategory,
-
     List<AddonCategory> addonCategories,
-    List<Item> items
-
+    List<ProductItem> items
 ) {
 }

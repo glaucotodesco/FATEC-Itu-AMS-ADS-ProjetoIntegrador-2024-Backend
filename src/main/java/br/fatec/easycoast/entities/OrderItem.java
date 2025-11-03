@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -37,6 +38,9 @@ public class OrderItem {
     @ElementCollection
     @CollectionTable(name = "TBL_ORDERITEM_ADDONS", joinColumns = @JoinColumn(name = "ORDER_ITEM_ID"))
     private List<OrderItemAddon> addons;
+
+    @ManyToMany
+    private List<Item> removable;
 
     @ManyToOne
     @JoinColumn(name = "ORDER_ID")
@@ -89,6 +93,14 @@ public class OrderItem {
 
     public void setAddons(List<OrderItemAddon> addons) {
         this.addons = addons;
+    }
+
+    public List<Item> getRemovable() {
+        return removable;
+    }
+
+    public void setRemovable(List<Item> removable) {
+        this.removable = removable;
     }
 
     public Order getOrder() {

@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import br.fatec.easycoast.dtos.item.ItemResponse;
 import br.fatec.easycoast.dtos.order.OrderResponse;
 import br.fatec.easycoast.dtos.product.ProductResponse;
 
@@ -17,6 +18,7 @@ public record OrderItemResponseWithOrder(
         Boolean reversed,
         @JsonIgnoreProperties("addonCategories") ProductResponse product,
         List<OrderItemAddonResponse> addons,
+        List<ItemResponse> removable,
         @JsonIgnoreProperties("orderItems") OrderResponse order
 ) {
 }
