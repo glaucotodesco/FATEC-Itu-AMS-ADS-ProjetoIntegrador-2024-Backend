@@ -54,6 +54,16 @@ public class OrderItemService {
         return OrderItemMapper.toDTO(orderItem);
     }
 
+    private void checkAddons(OrderItemAddon addon){
+        Addon aux = addonRepository.getReferenceById(addon.getAddon().getId());
+        //Check quantity value
+        if (addon.getQuantity() != null && addon.getQuantity() < 1) throw new IllegalArgumentException("Quantity must be at least 1");
+        //Check if it is quantitative
+        if (aux.getAddonCategory().getType() == AddonType.GENERAL && addon.getQuantity() == null) throw new IllegalArgumentException("Max quantity is required for this addon!");
+        //Check the max quantity
+        if (aux.getMaxQuantity() != null && addon.getQuantity() != null && aux.getMaxQuantity() < addon.getQuantity()) throw new IllegalArgumentException("Max quantity exceeded!");
+    }
+
     public OrderItemResponseWithOrder saveOrderItem(OrderItemRequest request) {
         orderRepository.findById(request.order().getId())
                 .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + request.order().getId()));
