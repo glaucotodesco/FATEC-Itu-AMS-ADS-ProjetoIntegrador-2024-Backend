@@ -8,14 +8,17 @@ import jakarta.validation.constraints.Size;
 
 public record AddonRequest(
 
-        @NotBlank(message = "Name of the addon cant be blank")
-        @Size(min = 3, message = "Minimum name size is 3 characters")
+        @NotBlank(message = "Name of the addon cant be blank!")
+        @Size(min = 3, message = "Minimum name size is 3 characters!")
         String name,
+        @NotNull(message = "Price can't be null!")
         Float price,
-        @NotNull(message = "Availability can't be null")
+        @NotNull(message = "Availability can't be null!")
         Boolean availability,
+        Integer maxQuantity,
         // Item item,
         Square square,
+        @NotNull(message = "Addon Category can't be null!")
         AddonCategory addonCategory
 
 ) {

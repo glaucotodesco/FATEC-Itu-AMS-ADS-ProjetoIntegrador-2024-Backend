@@ -1,5 +1,6 @@
 package br.fatec.easycoast.entities;
 
+import java.net.URI;
 import java.util.List;
 
 import br.fatec.easycoast.dtos.restaurant.AboutUsSection;
@@ -44,6 +45,10 @@ public class Restaurant {
     @ElementCollection
     @CollectionTable(name = "TBL_RESTAURANT_SCHEDULING")
     private List<RestaurantScheduling> schedulings;
+
+    private URI logo;
+    private URI banner;
+    private List<String> images;
 
     private Integer seats;
 
@@ -121,5 +126,29 @@ public class Restaurant {
 
     public void setHighlights(List<Highlight> highlights) {
         this.highlights = highlights;
+    }
+
+    public URI getLogo() {
+        return logo;
+    }
+
+    public void setLogo(URI logo) {
+        this.logo = logo;
+    }
+
+    public URI getBanner() {
+        return banner;
+    }
+
+    public void setBanner(URI banner) {
+        this.banner = banner;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

@@ -28,6 +28,9 @@ public class Addon {
 
     @Column(nullable = false)
     private Boolean availability;
+    
+    @Column
+    private Integer maxQuantity;
 
     @ManyToOne
     @JoinColumn(name = "SQUARE_ID")
@@ -41,7 +44,7 @@ public class Addon {
     public Addon() {
     }
 
-    public Addon(Integer id, String name, Float price, Boolean availability, Square square,
+    public Addon(Integer id, String name, Float price, Boolean availability, Integer maxQuantity, Square square,
             AddonCategory addonCategory) {
         this.id = id;
         this.name = name;
@@ -81,6 +84,14 @@ public class Addon {
 
     public void setAvailability(Boolean availability) {
         this.availability = availability;
+    }
+
+    public Integer getMaxQuantity() {
+        return maxQuantity;
+    }
+
+    public void setMaxQuantity(Integer maxQuantity) {
+        this.maxQuantity = maxQuantity;
     }
 
     public Square getSquare() {

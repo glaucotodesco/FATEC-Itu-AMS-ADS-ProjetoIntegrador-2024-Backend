@@ -12,6 +12,7 @@ public record AddonResponse(
         String name,
         Float price,
         Boolean availability,
+        Integer maxQuantity,
         @JsonIgnoreProperties("items") SquareResponse square,
         @JsonIgnoreProperties("addons") AddonCategoryResponse addonCategory) {
 }
