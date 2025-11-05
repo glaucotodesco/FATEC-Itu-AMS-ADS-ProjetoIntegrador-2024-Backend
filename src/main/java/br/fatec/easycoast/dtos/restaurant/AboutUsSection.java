@@ -1,21 +1,25 @@
 package br.fatec.easycoast.dtos.restaurant;
 
+import java.net.URI;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 
 @Embeddable
 public class AboutUsSection {
     @NotBlank(message = "Header can't be blank")
+    @Column(unique = true)
     private String header;
     @NotBlank(message = "Content can't be blank")
     private String content;
-    private String image;
+    private URI image;
 
     public AboutUsSection() {
     }
 
     public AboutUsSection(@NotBlank(message = "Header can't be blank") String header,
-            @NotBlank(message = "Content can't be blank") String content, String image) {
+            @NotBlank(message = "Content can't be blank") String content, URI image) {
         this.header = header;
         this.content = content;
         this.image = image;
@@ -37,11 +41,11 @@ public class AboutUsSection {
         this.content = content;
     }
 
-    public String getImage() {
+    public URI getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(URI image) {
         this.image = image;
     }
 }

@@ -64,6 +64,12 @@ public class RestaurantController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("section/{header}/image")
+    public ResponseEntity<Void> setAboutUsSectionImage(@PathVariable String header, @RequestParam MultipartFile file){
+        restaurantService.setAboutUsSectionImage(header, file);
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping("banner")
     public ResponseEntity<Void> setBanner(@RequestParam MultipartFile file){
         restaurantService.setRestaurantBanner(file);

@@ -6,9 +6,12 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import br.fatec.easycoast.dtos.restaurant.RestaurantRequest;
 import br.fatec.easycoast.dtos.restaurant.RestaurantResponse;
@@ -34,14 +37,18 @@ public class RestaurantService {
     }
 
     public RestaurantResponse saveRestaurant(RestaurantRequest request) {
-        if(restaurantRepository.findById(1).orElse(null) != null){
-            throw new DatabaseException("The Restaurant has been created already!");
+        try{
+            if(restaurantRepository.findById(1).orElse(null) != null){
+                throw new DatabaseException("The Restaurant has been created already!");
+            }
+            Restaurant restaurant = RestaurantMapper.toEntity(request);
+            restaurant.setSeats(0);
+            restaurant.setImages(new ArrayList<String>());
+            restaurant = restaurantRepository.save(restaurant);
+            return RestaurantMapper.toDto(restaurant);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("The header of a about-us section must be unique!");
         }
-        Restaurant restaurant = RestaurantMapper.toEntity(request);
-        restaurant.setSeats(0);
-        restaurant.setImages(new ArrayList<String>());
-        restaurant = restaurantRepository.save(restaurant);
-        return RestaurantMapper.toDto(restaurant);
     }
 
     public void updateRestaurant(RestaurantRequest request) {
@@ -58,6 +65,8 @@ public class RestaurantService {
             restaurantRepository.save(restaurant);
         } catch (EntityNotFoundException e) {
             throw new DatabaseException("The Restaurant hasn't been created yet!");
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("The header of a about-us section must be unique!");
         }
     }
 
@@ -77,10 +86,26 @@ public class RestaurantService {
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
         Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
+        boolean logoExists = temp.getLogo() != null;
         if (temp.getLogo() != null) this.removeRestaurantLogo();
         
         //Create a custom name for the logo image
         String newFileName = "restaurantLogo" + "." + file.getContentType().split("/")[1];
+        
+        //If there is a file with the same name
+        if(fileStorageService.load(newFileName) != null && !logoExists){
+            //Get the type of the file
+            String type = file.getContentType().split("/")[1];
+            //While there is a file with that name
+            for(int i = 1; fileStorageService.load(newFileName) != null; i++){
+                //Add salt in the end of the name, and increase the size of the salt if its necessary
+                newFileName = newFileName.replace("." + type, "") +
+                              // Salt 
+                              "-" + RandomStringUtils.randomAlphanumeric(i) +
+                              // File type
+                              "." + type;
+            }
+        }
 
         //Save the image
         fileStorageService.store(file, newFileName);
@@ -101,10 +126,30 @@ public class RestaurantService {
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
         Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
+        boolean bannerExists = temp.getBanner() != null;
         if (temp.getBanner() != null) this.removeRestaurantBanner();
         
         //Create a custom name for the banner image
-        String newFileName = "restaurantBanner" + "." + file.getContentType().split("/")[1];
+        String newFileName = (bannerExists ? temp.getBanner().toString()
+                             //Get file name
+                             .substring(temp.getBanner().toString().lastIndexOf("/") + 1)
+                             .split(".")[0]
+                             : "restaurantBanner") + "." + file.getContentType().split("/")[1];
+
+        //If there is a file with the same name
+        if(fileStorageService.load(newFileName) != null && !bannerExists){
+            //Get the type of the file
+            String type = file.getContentType().split("/")[1];
+            //While there is a file with that name
+            for(int i = 1; fileStorageService.load(newFileName) != null; i++){
+                //Add salt in the end of the name, and increase the size of the salt if its necessary
+                newFileName = newFileName.replace("." + type, "") +
+                              // Salt 
+                              "-" + RandomStringUtils.randomAlphanumeric(i) +
+                              // File type
+                              "." + type;
+            }
+        }
 
         //Save the image
         fileStorageService.store(file, newFileName);
@@ -153,6 +198,51 @@ public class RestaurantService {
         newImages.add(location.toString());
         //Save it
         temp.setImages(newImages);
+        restaurantRepository.save(temp);
+    }
+
+    public synchronized void setAboutUsSectionImage(String header, MultipartFile file){
+        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+        
+        Restaurant temp = restaurantRepository.findById(1)
+        .orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
+        
+        // Check if the section exists
+        if (temp.getAboutUs().stream()
+            .filter(s -> URLEncoder.encode(s.getHeader(), StandardCharsets.UTF_8).equals(header))
+            .toList().size() == 0) throw new EntityNotFoundException("Couldn't find section with header: " + header);
+
+        // Set the basic file name
+        String filename = header + file.getContentType().split("/")[1];
+
+        // Check if the name already exists
+        if(fileStorageService.load(filename) != null){
+            //Get the type of the file
+            String type = file.getContentType().split("/")[1];
+            //While there is a file with that name
+            for(int i = 1; fileStorageService.load(filename) != null; i++){
+                //Add salt in the end of the name, and increase the size of the salt if its necessary
+                filename = filename.replace("." + type, "") +
+                           // Salt 
+                           "-" + RandomStringUtils.randomAlphanumeric(i) +
+                           // File type
+                           "." + type;
+            }
+        }
+
+        //Save the image
+        fileStorageService.store(file, filename);
+        //Get the URI of the image to show
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                    .path("/images/{filename}")
+                                    .buildAndExpand(filename)
+                                    .toUri();
+
+        temp.getAboutUs().forEach(s -> {
+            if(URLEncoder.encode(s.getHeader(), StandardCharsets.UTF_8).equals(header))
+                s.setImage(location);
+        });
+
         restaurantRepository.save(temp);
     }
 
