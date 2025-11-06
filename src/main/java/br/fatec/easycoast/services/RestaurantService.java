@@ -18,6 +18,7 @@ import br.fatec.easycoast.dtos.restaurant.RestaurantResponse;
 import br.fatec.easycoast.entities.Restaurant;
 import br.fatec.easycoast.mappers.RestaurantMapper;
 import br.fatec.easycoast.repositories.RestaurantRepository;
+import br.fatec.easycoast.services.enums.Folder;
 import br.fatec.easycoast.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -86,26 +87,10 @@ public class RestaurantService {
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
         Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
-        boolean logoExists = temp.getLogo() != null;
         if (temp.getLogo() != null) this.removeRestaurantLogo();
         
         //Create a custom name for the logo image
         String newFileName = "restaurantLogo" + "." + file.getContentType().split("/")[1];
-        
-        //If there is a file with the same name
-        if(fileStorageService.load(newFileName) != null && !logoExists){
-            //Get the type of the file
-            String type = file.getContentType().split("/")[1];
-            //While there is a file with that name
-            for(int i = 1; fileStorageService.load(newFileName) != null; i++){
-                //Add salt in the end of the name, and increase the size of the salt if its necessary
-                newFileName = newFileName.replace("." + type, "") +
-                              // Salt 
-                              "-" + RandomStringUtils.randomAlphanumeric(i) +
-                              // File type
-                              "." + type;
-            }
-        }
 
         //Save the image
         fileStorageService.store(file, newFileName);
@@ -126,30 +111,10 @@ public class RestaurantService {
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
         Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
-        boolean bannerExists = temp.getBanner() != null;
         if (temp.getBanner() != null) this.removeRestaurantBanner();
         
         //Create a custom name for the banner image
-        String newFileName = (bannerExists ? temp.getBanner().toString()
-                             //Get file name
-                             .substring(temp.getBanner().toString().lastIndexOf("/") + 1)
-                             .split(".")[0]
-                             : "restaurantBanner") + "." + file.getContentType().split("/")[1];
-
-        //If there is a file with the same name
-        if(fileStorageService.load(newFileName) != null && !bannerExists){
-            //Get the type of the file
-            String type = file.getContentType().split("/")[1];
-            //While there is a file with that name
-            for(int i = 1; fileStorageService.load(newFileName) != null; i++){
-                //Add salt in the end of the name, and increase the size of the salt if its necessary
-                newFileName = newFileName.replace("." + type, "") +
-                              // Salt 
-                              "-" + RandomStringUtils.randomAlphanumeric(i) +
-                              // File type
-                              "." + type;
-            }
-        }
+        String newFileName = "restaurantBanner" + "." + file.getContentType().split("/")[1];
 
         //Save the image
         fileStorageService.store(file, newFileName);
@@ -173,21 +138,21 @@ public class RestaurantService {
         String filename = file.getOriginalFilename();
 
         //If there is a file with the same name
-        if(fileStorageService.load(filename) != null){
+        if(fileStorageService.load(filename, Folder.RESTAURANT_IMAGES) != null){
             //Get the type of the file
             String type = file.getContentType().split("/")[1];
             //While there is a file with that name
-            for(int i = 1; fileStorageService.load(filename) != null; i++){
+            for(int i = 1; fileStorageService.load(filename, Folder.RESTAURANT_IMAGES) != null; i++){
                 //Add salt in the end of the name, and increase the size of the salt if its necessary
                 filename = file.getOriginalFilename().replace("." + type, "") + "-" + RandomStringUtils.randomAlphanumeric(i) + "." + type;
             }
         }
 
         //Save the image
-        fileStorageService.store(file, filename);
+        fileStorageService.store(file, filename, Folder.RESTAURANT_IMAGES);
         //Get the URI of the image to show
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                                    .path("/images/{filename}")
+                                    .path("/images/restaurantImages/{filename}")
                                     .buildAndExpand(filename)
                                     .toUri();
         
@@ -216,11 +181,11 @@ public class RestaurantService {
         String filename = header + file.getContentType().split("/")[1];
 
         // Check if the name already exists
-        if(fileStorageService.load(filename) != null){
+        if(fileStorageService.load(filename, Folder.RESTAURANT_ABOUT_US) != null){
             //Get the type of the file
             String type = file.getContentType().split("/")[1];
             //While there is a file with that name
-            for(int i = 1; fileStorageService.load(filename) != null; i++){
+            for(int i = 1; fileStorageService.load(filename, Folder.RESTAURANT_ABOUT_US) != null; i++){
                 //Add salt in the end of the name, and increase the size of the salt if its necessary
                 filename = filename.replace("." + type, "") +
                            // Salt 
@@ -234,7 +199,7 @@ public class RestaurantService {
         fileStorageService.store(file, filename);
         //Get the URI of the image to show
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
-                                    .path("/images/{filename}")
+                                    .path("/images/restaurantAboutUs/{filename}")
                                     .buildAndExpand(filename)
                                     .toUri();
 
