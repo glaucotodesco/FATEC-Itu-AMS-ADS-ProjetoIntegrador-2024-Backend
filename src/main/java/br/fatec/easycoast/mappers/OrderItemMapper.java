@@ -25,16 +25,17 @@ public class OrderItemMapper {
         return orderItem;
     }
 
-    public static OrderItemResponse toDTO(OrderItem orderItem, Boolean isPost) {
+    public static OrderItemResponse toDTO(OrderItem orderItem, boolean isPost) {
+
         return new OrderItemResponse(
-                orderItem.getId(),
-                orderItem.getQuantity(),
-                orderItem.getObservations(),
-                orderItem.getTotal(),
-                orderItem.getReversed(),
-                orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
-                orderItem.getAddons() != null ? addonToResponse(orderItem.getAddons()) : null,
-                orderItem.getRemovable() != null ? ItemMapper.toListDTO(orderItem.getRemovable()) : null
+            orderItem.getId(),
+            orderItem.getQuantity(),
+            orderItem.getObservations(),
+            orderItem.getTotal(),
+            orderItem.getReversed(),
+            orderItem.getProduct() != null ? ProductMapper.toDTO(orderItem.getProduct()) : null,
+            orderItem.getAddons() != null ? addonToResponse(orderItem.getAddons()) : null,
+            orderItem.getRemovable() != null ? ItemMapper.toListDTO(orderItem.getRemovable()) : null
         );
     }
 
@@ -51,7 +52,7 @@ public class OrderItemMapper {
     }
 
     public static OrderItemResponse toDTO(OrderItem orderItem) {
-        return toDTO(orderItem, null);
+        return toDTO(orderItem, false);
     }
 
     public static OrderItemResponseWithOrder toDTOWithOrder(OrderItem orderItem, Boolean isPost) {

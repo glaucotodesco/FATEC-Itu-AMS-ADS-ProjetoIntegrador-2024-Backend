@@ -11,6 +11,7 @@ public class CustomerMapper {
         customer.setPhone(request.phone());
         customer.setBirthDate(request.birthDate());
         customer.setEmail(request.email());
+        customer.setPassword(request.password());
         return customer;
 
     }
@@ -21,7 +22,8 @@ public class CustomerMapper {
                 customer.getName(),
                 customer.getPhone(),
                 customer.getBirthDate(),
-                customer.getEmail());
+                customer.getEmail(),
+                customer.getPassword());
 
     }
 }

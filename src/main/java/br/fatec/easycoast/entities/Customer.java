@@ -1,9 +1,15 @@
 package br.fatec.easycoast.entities;
 
 import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
 
 import org.hibernate.annotations.SoftDelete;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import br.fatec.easycoast.entities.enums.Profile;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +21,7 @@ import jakarta.validation.constraints.Email;
 @Entity
 @Table(name = "TBL_CUSTOMER")
 @SoftDelete
-public class Customer {
+public class Customer implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -33,15 +39,21 @@ public class Customer {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
+    private Profile profile = Profile.CUSTOMER;
+
     public Customer() {
     }
 
-    public Customer(Integer id, String name, String phone, Instant birthDate, String email) {
+    public Customer(Integer id, String name, String phone, Instant birthDate, String email, String password) {
         this.id = id;
         this.name = name;
         this.phone = phone;
         this.birthDate = birthDate;
         this.email = email;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -84,4 +96,42 @@ public class Customer {
         this.email = email;
     }
 
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    @Override 
+    public Collection<? extends GrantedAuthority> getAuthorities() { 
+        return List.of(new SimpleGrantedAuthority("ROLE_" + profile.name())); 
+    }
+
+    @Override
+    public String getUsername(){
+        return email;
+    }
+
+    @Override
+    public String getPassword(){
+        return password;
+    }
+ 
+    @Override 
+    public boolean isAccountNonExpired() { 
+        return true; 
+    } 
+ 
+    @Override 
+    public boolean isAccountNonLocked() { 
+        return true; 
+    } 
+ 
+    @Override 
+    public boolean isCredentialsNonExpired() { 
+        return true; 
+    } 
+ 
+    @Override 
+    public boolean isEnabled() { 
+        return true; 
+    }
 }

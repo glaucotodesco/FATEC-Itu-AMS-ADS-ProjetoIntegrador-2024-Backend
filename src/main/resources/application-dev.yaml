@@ -1,3 +1,5 @@
+auth.disabled: ${AUTH_DISABLED:false}
+
 spring:
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST:postgres}:${POSTGRES_PORT:5432}/${POSTGRES_DB:easy_coast}
@@ -7,9 +9,7 @@ spring:
 
   jpa:
     hibernate.ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
     defer-datasource-initialization: true
 

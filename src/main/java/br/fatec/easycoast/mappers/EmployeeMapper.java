@@ -2,6 +2,7 @@ package br.fatec.easycoast.mappers;
 
 import br.fatec.easycoast.dtos.employee.EmployeeRequest;
 import br.fatec.easycoast.dtos.employee.EmployeeResponse;
+import br.fatec.easycoast.dtos.employee.OwnerRequest;
 import br.fatec.easycoast.entities.Employee;
 
 public class EmployeeMapper {
@@ -15,6 +16,15 @@ public class EmployeeMapper {
         employee.setPassword(requestDTO.password());
         employee.setProfile(requestDTO.profile());
         employee.setBlocked(requestDTO.blocked());
+        return employee;
+    }
+
+    public static Employee toOwnerEntity(OwnerRequest requestDTO) {
+        Employee employee = new Employee();
+        employee.setName(requestDTO.name());
+        employee.setPhone(requestDTO.phone());
+        employee.setLogin(requestDTO.login());
+        employee.setPassword(requestDTO.password());
         return employee;
     }
 

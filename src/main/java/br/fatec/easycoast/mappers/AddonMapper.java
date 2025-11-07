@@ -36,15 +36,13 @@ public class AddonMapper {
 
     }
 
-    public static List<AddonResponse> toListDTO(List<Addon> addons, Boolean OrderItemResponse) {
+    public static List<AddonResponse> toListDTO(List<Addon> addons, boolean orderItemResponse) {
         List<AddonResponse> addonResponses = addons.stream()
                 .map(addon -> {
-                    if (Boolean.TRUE.equals(OrderItemResponse)) {
+                    if (orderItemResponse) {
                         return toDTO(addon);
-                    }
-
-                else {
-                      return toDTO(
+                    } else {
+                        return toDTO(
                                 new Addon(addon.getId(), addon.getName(), addon.getPrice(), addon.getAvailability(),
                                         addon.getMaxQuantity(),
                                         // addon.getItem(),
@@ -60,7 +58,7 @@ public class AddonMapper {
     }
 
     public static List<AddonResponse> toListDTO(List<Addon> addons) {
-        return toListDTO(addons, null);
+        return toListDTO(addons, false);
     }
 
 }

@@ -2,6 +2,7 @@ package br.fatec.easycoast.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.employee.EmployeeRequest;
 import br.fatec.easycoast.dtos.employee.EmployeeResponse;
+import br.fatec.easycoast.dtos.employee.OwnerRequest;
 import br.fatec.easycoast.services.EmployeeService;
 import jakarta.validation.Valid;
 
@@ -57,10 +59,19 @@ public class EmployeeController {
         }
     }
 
+    @GetMapping("owner")
+    public ResponseEntity<EmployeeResponse> getOwner(){
+        return ResponseEntity.ok(employeeService.getOwner());
+    }
+
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateEmployee(@Valid @PathVariable int id, @RequestBody EmployeeRequest request) {
-        employeeService.updateEmployee(id, request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Optional<String>> updateEmployee(@Valid @PathVariable int id, @RequestBody EmployeeRequest request) {
+        return ResponseEntity.ok(employeeService.updateEmployee(id, request));
+    }
+
+    @PutMapping("owner")
+    public ResponseEntity<String> updateOnwer(@Valid @RequestBody OwnerRequest request){
+        return ResponseEntity.ok(employeeService.updateOwner(request));
     }
 
     @DeleteMapping("{id}")

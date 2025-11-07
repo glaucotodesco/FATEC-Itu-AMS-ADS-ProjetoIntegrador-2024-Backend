@@ -1,5 +1,6 @@
 package br.fatec.easycoast.dtos.employee;
 
+import br.fatec.easycoast.entities.enums.Profile;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

@@ -36,7 +36,7 @@ public class OrderMapper {
                 order.getTotal(),
                 cardResponse, 
                 order.getSeat(),
-                order.getEmployee(),
+                EmployeeMapper.toDto(order.getEmployee()),
                 OrderItemMapper.toListDTO(order.getOrderItems()));
     }
 
