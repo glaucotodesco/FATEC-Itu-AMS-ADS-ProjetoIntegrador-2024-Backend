@@ -8,6 +8,16 @@ spring:
   config:
     import: optional:file:.env[.properties]
 
+security:
+  jwt:
+    token:
+      secret-key: "${JWT_SECRET:JWT_SECRET_KEY}"
+
+easycoast:
+  frontend-origins: "${ORIGINS:http://localhost:5173,http://localhost:4200,http://localhost:8081}"
+  owner-initial-login: "${OWNER_INITIAL_LOGIN:admin@admin}"
+  owner-initial-password: "${OWNER_INITIAL_PASSWORD:admin123}"
+
 springdoc:
   api-docs:
     path: /api-docs

@@ -12,5 +12,7 @@ public record CustomerRequest(
         @NotNull(message = "Customer birth date can't be null")
         Instant birthDate,
         @NotBlank(message = "Customer E-mail can't be blank")
-        String email) {
+        String email,
+        @NotBlank(message = "Customer password can't be blank")
+        String password) {
 }

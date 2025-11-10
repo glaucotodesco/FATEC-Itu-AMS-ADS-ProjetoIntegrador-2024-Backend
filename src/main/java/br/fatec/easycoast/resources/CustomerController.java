@@ -21,6 +21,7 @@ import br.fatec.easycoast.dtos.customer.CustomerResponse;
 import br.fatec.easycoast.services.CustomerService;
 import jakarta.validation.Valid;
 
+
 @CrossOrigin
 @RestController
 @RequestMapping("customers")
@@ -39,6 +40,12 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getCustomer(id));
     }
 
+    @GetMapping("self")
+    public ResponseEntity<CustomerResponse> getSelf() {
+        return ResponseEntity.ok(customerService.getSelf());
+    }
+    
+
     @PostMapping
     public ResponseEntity<CustomerResponse> saveCustomer(@Valid @RequestBody CustomerRequest request) {
         CustomerResponse customerResponse = customerService.saveCustomer(request);
@@ -52,9 +59,8 @@ public class CustomerController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Void> updateCustomer(@Valid @PathVariable int id, @RequestBody CustomerRequest request) {
-        customerService.updateCustomer(id, request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> updateCustomer(@Valid @PathVariable int id, @RequestBody CustomerRequest request) {
+        return ResponseEntity.ok(customerService.updateCustomer(id, request));
     }
 
     @DeleteMapping("{id}")

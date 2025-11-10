@@ -26,14 +26,14 @@ public class Scheduling {
     private Integer quantity;
 
     @ManyToOne
+    @JoinColumn(name = "CUSTOMER_ID")
+    private Customer customer;
+
+    @ManyToOne
     @JoinColumn(name = "SEAT_ID", nullable = true)
     private Seat seat;
 
     private String observations;
-
-    @ManyToOne
-    @JoinColumn(name = "CUSTOMER_ID", nullable = false)
-    private Customer customer;
 
     public Scheduling() {
     }

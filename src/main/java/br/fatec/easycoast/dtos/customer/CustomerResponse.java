@@ -7,8 +7,8 @@ public record CustomerResponse(
         String name,
         String phone,
         Instant birthDate,
-        String email
-
+        String email,
+        String password
 ) {
 
 }
