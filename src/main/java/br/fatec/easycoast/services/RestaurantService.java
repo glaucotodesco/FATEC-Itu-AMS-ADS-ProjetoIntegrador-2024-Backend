@@ -15,6 +15,7 @@ import br.fatec.easycoast.dtos.restaurant.RestaurantRequest;
 import br.fatec.easycoast.dtos.restaurant.RestaurantResponse;
 import br.fatec.easycoast.entities.Restaurant;
 import br.fatec.easycoast.dtos.restaurant.AboutUsSection;
+import br.fatec.easycoast.dtos.restaurant.Highlight;
 import br.fatec.easycoast.mappers.RestaurantMapper;
 import br.fatec.easycoast.repositories.RestaurantRepository;
 import br.fatec.easycoast.services.enums.Folder;
@@ -239,6 +240,47 @@ public class RestaurantService {
         restaurantRepository.save(temp);
     }
 
+    public synchronized void setHighlightImage(String header, MultipartFile file){
+        Restaurant temp = restaurantRepository.findById(1)
+        .orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
+        
+        // Check if the highlight exists
+        if (temp.getHighlights().stream()
+            .filter(h -> h.getHeader()
+                          .replace(" ", "+")
+                          .equals(header))
+            .toList().size() == 0) throw new EntityNotFoundException("Couldn't find highlight with header: " + header);
+
+        Highlight highlight = temp.getHighlights().stream()
+            .filter(h -> h.getHeader()
+                          .replace(" ", "+")
+                          .equals(header))
+            .toList().get(0);
+        
+        if(highlight == null) throw new EntityNotFoundException("Couldn't find highlight with header: " + header);
+        if(highlight.getImage() != null) this.removeHighlightImage(header);
+
+        String baseFilename = header + "." + file.getContentType().split("/")[1];
+        String filename = generateUniqueFilename(baseFilename, file.getContentType(), Folder.RESTAURANT_HIGHLIGHTS);
+
+        //Save the image
+        fileStorageService.store(file, filename, Folder.RESTAURANT_HIGHLIGHTS);
+        //Get the URI of the image to show
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
+                                    .path("/images/restaurantHighlights/{filename}")
+                                    .buildAndExpand(filename)
+                                    .toUri();
+
+        temp.getHighlights().forEach(h -> {
+            if(h.getHeader()
+                .replace(" ", "+")
+                .equals(header))
+                h.setImage(location);
+        });
+
+        restaurantRepository.save(temp);
+    }
+
     public synchronized void removeRestaurantLogo(){
         if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
 
@@ -310,6 +352,27 @@ public class RestaurantService {
         fileStorageService.deleteFile(path[path.length - 1], Folder.RESTAURANT_ABOUT_US);
         //Set the section image as null
         section.setImage(null);
+
+        restaurantRepository.save(temp);
+    }
+
+    public synchronized void removeHighlightImage(String title){
+        Restaurant temp = restaurantRepository.findById(1)
+        .orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
+        
+        //Get the highlight
+        var highlight = temp.getHighlights().stream()
+            .filter(h -> h.getHeader()
+                          .replace(" ", "+")
+                          .equals(title))
+            .findFirst().orElseThrow(() -> new EntityNotFoundException("Couldn't find highlight with title:" + title));
+
+        //Get the file name in the URI
+        String[] path = highlight.getImage().getPath().split("/");
+        //Delete the image
+        fileStorageService.deleteFile(path[path.length - 1], Folder.RESTAURANT_HIGHLIGHTS);
+        //Set the highlight image as null
+        highlight.setImage(null);
 
         restaurantRepository.save(temp);
     }

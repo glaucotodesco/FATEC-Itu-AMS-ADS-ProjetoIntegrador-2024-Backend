@@ -1,5 +1,7 @@
 package br.fatec.easycoast.dtos.restaurant;
 
+import java.net.URI;
+
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,14 +12,14 @@ public class Highlight {
     private String header;
     @NotBlank(message = "Content can't be blank")
     private String content;
-    private String image;
+    private URI image;
 
     public Highlight() {
     }
 
     public Highlight(@NotBlank(message = "Header can't be blank") String header,
             @NotBlank(message = "Content can't be blank") String content,
-            @NotNull(message = "Image can't be null") String image) {
+            @NotNull(message = "Image can't be null") URI image) {
         this.header = header;
         this.content = content;
         this.image = image;
@@ -39,11 +41,11 @@ public class Highlight {
         this.content = content;
     }
 
-    public String getImage() {
+    public URI getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(URI image) {
         this.image = image;
     }
 }

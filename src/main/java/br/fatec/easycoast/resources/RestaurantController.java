@@ -69,6 +69,12 @@ public class RestaurantController {
         restaurantService.setAboutUsSectionImage(header, file);
         return ResponseEntity.ok().build();
     }
+    
+    @PutMapping("highlight/{header}/image")
+    public ResponseEntity<Void> setHighlightImage(@PathVariable String header, @RequestParam MultipartFile file){
+        restaurantService.setHighlightImage(header, file);
+        return ResponseEntity.ok().build();
+    }
 
     @PutMapping("banner")
     public ResponseEntity<Void> setBanner(@RequestParam MultipartFile file){
@@ -97,6 +103,12 @@ public class RestaurantController {
     @DeleteMapping("section/{header}/image")
     public ResponseEntity<Void> removeAboutUsSectionImage(@PathVariable String header){
         restaurantService.removeAboutUsSectionImage(header);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("highlight/{header}/image")
+    public ResponseEntity<Void> removeHighlightImage(@PathVariable String header){
+        restaurantService.removeHighlightImage(header);
         return ResponseEntity.noContent().build();
     }
 }
