@@ -1,7 +1,6 @@
 package br.fatec.easycoast.services;
 
 import java.net.URI;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -160,24 +159,24 @@ public class RestaurantService {
         restaurantRepository.save(temp);
     }
 
-    public synchronized void addRestaurantImage(MultipartFile file){
-        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
-
-        //Get the name of the image
-        String filename = file.getOriginalFilename();
-
-        //If there is a file with the same name
-        if(fileStorageService.load(filename, Folder.RESTAURANT_IMAGES) != null){
-            //Get the type of the file
-            String type = file.getContentType().split("/")[1];
-            //While there is a file with that name
-            for(int i = 1; fileStorageService.load(filename, Folder.RESTAURANT_IMAGES) != null; i++){
-                //Add salt in the end of the name, and increase the size of the salt if its necessary
-                filename = file.getOriginalFilename().replace("." + type, "") + 
+    private String generateUniqueFilename(String originalFilename, String contentType, Folder folder) {
+        String filename = originalFilename;
+        String type = contentType.split("/")[1];
+        
+        if(fileStorageService.load(filename, folder) != null){
+            for(int i = 1; fileStorageService.load(filename, folder) != null; i++){
+                filename = originalFilename.replace("." + type, "") + 
                            "-" + RandomStringUtils.randomAlphanumeric(i) + 
                            "." + type;
             }
         }
+        return filename;
+    }
+
+    public synchronized void addRestaurantImage(MultipartFile file){
+        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+
+        String filename = generateUniqueFilename(file.getOriginalFilename(), file.getContentType(), Folder.RESTAURANT_IMAGES);
 
         //Save the image
         fileStorageService.store(file, filename, Folder.RESTAURANT_IMAGES);
@@ -221,23 +220,8 @@ public class RestaurantService {
         if(section == null) throw new EntityNotFoundException("Couldn't find section with header: " + header);
         if(section.getImage() != null) this.removeAboutUsSectionImage(section.getHeader());
 
-        // Set the basic file name
-        String filename = header + "." + file.getContentType().split("/")[1];
-
-        // Check if the name already exists
-        if(fileStorageService.load(filename, Folder.RESTAURANT_ABOUT_US) != null){
-            //Get the type of the file
-            String type = file.getContentType().split("/")[1];
-            //While there is a file with that name
-            for(int i = 1; fileStorageService.load(filename, Folder.RESTAURANT_ABOUT_US) != null; i++){
-                //Add salt in the end of the name, and increase the size of the salt if its necessary
-                filename = filename.replace("." + type, "") +
-                           // Salt 
-                           "-" + RandomStringUtils.randomAlphanumeric(i) +
-                           // File type
-                           "." + type;
-            }
-        }
+        String baseFilename = header + "." + file.getContentType().split("/")[1];
+        String filename = generateUniqueFilename(baseFilename, file.getContentType(), Folder.RESTAURANT_ABOUT_US);
 
         //Save the image
         fileStorageService.store(file, filename, Folder.RESTAURANT_ABOUT_US);
