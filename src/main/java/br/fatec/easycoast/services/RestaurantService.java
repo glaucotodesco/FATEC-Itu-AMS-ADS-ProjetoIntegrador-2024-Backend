@@ -1,6 +1,7 @@
 package br.fatec.easycoast.services;
 
 import java.net.URI;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import br.fatec.easycoast.dtos.restaurant.RestaurantRequest;
 import br.fatec.easycoast.dtos.restaurant.RestaurantResponse;
 import br.fatec.easycoast.entities.Restaurant;
+import br.fatec.easycoast.dtos.restaurant.AboutUsSection;
 import br.fatec.easycoast.mappers.RestaurantMapper;
 import br.fatec.easycoast.repositories.RestaurantRepository;
 import br.fatec.easycoast.services.enums.Folder;
@@ -50,23 +52,52 @@ public class RestaurantService {
         }
     }
 
-    public void updateRestaurant(RestaurantRequest request) {
+    public synchronized void updateRestaurant(RestaurantRequest request) {
+        if(!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
         try {
             Restaurant restaurant = restaurantRepository.getReferenceById(1);
 
             restaurant.setName(request.name());
             restaurant.setLocation(request.location());
-            restaurant.setAboutUs(request.aboutUs());
+            updateAboutUsSections(restaurant, request.aboutUs());
             restaurant.setContacts(request.contacts());
             restaurant.setSchedulings(request.schedulings());
             restaurant.setHighlights(request.highlights());
 
             restaurantRepository.save(restaurant);
         } catch (EntityNotFoundException e) {
-            throw new DatabaseException("The Restaurant hasn't been created yet!");
+            throw new DatabaseException(e.getMessage());
         } catch (DataIntegrityViolationException e) {
             throw new IllegalArgumentException("The header of a about-us section must be unique!");
         }
+    }
+
+    private synchronized void updateAboutUsSections(Restaurant restaurant, List<AboutUsSection> newSections) {
+        List<AboutUsSection> oldSections = restaurant.getAboutUs();
+        
+        // Update existing sections and preserve images
+        for (AboutUsSection newSection : newSections) {
+            AboutUsSection existingSection = oldSections.stream()
+                .filter(old -> old.getHeader().equals(newSection.getHeader()))
+                .findFirst().orElse(null);
+            
+            if (existingSection != null) {
+                newSection.setImage(existingSection.getImage());
+            }
+        }
+        
+        // Delete images of removed sections
+        for (AboutUsSection oldSection : oldSections) {
+            boolean sectionStillExists = newSections.stream()
+                .anyMatch(newSec -> newSec.getHeader().equals(oldSection.getHeader()));
+            
+            if (!sectionStillExists && oldSection.getImage() != null) {
+                String[] path = oldSection.getImage().getPath().split("/");
+                fileStorageService.deleteFile(path[path.length - 1], Folder.RESTAURANT_ABOUT_US);
+            }
+        }
+        
+        restaurant.setAboutUs(newSections);
     }
 
     protected void updateSeats(int quantity) {
@@ -142,7 +173,9 @@ public class RestaurantService {
             //While there is a file with that name
             for(int i = 1; fileStorageService.load(filename, Folder.RESTAURANT_IMAGES) != null; i++){
                 //Add salt in the end of the name, and increase the size of the salt if its necessary
-                filename = file.getOriginalFilename().replace("." + type, "") + "-" + RandomStringUtils.randomAlphanumeric(i) + "." + type;
+                filename = file.getOriginalFilename().replace("." + type, "") + 
+                           "-" + RandomStringUtils.randomAlphanumeric(i) + 
+                           "." + type;
             }
         }
 
@@ -172,8 +205,21 @@ public class RestaurantService {
         
         // Check if the section exists
         if (temp.getAboutUs().stream()
-            .filter(s -> s.getHeader().replace(" ", "+").equals(header))
+            .filter(s -> s.getHeader()
+                          .replace("+", "++")
+                          .replace(" ", "+")
+                          .equals(header))
             .toList().size() == 0) throw new EntityNotFoundException("Couldn't find section with header: " + header);
+
+        AboutUsSection section = temp.getAboutUs().stream()
+            .filter(s -> s.getHeader()
+                          .replace("+", "++")
+                          .replace(" ", "+")
+                          .equals(header))
+            .toList().get(0);
+        
+        if(section == null) throw new EntityNotFoundException("Couldn't find section with header: " + header);
+        if(section.getImage() != null) this.removeAboutUsSectionImage(section.getHeader());
 
         // Set the basic file name
         String filename = header + "." + file.getContentType().split("/")[1];
@@ -202,7 +248,10 @@ public class RestaurantService {
                                     .toUri();
 
         temp.getAboutUs().forEach(s -> {
-            if(s.getHeader().replace(" ", "+").equals(header))
+            if(s.getHeader()
+                .replace("+", "++")
+                .replace(" ", "+")
+                .equals(header))
                 s.setImage(location);
         });
 
@@ -260,6 +309,25 @@ public class RestaurantService {
         //Set the new List
         temp.setImages(newList);
         //Save
+        restaurantRepository.save(temp);
+    }
+
+    public synchronized void removeAboutUsSectionImage(String header){
+        if (!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
+
+        Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
+        //Get the section
+        AboutUsSection section = temp.getAboutUs().stream()
+            .filter(s -> s.getHeader().equals(header))
+            .findFirst().orElseThrow(() -> new EntityNotFoundException("Couldn't find section with header:" + header));
+
+        //Get the file name in the URI
+        String[] path = section.getImage().getPath().split("/");
+        //Delete the image
+        fileStorageService.deleteFile(path[path.length - 1], Folder.RESTAURANT_ABOUT_US);
+        //Set the section image as null
+        section.setImage(null);
+
         restaurantRepository.save(temp);
     }
 }

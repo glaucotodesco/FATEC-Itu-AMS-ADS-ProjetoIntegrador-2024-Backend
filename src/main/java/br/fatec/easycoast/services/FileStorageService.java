@@ -119,6 +119,10 @@ public class FileStorageService {
 		}
 	}
 
+	public void deleteFile(String filename){
+		deleteFile(filename, null);
+	}
+
 	public void renameFile(String filename, String newFilename, Folder folder){
 		Path file = this.load(filename, folder);
 		if(file == null) throw new EntityNotFoundException("Couldn't found the file: " + filename);
@@ -129,10 +133,6 @@ public class FileStorageService {
 		} catch (IOException e) {
 			throw new EntityNotFoundException("Couldn't read the file:" + filename);
 		}
-	}
-
-	public void deleteFile(String filename){
-		deleteFile(filename, null);
 	}
 
     public void init() {
