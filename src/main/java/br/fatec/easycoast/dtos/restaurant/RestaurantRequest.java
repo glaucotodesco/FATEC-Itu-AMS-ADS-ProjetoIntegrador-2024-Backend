@@ -12,13 +12,13 @@ public record RestaurantRequest(
     @Valid
     Location location,
     @Valid
-    List<AboutUsSection> aboutUs,
+    List<AboutUsSectionRequest> aboutUs,
     @Valid
     List<Contact> contacts,
     @Valid
     List<RestaurantScheduling> schedulings,
     @Valid
-    List<Highlight> highlights
+    List<HighlightRequest> highlights
 ) {
 
 }

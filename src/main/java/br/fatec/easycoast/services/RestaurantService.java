@@ -48,7 +48,7 @@ public class RestaurantService {
             restaurant = restaurantRepository.save(restaurant);
             return RestaurantMapper.toDto(restaurant);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("The header of a about-us section must be unique!");
+            throw new IllegalArgumentException("The header of a about-us section, or of a highlight, must be unique!");
         }
     }
 
@@ -59,16 +59,16 @@ public class RestaurantService {
 
             restaurant.setName(request.name());
             restaurant.setLocation(request.location());
-            updateAboutUsSections(restaurant, request.aboutUs());
+            updateAboutUsSections(restaurant, RestaurantMapper.mapAboutUsSections(request.aboutUs()));
             restaurant.setContacts(request.contacts());
             restaurant.setSchedulings(request.schedulings());
-            restaurant.setHighlights(request.highlights());
+            updateHighlights(restaurant, RestaurantMapper.mapHighlights(request.highlights()));
 
             restaurantRepository.save(restaurant);
         } catch (EntityNotFoundException e) {
             throw new DatabaseException(e.getMessage());
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("The header of a about-us section must be unique!");
+            throw new IllegalArgumentException("The header of a about-us section, or of a highlight, must be unique!");
         }
     }
 
@@ -98,6 +98,34 @@ public class RestaurantService {
         }
         
         restaurant.setAboutUs(newSections);
+    }
+
+    private synchronized void updateHighlights(Restaurant restaurant, List<Highlight> newHighlights) {
+        List<Highlight> oldHighlights = restaurant.getHighlights();
+        
+        // Update existing highlights and preserve images
+        for (Highlight newHighlight : newHighlights) {
+            Highlight existingHighlight = oldHighlights.stream()
+                .filter(old -> old.getHeader().equals(newHighlight.getHeader()))
+                .findFirst().orElse(null);
+            
+            if (existingHighlight != null) {
+                newHighlight.setImage(existingHighlight.getImage());
+            }
+        }
+        
+        // Delete images of removed highlights
+        for (Highlight oldHighlight : oldHighlights) {
+            boolean highlightStillExists = newHighlights.stream()
+                .anyMatch(newHigh -> newHigh.getHeader().equals(oldHighlight.getHeader()));
+            
+            if (!highlightStillExists && oldHighlight.getImage() != null) {
+                String[] path = oldHighlight.getImage().getPath().split("/");
+                fileStorageService.deleteFile(path[path.length - 1], Folder.RESTAURANT_HIGHLIGHTS);
+            }
+        }
+        
+        restaurant.setHighlights(newHighlights);
     }
 
     protected void updateSeats(int quantity) {
@@ -204,19 +232,12 @@ public class RestaurantService {
         .orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         
         // Check if the section exists
-        if (temp.getAboutUs().stream()
-            .filter(s -> s.getHeader()
-                          .replace(" ", "+")
-                          .equals(header))
-            .toList().size() == 0) throw new EntityNotFoundException("Couldn't find section with header: " + header);
-
         AboutUsSection section = temp.getAboutUs().stream()
             .filter(s -> s.getHeader()
                           .replace(" ", "+")
                           .equals(header))
-            .toList().get(0);
+            .findFirst().orElseThrow(() -> new EntityNotFoundException("Couldn't find section with header: " + header));
         
-        if(section == null) throw new EntityNotFoundException("Couldn't find section with header: " + header);
         if(section.getImage() != null) this.removeAboutUsSectionImage(header);
 
         String baseFilename = header + "." + file.getContentType().split("/")[1];
@@ -244,20 +265,12 @@ public class RestaurantService {
         Restaurant temp = restaurantRepository.findById(1)
         .orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         
-        // Check if the highlight exists
-        if (temp.getHighlights().stream()
-            .filter(h -> h.getHeader()
-                          .replace(" ", "+")
-                          .equals(header))
-            .toList().size() == 0) throw new EntityNotFoundException("Couldn't find highlight with header: " + header);
-
         Highlight highlight = temp.getHighlights().stream()
             .filter(h -> h.getHeader()
                           .replace(" ", "+")
                           .equals(header))
-            .toList().get(0);
+            .findFirst().orElseThrow(() -> new EntityNotFoundException("Couldn't find highlight with header: " + header));
         
-        if(highlight == null) throw new EntityNotFoundException("Couldn't find highlight with header: " + header);
         if(highlight.getImage() != null) this.removeHighlightImage(header);
 
         String baseFilename = header + "." + file.getContentType().split("/")[1];
@@ -336,9 +349,8 @@ public class RestaurantService {
     }
 
     public synchronized void removeAboutUsSectionImage(String header){
-        if (!restaurantRepository.existsById(1)) throw new DatabaseException("The Restaurant hasn't been created yet!");
-
-        Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
+        Restaurant temp = restaurantRepository.findById(1)
+        .orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         //Get the section
         AboutUsSection section = temp.getAboutUs().stream()
             .filter(s -> s.getHeader()

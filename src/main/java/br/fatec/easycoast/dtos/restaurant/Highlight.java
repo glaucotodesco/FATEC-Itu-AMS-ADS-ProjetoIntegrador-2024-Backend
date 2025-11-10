@@ -2,6 +2,7 @@ package br.fatec.easycoast.dtos.restaurant;
 
 import java.net.URI;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 @Embeddable
 public class Highlight {
     @NotBlank(message = "Header can't be blank")
+    @Column(unique = true)
     private String header;
     @NotBlank(message = "Content can't be blank")
     private String content;
