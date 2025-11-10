@@ -10,8 +10,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import br.fatec.easycoast.dtos.restaurant.RestaurantRequest;
 import br.fatec.easycoast.dtos.restaurant.RestaurantResponse;
@@ -174,11 +172,11 @@ public class RestaurantService {
         
         // Check if the section exists
         if (temp.getAboutUs().stream()
-            .filter(s -> URLEncoder.encode(s.getHeader(), StandardCharsets.UTF_8).equals(header))
+            .filter(s -> s.getHeader().replace(" ", "+").equals(header))
             .toList().size() == 0) throw new EntityNotFoundException("Couldn't find section with header: " + header);
 
         // Set the basic file name
-        String filename = header + file.getContentType().split("/")[1];
+        String filename = header + "." + file.getContentType().split("/")[1];
 
         // Check if the name already exists
         if(fileStorageService.load(filename, Folder.RESTAURANT_ABOUT_US) != null){
@@ -196,7 +194,7 @@ public class RestaurantService {
         }
 
         //Save the image
-        fileStorageService.store(file, filename);
+        fileStorageService.store(file, filename, Folder.RESTAURANT_ABOUT_US);
         //Get the URI of the image to show
         URI location = ServletUriComponentsBuilder.fromCurrentContextPath()
                                     .path("/images/restaurantAboutUs/{filename}")
@@ -204,7 +202,7 @@ public class RestaurantService {
                                     .toUri();
 
         temp.getAboutUs().forEach(s -> {
-            if(URLEncoder.encode(s.getHeader(), StandardCharsets.UTF_8).equals(header))
+            if(s.getHeader().replace(" ", "+").equals(header))
                 s.setImage(location);
         });
 

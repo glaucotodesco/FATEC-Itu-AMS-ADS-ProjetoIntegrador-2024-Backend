@@ -10,7 +10,6 @@ public class Highlight {
     private String header;
     @NotBlank(message = "Content can't be blank")
     private String content;
-    @NotNull(message = "Image can't be null")
     private String image;
 
     public Highlight() {
