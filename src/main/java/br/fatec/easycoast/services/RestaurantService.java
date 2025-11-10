@@ -205,20 +205,18 @@ public class RestaurantService {
         // Check if the section exists
         if (temp.getAboutUs().stream()
             .filter(s -> s.getHeader()
-                          .replace("+", "++")
                           .replace(" ", "+")
                           .equals(header))
             .toList().size() == 0) throw new EntityNotFoundException("Couldn't find section with header: " + header);
 
         AboutUsSection section = temp.getAboutUs().stream()
             .filter(s -> s.getHeader()
-                          .replace("+", "++")
                           .replace(" ", "+")
                           .equals(header))
             .toList().get(0);
         
         if(section == null) throw new EntityNotFoundException("Couldn't find section with header: " + header);
-        if(section.getImage() != null) this.removeAboutUsSectionImage(section.getHeader());
+        if(section.getImage() != null) this.removeAboutUsSectionImage(header);
 
         String baseFilename = header + "." + file.getContentType().split("/")[1];
         String filename = generateUniqueFilename(baseFilename, file.getContentType(), Folder.RESTAURANT_ABOUT_US);
@@ -233,7 +231,6 @@ public class RestaurantService {
 
         temp.getAboutUs().forEach(s -> {
             if(s.getHeader()
-                .replace("+", "++")
                 .replace(" ", "+")
                 .equals(header))
                 s.setImage(location);
@@ -302,7 +299,9 @@ public class RestaurantService {
         Restaurant temp = restaurantRepository.findById(1).orElseThrow(() -> new DatabaseException("The Restaurant hasn't been created yet!"));
         //Get the section
         AboutUsSection section = temp.getAboutUs().stream()
-            .filter(s -> s.getHeader().equals(header))
+            .filter(s -> s.getHeader()
+                          .replace(" ", "+")
+                          .equals(header))
             .findFirst().orElseThrow(() -> new EntityNotFoundException("Couldn't find section with header:" + header));
 
         //Get the file name in the URI

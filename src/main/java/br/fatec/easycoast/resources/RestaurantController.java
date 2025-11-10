@@ -93,4 +93,10 @@ public class RestaurantController {
         restaurantService.removeRestaurantImage(filename);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("section/{header}/image")
+    public ResponseEntity<Void> removeAboutUsSectionImage(@PathVariable String header){
+        restaurantService.removeAboutUsSectionImage(header);
+        return ResponseEntity.noContent().build();
+    }
 }
