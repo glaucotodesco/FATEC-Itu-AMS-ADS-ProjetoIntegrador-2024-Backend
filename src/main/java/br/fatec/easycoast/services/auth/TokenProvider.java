@@ -27,6 +27,8 @@ public class TokenProvider {
           .withSubject(user.getUsername())
           .withClaim("username", user.getUsername())
           .withClaim("id", ((Employee) user).getId())
+          .withClaim("name", ((Employee) user).getName())
+          .withClaim("profile-manual", ((Employee) user).getProfile().toString())
           .withClaim("profile", user.getAuthorities().stream().map(a -> a.getAuthority()).toList())
           // Setting Experation Date
           .withExpiresAt(genAccessExpirationDate())
