@@ -142,10 +142,10 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
-@ExceptionHandler(IllegalStateException.class)
+    @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<StandardError> handleIllegalState(IllegalStateException exception, HttpServletRequest request) {
         StandardError error = new StandardError();
-        HttpStatus status = HttpStatus.CONFLICT; // Código 409: Conflito
+        HttpStatus status = HttpStatus.CONFLICT;
 
         error.setError("Operation not permitted due to current state");
         error.setMessage(exception.getMessage());

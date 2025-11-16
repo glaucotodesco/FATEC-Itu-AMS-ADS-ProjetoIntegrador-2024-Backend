@@ -64,6 +64,18 @@ public class RestaurantController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("section/{header}/image")
+    public ResponseEntity<Void> setAboutUsSectionImage(@PathVariable String header, @RequestParam MultipartFile file){
+        restaurantService.setAboutUsSectionImage(header, file);
+        return ResponseEntity.ok().build();
+    }
+    
+    @PutMapping("highlight/{header}/image")
+    public ResponseEntity<Void> setHighlightImage(@PathVariable String header, @RequestParam MultipartFile file){
+        restaurantService.setHighlightImage(header, file);
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping("banner")
     public ResponseEntity<Void> setBanner(@RequestParam MultipartFile file){
         restaurantService.setRestaurantBanner(file);
@@ -85,6 +97,18 @@ public class RestaurantController {
     @DeleteMapping("images/{filename}")
     public ResponseEntity<Void> removeImage(@PathVariable String filename){
         restaurantService.removeRestaurantImage(filename);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("section/{header}/image")
+    public ResponseEntity<Void> removeAboutUsSectionImage(@PathVariable String header){
+        restaurantService.removeAboutUsSectionImage(header);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("highlight/{header}/image")
+    public ResponseEntity<Void> removeHighlightImage(@PathVariable String header){
+        restaurantService.removeHighlightImage(header);
         return ResponseEntity.noContent().build();
     }
 }

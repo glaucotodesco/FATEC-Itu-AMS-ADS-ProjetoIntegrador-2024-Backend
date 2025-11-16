@@ -3,7 +3,9 @@ package br.fatec.easycoast.entities;
 import java.net.URI;
 import java.util.List;
 
-import br.fatec.easycoast.dtos.restaurant.Link;
+import br.fatec.easycoast.dtos.restaurant.AboutUsSection;
+import br.fatec.easycoast.dtos.restaurant.Contact;
+import br.fatec.easycoast.dtos.restaurant.Highlight;
 import br.fatec.easycoast.dtos.restaurant.Location;
 import br.fatec.easycoast.dtos.restaurant.RestaurantScheduling;
 import jakarta.persistence.CollectionTable;
@@ -31,12 +33,14 @@ public class Restaurant {
     @Column(nullable = false)
     private Location location;
 
-    private String whoAreWe;
+    @ElementCollection
+    @CollectionTable(name = "TBL_RESTAURANT_ABOUT_US")
+    private List<AboutUsSection> aboutUs;
 
     //This will save the list as a new table
     @ElementCollection
-    @CollectionTable(name = "TBL_RESTAURANT_LINK")
-    private List<Link> links;
+    @CollectionTable(name = "TBL_RESTAURANT_CONTACT")
+    private List<Contact> contacts;
 
     @ElementCollection
     @CollectionTable(name = "TBL_RESTAURANT_SCHEDULING")
@@ -47,14 +51,17 @@ public class Restaurant {
     private List<String> images;
 
     private Integer seats;
-    
+
+    @ElementCollection
+    @CollectionTable(name = "TBL_RESTAURANT_HIGHLIGHT")
+    private List<Highlight> highlights;
+
     public Restaurant() {}
 
-    public Restaurant(Integer id, String name, Location location, String whoAreWe) {
+    public Restaurant(Integer id, String name, Location location) {
         this.id = id;
         this.name = name;
         this.location = location;
-        this.whoAreWe = whoAreWe;
     }
 
     public Integer getId() {
@@ -81,12 +88,12 @@ public class Restaurant {
         this.location = location;
     }
 
-    public String getWhoAreWe() {
-        return whoAreWe;
+    public List<AboutUsSection> getAboutUs() {
+        return aboutUs;
     }
 
-    public void setWhoAreWe(String whoAreWe) {
-        this.whoAreWe = whoAreWe;
+    public void setAboutUs(List<AboutUsSection> aboutUs) {
+        this.aboutUs = aboutUs;
     }
 
     public Integer getSeats() {
@@ -97,12 +104,12 @@ public class Restaurant {
         this.seats = seats;
     }
 
-    public List<Link> getLinks() {
-        return links;
+    public List<Contact> getContacts() {
+        return contacts;
     }
 
-    public void setLinks(List<Link> links) {
-        this.links = links;
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 
     public List<RestaurantScheduling> getSchedulings() {
@@ -111,6 +118,14 @@ public class Restaurant {
 
     public void setSchedulings(List<RestaurantScheduling> schedulings) {
         this.schedulings = schedulings;
+    }
+
+    public List<Highlight> getHighlights() {
+        return highlights;
+    }
+
+    public void setHighlights(List<Highlight> highlights) {
+        this.highlights = highlights;
     }
 
     public URI getLogo() {

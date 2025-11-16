@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.fatec.easycoast.services.FileStorageService;
+import br.fatec.easycoast.services.enums.Folder;
 import jakarta.persistence.EntityNotFoundException;
 
 /* For the tests 
@@ -82,6 +83,44 @@ public class FileStorageController {
         //Return the file to download in the ResponsEntity
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
 				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+	}
+
+    @GetMapping("/{folder}/{filename}")
+	@ResponseBody
+	public ResponseEntity<byte[]> showImage(@PathVariable String filename, @PathVariable String folder) {
+        Folder currentFolder = null;
+        
+        switch (folder) {
+            case "restaurantImages":
+                currentFolder = Folder.RESTAURANT_IMAGES;
+            break;
+            case "restaurantAboutUs":
+                currentFolder = Folder.RESTAURANT_ABOUT_US;
+            break;
+            case "restaurantHighlights":
+                currentFolder = Folder.RESTAURANT_HIGHLIGHTS;
+            break;
+            default:
+                throw new EntityNotFoundException("Couldn't find folder: " + folder);
+        }
+        
+        //Load the path
+        Path file = storageService.load(filename, currentFolder);
+
+        try {
+            //Get the bytes of the file
+            byte[] content = Files.readAllBytes(file.normalize());
+            //Get his content type
+            String type = Files.probeContentType(file.normalize());
+            if (type == null) type = "application/octet-stream";
+
+            //Show it in the ResponseEntity
+            return ResponseEntity.ok()
+                                .contentType(MediaType.parseMediaType(type))
+                                .body(content);
+        } catch (IOException e) {
+            throw new EntityNotFoundException("Couldn't read file: " + filename);
+        }
 	}
 
     //This was for testing

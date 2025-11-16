@@ -7,10 +7,11 @@ public record RestaurantResponse(
     Integer id,
     String name,
     Location location,
-    String whoAreWe,
-    List<Link> links,
+    List<AboutUsSection> aboutUs,
+    List<Contact> contacts,
     List<RestaurantScheduling> schedulings,
     Integer seats,
+    List<Highlight> highlights,
     URI logo,
     URI banner,
     List<String> images
