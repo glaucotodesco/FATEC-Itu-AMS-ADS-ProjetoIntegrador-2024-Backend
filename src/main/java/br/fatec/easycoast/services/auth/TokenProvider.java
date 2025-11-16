@@ -17,18 +17,17 @@ import org.springframework.stereotype.Service;
 public class TokenProvider {
   // Secret Key
   @Value("${security.jwt.token.secret-key}")
-  private String JwtSecret;
+  private String jwtSecret;
 
   public String generateAccessToken(UserDetails user) {
     try {
-      Algorithm algorithm = Algorithm.HMAC256(JwtSecret);
+      Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
       return JWT.create()
           // Setting the User of the Token
           .withSubject(user.getUsername())
           .withClaim("username", user.getUsername())
           .withClaim("id", ((Employee) user).getId())
           .withClaim("name", ((Employee) user).getName())
-          .withClaim("profile-manual", ((Employee) user).getProfile().toString())
           .withClaim("profile", user.getAuthorities().stream().map(a -> a.getAuthority()).toList())
           // Setting Experation Date
           .withExpiresAt(genAccessExpirationDate())
@@ -41,7 +40,7 @@ public class TokenProvider {
 
   public String validateString(String token) {
     try {
-      Algorithm algorithm = Algorithm.HMAC256(JwtSecret);
+      Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
       // Build the JWT algorithm
       return JWT.require(algorithm)
           .build()
