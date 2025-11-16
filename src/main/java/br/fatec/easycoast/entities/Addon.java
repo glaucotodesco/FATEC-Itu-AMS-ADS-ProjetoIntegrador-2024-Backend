@@ -50,6 +50,7 @@ public class Addon {
         this.name = name;
         this.price = price;
         this.availability = availability;
+        this.maxQuantity = maxQuantity;
         this.square = square;
         this.addonCategory = addonCategory;
     }
