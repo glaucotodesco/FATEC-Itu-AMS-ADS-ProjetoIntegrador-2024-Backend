@@ -105,7 +105,7 @@ public class AuthConfig {
                       .requestMatchers(HttpMethod.PUT, "/cards/{id}")
                       .hasAnyRole("ADMIN", "WAITER", "POS")
                       // Squares
-                      .requestMatchers("/square/**")
+                      .requestMatchers("/squares/**")
                       .hasRole("ADMIN")
                       // Categories
                       .requestMatchers(HttpMethod.GET, "/categories/**")
@@ -156,6 +156,9 @@ public class AuthConfig {
                       // Payments
                       .requestMatchers("/payments/**")
                       .hasRole("POS")
+                      //Root path
+                      .requestMatchers("/**")
+                      .permitAll()
                       .anyRequest()
                       .authenticated())
           .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

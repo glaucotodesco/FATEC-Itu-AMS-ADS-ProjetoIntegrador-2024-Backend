@@ -23,7 +23,10 @@ public class InitializationFilter extends OncePerRequestFilter {
     private static final List<String> ALLOWED_PATHS_DURING_INIT = Arrays.asList(
         "/auth/sign-in",
         "/auth/status",
-        "/employees/owner"
+        "/employees/owner",
+        "/actuator",
+        "/scalar",
+        "/api-docs"
     );
     
     @Override
@@ -33,8 +36,8 @@ public class InitializationFilter extends OncePerRequestFilter {
         String requestPath = request.getRequestURI();
         
         if (!initializationService.isOwnerInitialized()) {
-            boolean isAllowedPath = ALLOWED_PATHS_DURING_INIT.stream()
-                .anyMatch(requestPath::startsWith);
+            boolean isAllowedPath = requestPath.equals("/") || ALLOWED_PATHS_DURING_INIT.stream()
+                                                                        .anyMatch(requestPath::startsWith);
                 
             if (!isAllowedPath) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);

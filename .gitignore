@@ -32,3 +32,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Initialized flag file ###
+owner_initialized.flag
