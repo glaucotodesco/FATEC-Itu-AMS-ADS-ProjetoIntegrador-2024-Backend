@@ -235,6 +235,13 @@ public class OrderService {
         }
         
         orderRepository.save(order);
+
+        // Set the seat free if this was the last order
+        List<Order> openOrders = orderRepository.findBySeatIdAndClosingTimeIsNull(order.getSeat().getId());
+        if (openOrders.isEmpty()) {
+            order.getSeat().setStatus(SeatStatus.FREE);
+            seatRepository.save(order.getSeat());
+        }
     }
     
     
