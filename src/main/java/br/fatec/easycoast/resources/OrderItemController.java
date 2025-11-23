@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
+import br.fatec.easycoast.dtos.orderItem.OrderItemOrderResponse;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponseWithOrder;
 import br.fatec.easycoast.mappers.OrderItemMapper;
 import br.fatec.easycoast.services.OrderItemService;
@@ -46,8 +47,8 @@ public class OrderItemController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<OrderItemResponse> getOrderItem(@PathVariable Integer id) {
-        return ResponseEntity.ok(orderItemService.getOrderItem(id));
+    public ResponseEntity<OrderItemOrderResponse> getOrderItem(@PathVariable Integer id) {
+        return ResponseEntity.ok(orderItemService.getOrderItemForOrder(id));
     }
 
     @PostMapping

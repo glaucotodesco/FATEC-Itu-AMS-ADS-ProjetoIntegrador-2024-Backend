@@ -2,6 +2,7 @@ package br.fatec.easycoast.services;
 
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
+import br.fatec.easycoast.dtos.order.OrderOrderResponse;
 import br.fatec.easycoast.dtos.payment.PaymentStatus;
 import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest;
 import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest.PaymentPart;
@@ -45,8 +46,8 @@ public class OrderService {
     @Autowired private PaymentRepository paymentRepository;
     @Autowired private OrderItemService orderItemService;
 
-    public List<OrderResponse> getOrders() {
-        return orderRepository.findAll().stream().map(OrderMapper::toDTO).toList();
+    public List<OrderOrderResponse> getOrders() {
+        return orderRepository.findAll().stream().map(OrderMapper::toOrderDTO).toList();
     }
 
     public OrderResponse findActiveOrderByCardId(Integer cardId) {
@@ -256,8 +257,8 @@ public class OrderService {
         logger.info("Card ID: {} has been deactivated.", cardId);
     }
 
-    public OrderResponse getOrder(Integer id) {
+    public OrderOrderResponse getOrder(Integer id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order doesn't exist!"));
-        return OrderMapper.toDTO(order);
+        return OrderMapper.toOrderDTO(order);
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
+import br.fatec.easycoast.dtos.order.OrderOrderResponse;
 import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest; 
 import br.fatec.easycoast.services.OrderService;
 import jakarta.validation.Valid;
@@ -36,12 +37,12 @@ public class OrderController {
     private SimpMessagingTemplate messagingTemplate;
 
     @GetMapping()
-    public ResponseEntity<List<OrderResponse>> getOrders() {
+    public ResponseEntity<List<OrderOrderResponse>> getOrders() {
         return ResponseEntity.ok(orderService.getOrders());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<OrderResponse> getOrder(@Valid @PathVariable int id) {
+    public ResponseEntity<OrderOrderResponse> getOrder(@Valid @PathVariable int id) {
         return ResponseEntity.ok(orderService.getOrder(id));
     }
 
