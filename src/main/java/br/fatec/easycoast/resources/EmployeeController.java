@@ -19,7 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.fatec.easycoast.dtos.employee.EmployeeRequest;
 import br.fatec.easycoast.dtos.employee.EmployeeResponse;
-import br.fatec.easycoast.dtos.employee.OwnerRequest;
+import br.fatec.easycoast.dtos.employee.EmployeeUpdateRequest;
+import br.fatec.easycoast.dtos.employee.OwnerUpdateRequest;
 import br.fatec.easycoast.services.EmployeeService;
 import jakarta.validation.Valid;
 
@@ -65,12 +66,12 @@ public class EmployeeController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Optional<String>> updateEmployee(@Valid @PathVariable int id, @RequestBody EmployeeRequest request) {
+    public ResponseEntity<Optional<String>> updateEmployee(@Valid @PathVariable int id, @RequestBody EmployeeUpdateRequest request) {
         return ResponseEntity.ok(employeeService.updateEmployee(id, request));
     }
 
     @PutMapping("owner")
-    public ResponseEntity<String> updateOnwer(@Valid @RequestBody OwnerRequest request){
+    public ResponseEntity<String> updateOnwer(@Valid @RequestBody OwnerUpdateRequest request){
         return ResponseEntity.ok(employeeService.updateOwner(request));
     }
 

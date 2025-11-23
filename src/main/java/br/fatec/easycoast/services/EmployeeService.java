@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.fatec.easycoast.dtos.employee.EmployeeRequest;
 import br.fatec.easycoast.dtos.employee.EmployeeResponse;
+import br.fatec.easycoast.dtos.employee.EmployeeUpdateRequest;
 import br.fatec.easycoast.dtos.employee.OwnerRequest;
+import br.fatec.easycoast.dtos.employee.OwnerUpdateRequest;
 import br.fatec.easycoast.entities.Employee;
 import br.fatec.easycoast.entities.enums.Profile;
 import br.fatec.easycoast.mappers.EmployeeMapper;
@@ -97,7 +99,7 @@ public class EmployeeService {
         return EmployeeMapper.toDto(employeeRepository.findOwner().get());
     }
 
-    public Optional<String> updateEmployee(Integer id, EmployeeRequest request) {
+    public Optional<String> updateEmployee(Integer id, EmployeeUpdateRequest request) {
         //Limit the profile
         if(request.profile().equals(Profile.OWNER) ||
            request.profile().equals(Profile.CUSTOMER) ||
@@ -106,21 +108,23 @@ public class EmployeeService {
         if (employeeRepository.existsById(id)) {
             try {
                 Employee employee = employeeRepository.getReferenceById(id);
-                //Check if the employee isn't the owner or deactivated
+                // Check if the employee isn't the owner or deactivated
                 if (employee.getProfile() == Profile.DEACTIVATED)
                     throw new EntityGoneException("Employee deactivated!");
                 if (employee.getProfile() == Profile.OWNER)
                     throw new IllegalArgumentException("You can't PUT this employee!");
-                //Set the new Values
+                // Set the new Values
                 employee.setName(request.name());
                 employee.setPhone(request.phone());
-                //Encode the password
-                employee.setPassword(new BCryptPasswordEncoder().encode(request.password()));
+                // If is trying to save a new Password
+                if(request.password() != null)
+                    // Encode the password
+                    employee.setPassword(new BCryptPasswordEncoder().encode(request.password()));
                 employee.setLogin(request.login());
                 employee.setProfile(request.profile());
                 employee.setBlocked(request.blocked());
                 employee = employeeRepository.save(employee);
-                //If the employee account is of the User, return a new authentication token
+                // If the employee account is of the User, return a new authentication token
                 if(verifyTheUser(id)) return Optional.of(tokenProvider.generateAccessToken(employee));
                 else return Optional.empty();
             } catch (DataIntegrityViolationException e) {
@@ -132,19 +136,21 @@ public class EmployeeService {
     }
 
     //Edit the owner
-    public String updateOwner(OwnerRequest request){
+    public String updateOwner(OwnerUpdateRequest request){
         try {
             Employee owner = employeeRepository.findOwner()
             .orElseThrow(() -> new EntityNotFoundException("There is no Owner User!"));
-            //Set the values
+            // Set the values
             owner.setName(request.name());
             owner.setPhone(request.phone());
-            //Encode the password
-            owner.setPassword(new BCryptPasswordEncoder().encode(request.password()));
+            // If is trying to save a new Password
+            if(request.password() != null)
+                // Encode the password
+                owner.setPassword(new BCryptPasswordEncoder().encode(request.password()));
             owner.setLogin(request.login());
-            //Mark owner as initialized
+            // Mark owner as initialized
             initializationService.markOwnerAsInitialized();
-            //Return a new authentication token
+            // Return a new authentication token
             return tokenProvider.generateAccessToken(employeeRepository.save(owner));
         } catch (DataIntegrityViolationException e) {
             throw new IllegalArgumentException("An Employee with this login already exists!");
