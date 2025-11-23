@@ -5,6 +5,7 @@ import br.fatec.easycoast.dtos.order.OrderResponse;
 import br.fatec.easycoast.dtos.payment.PaymentStatus;
 import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest;
 import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest.PaymentPart;
+import br.fatec.easycoast.dtos.seat.SeatStatus;
 import br.fatec.easycoast.entities.Card;
 import br.fatec.easycoast.entities.Order;
 import br.fatec.easycoast.entities.OrderItem;
@@ -15,6 +16,7 @@ import br.fatec.easycoast.repositories.CardRepository;
 import br.fatec.easycoast.repositories.OrderRepository;
 import br.fatec.easycoast.repositories.PaymentRepository;
 import br.fatec.easycoast.repositories.ProductRepository;
+import br.fatec.easycoast.repositories.SeatRepository;
 import br.fatec.easycoast.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -38,6 +40,7 @@ public class OrderService {
 
     @Autowired private OrderRepository orderRepository;
     @Autowired private CardRepository cardRepository;
+    @Autowired private SeatRepository seatRepository;
     @Autowired private ProductRepository productRepository;
     @Autowired private PaymentRepository paymentRepository;
     @Autowired private OrderItemService orderItemService;
@@ -74,6 +77,10 @@ public class OrderService {
         order.setOrderItems(Collections.emptyList()); 
         
         Order savedOrder = orderRepository.save(order);
+
+        // Setting the Seat Occupied
+        savedOrder.getSeat().setStatus(SeatStatus.OCCUPIED);
+        seatRepository.save(savedOrder.getSeat());
 
         if (request.orderItems() != null && !request.orderItems().isEmpty()) {
             List<OrderItem> items = request.orderItems().stream().map(item -> {
