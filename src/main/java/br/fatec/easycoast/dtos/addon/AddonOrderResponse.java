@@ -1,0 +1,18 @@
+package br.fatec.easycoast.dtos.addon;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import br.fatec.easycoast.dtos.addonCategory.AddonCategoryResponse;
+import br.fatec.easycoast.dtos.square.SquareResponse;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record AddonOrderResponse(
+        Integer id,
+        String name,
+        Float price,
+        Boolean availability,
+        Integer maxQuantity,
+        @JsonIgnoreProperties("items") SquareResponse square,
+        @JsonIgnoreProperties({"addons", "product"}) AddonCategoryResponse addonCategory) {
+}

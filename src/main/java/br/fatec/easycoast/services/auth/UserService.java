@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import br.fatec.easycoast.repositories.CustomerRepository;
 import br.fatec.easycoast.repositories.EmployeeRepository;
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -24,6 +23,6 @@ public class UserService implements UserDetailsService {
                .map(UserDetails.class::cast) 
                 //If not found, tries with Customers
                .or(() -> customerRepository.findByEmail(login).map(UserDetails.class::cast)) 
-               .orElseThrow(() -> new EntityNotFoundException("User not found with username: " + login));
+               .orElseThrow(() -> new UsernameNotFoundException("User not found with login: " + login));
     }
 }

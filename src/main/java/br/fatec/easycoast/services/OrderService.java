@@ -2,9 +2,11 @@ package br.fatec.easycoast.services;
 
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
+import br.fatec.easycoast.dtos.order.OrderOrderResponse;
 import br.fatec.easycoast.dtos.payment.PaymentStatus;
 import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest;
 import br.fatec.easycoast.dtos.payment.ProcessPaymentRequest.PaymentPart;
+import br.fatec.easycoast.dtos.seat.SeatStatus;
 import br.fatec.easycoast.entities.Card;
 import br.fatec.easycoast.entities.Order;
 import br.fatec.easycoast.entities.OrderItem;
@@ -15,6 +17,7 @@ import br.fatec.easycoast.repositories.CardRepository;
 import br.fatec.easycoast.repositories.OrderRepository;
 import br.fatec.easycoast.repositories.PaymentRepository;
 import br.fatec.easycoast.repositories.ProductRepository;
+import br.fatec.easycoast.repositories.SeatRepository;
 import br.fatec.easycoast.services.exceptions.DatabaseException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
@@ -38,12 +41,13 @@ public class OrderService {
 
     @Autowired private OrderRepository orderRepository;
     @Autowired private CardRepository cardRepository;
+    @Autowired private SeatRepository seatRepository;
     @Autowired private ProductRepository productRepository;
     @Autowired private PaymentRepository paymentRepository;
     @Autowired private OrderItemService orderItemService;
 
-    public List<OrderResponse> getOrders() {
-        return orderRepository.findAll().stream().map(OrderMapper::toDTO).toList();
+    public List<OrderOrderResponse> getOrders() {
+        return orderRepository.findAll().stream().map(OrderMapper::toOrderDTO).toList();
     }
 
     public OrderResponse findActiveOrderByCardId(Integer cardId) {
@@ -74,6 +78,10 @@ public class OrderService {
         order.setOrderItems(Collections.emptyList()); 
         
         Order savedOrder = orderRepository.save(order);
+
+        // Setting the Seat Occupied
+        savedOrder.getSeat().setStatus(SeatStatus.OCCUPIED);
+        seatRepository.save(savedOrder.getSeat());
 
         if (request.orderItems() != null && !request.orderItems().isEmpty()) {
             List<OrderItem> items = request.orderItems().stream().map(item -> {
@@ -228,6 +236,13 @@ public class OrderService {
         }
         
         orderRepository.save(order);
+
+        // Set the seat free if this was the last order
+        List<Order> openOrders = orderRepository.findBySeatIdAndClosingTimeIsNull(order.getSeat().getId());
+        if (openOrders.isEmpty()) {
+            order.getSeat().setStatus(SeatStatus.FREE);
+            seatRepository.save(order.getSeat());
+        }
     }
     
     
@@ -242,8 +257,8 @@ public class OrderService {
         logger.info("Card ID: {} has been deactivated.", cardId);
     }
 
-    public OrderResponse getOrder(Integer id) {
+    public OrderOrderResponse getOrder(Integer id) {
         Order order = orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Order doesn't exist!"));
-        return OrderMapper.toDTO(order);
+        return OrderMapper.toOrderDTO(order);
     }
 }

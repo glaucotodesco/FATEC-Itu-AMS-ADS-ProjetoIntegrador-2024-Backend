@@ -3,6 +3,7 @@ package br.fatec.easycoast.mappers;
 import br.fatec.easycoast.dtos.card.CardResponse; 
 import br.fatec.easycoast.dtos.order.OrderRequest;
 import br.fatec.easycoast.dtos.order.OrderResponse;
+import br.fatec.easycoast.dtos.order.OrderOrderResponse;
 import br.fatec.easycoast.entities.Order;
 
 public class OrderMapper {
@@ -38,6 +39,28 @@ public class OrderMapper {
                 order.getSeat(),
                 EmployeeMapper.toDto(order.getEmployee()),
                 OrderItemMapper.toListDTO(order.getOrderItems()));
+    }
+
+    public static OrderOrderResponse toOrderDTO(Order order) {
+        CardResponse cardResponse = null;
+        if (order.getCard() != null) {
+            cardResponse = new CardResponse(
+                order.getCard().getId(),
+                order.getCard().getActive(),
+                order.getCard().getCopy(),
+                null
+            );
+        }
+
+        return new OrderOrderResponse(
+                order.getId(),
+                order.getOpeningTime(),
+                order.getClosingTime(),
+                order.getTotal(),
+                cardResponse, 
+                order.getSeat(),
+                EmployeeMapper.toDto(order.getEmployee()),
+                OrderItemMapper.toListOrderDTO(order.getOrderItems()));
     }
 
 }

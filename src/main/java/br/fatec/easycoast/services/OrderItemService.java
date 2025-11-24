@@ -12,6 +12,7 @@ import br.fatec.easycoast.dtos.addonCategory.AddonType;
 import br.fatec.easycoast.dtos.orderItem.OrderItemAddon;
 import br.fatec.easycoast.dtos.orderItem.OrderItemRequest;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponse;
+import br.fatec.easycoast.dtos.orderItem.OrderItemOrderResponse;
 import br.fatec.easycoast.dtos.orderItem.OrderItemResponseWithOrder;
 import br.fatec.easycoast.dtos.product.ProductResponse;
 import br.fatec.easycoast.entities.Addon;
@@ -52,6 +53,12 @@ public class OrderItemService {
         OrderItem orderItem = orderItemRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Order Item not found!"));
         return OrderItemMapper.toDTO(orderItem);
+    }
+
+    public OrderItemOrderResponse getOrderItemForOrder(Integer id) {
+        OrderItem orderItem = orderItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order Item not found!"));
+        return OrderItemMapper.toOrderDTO(orderItem);
     }
 
     private void checkAddons(OrderItemAddon addon){
