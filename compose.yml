@@ -60,5 +60,5 @@ volumes:
 
 networks:
   easycoast:
-    name: easycoast
+    name: easycoast-network
     driver: bridge
