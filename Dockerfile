@@ -6,15 +6,15 @@ FROM ${MAVEN_IMAGE} AS build
 ARG WORKDIR
 WORKDIR ${WORKDIR}
 COPY ./pom.xml ${WORKDIR}
-RUN [ "mvn", "dependency:go-offline" ]
+RUN --mount=type=cache,id=maven,target=/root/.m2 ["mvn", "dependency:go-offline"]
 COPY ./src ${WORKDIR}/src
-RUN [ "mvn", "package", "-DskipTests" ]
+RUN --mount=type=cache,id=maven,target=/root/.m2 ["mvn", "package", "-DskipTests"]
 
 FROM ${JDK_IMAGE} AS prod
 ARG WORKDIR
 WORKDIR ${WORKDIR}
 COPY --from=build ${WORKDIR}/target/*.jar ${WORKDIR}/app.jar
-CMD [ "java", "-jar", "app.jar", "--spring.profiles.active=prod" ]
+CMD ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
 
 FROM ${MAVEN_IMAGE} AS dev
 ARG WORKDIR
