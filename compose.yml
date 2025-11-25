@@ -1,6 +1,6 @@
 services:
   app:
-    container_name: easy-coast
+    container_name: app
     restart: unless-stopped
     build:
       context: .
@@ -14,13 +14,22 @@ services:
           target: /app/pom.xml
           action: rebuild
     depends_on:
-      - database
+      database:
+        required: true
+        condition: service_healthy
+        restart: false
     networks:
-      easycoast:
+      - easycoast
     ports:
       - ${APP_PORT:-8080}:8080
     volumes:
       - mvn_deps:/root/.m2
+    healthcheck:
+      test: "wget -T5 -qO- http://localhost:8080/actuator/health | grep UP || exit 1"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   database:
     image: docker.io/library/postgres:18-alpine
@@ -35,12 +44,21 @@ services:
     volumes:
       - database:/var/lib/postgresql
     networks:
-      easycoast:
+      - easycoast
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
 
 volumes:
   database:
+    name: backend-pi-database
   mvn_deps:
+    name: backend-pi-mvn-deps
 
 networks:
   easycoast:
+    name: easycoast
     driver: bridge
