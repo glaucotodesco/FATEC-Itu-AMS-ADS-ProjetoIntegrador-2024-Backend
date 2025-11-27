@@ -1,5 +1,6 @@
 package br.fatec.easycoast.services.auth;
 
+import br.fatec.easycoast.entities.Customer;
 import br.fatec.easycoast.entities.Employee;
 import br.fatec.easycoast.services.exceptions.DatabaseException;
 import com.auth0.jwt.JWT;
@@ -22,12 +23,26 @@ public class TokenProvider {
   public String generateAccessToken(UserDetails user) {
     try {
       Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
+      Integer id = null;
+      String name = null;
+
+      // Verifica SE é Employee
+      if (user instanceof Employee) {
+        Employee e = (Employee) user;
+        id = e.getId();
+        name = e.getName();
+      }
+      // Verifica SE é Customer
+      else if (user instanceof Customer) {
+        Customer c = (Customer) user;
+        id = c.getId();
+        name = c.getName();
+      }
       return JWT.create()
-          // Setting the User of the Token
           .withSubject(user.getUsername())
           .withClaim("username", user.getUsername())
-          .withClaim("id", ((Employee) user).getId())
-          .withClaim("name", ((Employee) user).getName())
+          .withClaim("id", id)
+          .withClaim("name", name)
           .withClaim("profile", user.getAuthorities().stream().map(a -> a.getAuthority()).toList())
           // Setting Experation Date
           .withExpiresAt(genAccessExpirationDate())
